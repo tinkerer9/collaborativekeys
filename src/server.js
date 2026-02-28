@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 
 const publicDir = path.join(__dirname, "public");
 
-let keyAssigments = {}; // key = charachter, value = socket.id
+let keyAssignments = {}; // key = charachter, value = socket.id
 
 const server = http.createServer((req, res) => {
     // Default to index.html if requesting /
@@ -45,11 +45,11 @@ io.on("connection", (socket) => {
     socket.on("keyPress", (data) => {
         key = data.key;
 
-        if (keyAllowed(key, id)) {
-            socket.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b><br>`); // send to clients
-            console.log(`Valid keypress from ${socket.id}: ${data.key}`);
+        if (keyAllowed(key, socket.id)) {
+            socket.emit("keyPressEcho", `${socket.id} pressed <b>${key}</b><br>`); // send to clients
+            console.log(`Valid keypress from ${socket.id}: ${key}`);
         } else {
-            console.log(`Inalid keypress from ${socket.id}: ${data.key}`);
+            console.log(`Inalid keypress from ${socket.id}: ${key}`);
         }
     });
 
@@ -66,7 +66,7 @@ function assignKey(key, id) {
     keyAssignments[key] = id;
 }
 function isAssignedKey(key, id) {
-    return keyassignments[key] == id;
+    return keyAssignments[key] == id;
 }
 function keyIsAssigned(key) {
     return key in keyAssignments;
