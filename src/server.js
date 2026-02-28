@@ -2,12 +2,10 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
-const Client = require("./client")
-const Key = require("./key")
+const Client = require("./client");
+const key = require("./key");
 
 const publicDir = path.join(__dirname, "public");
-
-// let keyAssignments = {}; // key = charachter, value = socket.id
 
 const server = http.createServer((req, res) => {
     // Default to index.html if requesting /
@@ -47,67 +45,21 @@ io.on("connection", (socket) => {
         
     })
     socket.on("keyPress", (data) => {
-        key = data.key;
-
-        if (keyAllowed(key, socket.id)) {
-            socket.emit("keyPressEcho", `${socket.id} pressed <b>${key}</b><br>`); // send to clients
-            console.log(`Valid keypress from ${socket.id}: ${key}`);
+        if (key.keyAllowed(data.key, socket.id)) {
+            socket.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b><br>`); // send to clients
+            console.log(`Valid keypress from ${socket.id}: ${data.key}`);
         } else {
-            console.log(`Inalid keypress from ${socket.id}: ${key}`);
+            console.log(`Inalid keypress from ${socket.id}: ${data.key}`);
         }
     });
 
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
         player.destroy();
-
+        key.freeAssignment(socket.id);
     });
 });
 
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
-
-function assignKey(key, id) {
-    keyAssignments[key] = id;
-}
-function isAssignedKey(key, id) {
-    return keyAssignments[key] == id;
-}
-function keyIsAssigned(key) {
-    return key in keyAssignments;
-}
-function keyAllowed(key, id) {
-    if (keyIsAssigned(key)) {
-        if (isAssignedKey(key, id)) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        assignKey(key, id);
-        return true;
-    }    
-}
-
-// function assignKey(key, id) {
-//     keyAssignments[key] = id;
-// }
-// function isAssignedKey(key, id) {
-//     return keyAssignments[key] == id;
-// }
-// function keyIsAssigned(key) {
-//     return key in keyAssignments;
-// }
-// function keyAllowed(key, id) {
-//     if (keyIsAssigned(key)) {
-//         if (isAssignedKey(key, id)) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } else {
-//         assignKey(key, id);
-//         return true;
-//     }    
-// }
