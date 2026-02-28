@@ -58,6 +58,11 @@ function handleNameRes(player, ev) {
     }
 }
 
+function nameWall(player) {
+    if (player.noNameSet()) {
+        sendPopup
+    }
+}
 
 const io = new Server(server);
 
@@ -67,10 +72,13 @@ io.on("connection", (socket) => {
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
             handleNameRes(player, player.setName(data));
+        } else {
+            sendPopup(player, "You already have a name set.")
         }
     })
 
     socket.on("keyPress", (data) => {
+        
         key = data.key;
 
         if (keyAllowed(key, socket.id)) {
@@ -84,7 +92,6 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
         player.destroy();
-
     });
 });
 
