@@ -9,7 +9,6 @@ class Client {
         this.socket = socket
         this.name = DEFAULT_NAME
         this.id = maxId++
-        this.assignedKey = null
         //Flags
         
     }
@@ -28,17 +27,8 @@ class Client {
     destroy() {
         //Do something at some point :)
     }
-    isNameChanged() {
-        return !(this.name == DEFAULT_NAME);
-    }
-    getKey() {
-        return this.assignedKey;
-    }
-    setKey(key) {
-        this.assignedKey = key;
-    }
-    isKey(key) {
-        return this.assignedKey == key;
+    noNameSet() {
+        return this.name == DEFAULT_NAME;
     }
 }
 

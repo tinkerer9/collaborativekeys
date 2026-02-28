@@ -37,15 +37,39 @@ const server = http.createServer((req, res) => {
     });
 });
 
+//Helper Functions
+function sendPopup(player, content) {
+    player.getSocket().emit("PopupEvent", content)
+}
+
+function handleNameRes(player, ev) {
+    switch (ev) {
+        case 0:
+            sendPopup(player, "Successfully set name to " + player.getName());
+            break;
+        case 1:
+            sendPopup(player, "Could not set name: Your name must be more than 3 characters long");
+            break;
+        case 2:
+            sendPopup(player, "Could not set name: Your name must be shorter than 20 characters long");
+            break;
+    }
+}
+
+
 const io = new Server(server);
 
 io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     var player = new Client(socket, "Test");
+
     socket.on("setName", (data) => {
-        
+        if (player.noNameSet()) {
+            handleNameRes(player, player.setName(data));
+        }
     })
+
     socket.on("keyPress", (data) => {
         if (Key.keyAllowed(data.key, socket.id)) {
             io.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b>.<br>`); // send to clients

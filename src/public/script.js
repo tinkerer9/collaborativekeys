@@ -9,3 +9,6 @@ document.addEventListener("keydown", (e) => {
 socket.on("keyPressEcho", function(e) {
     list.innerHTML += e;
 })
+socket.on("PopupEvent", function(e) {
+    list.innerHTML += e;
+})
