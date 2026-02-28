@@ -81,14 +81,13 @@ io.on("connection", (socket) => {
     })
 
     socket.on("keyPress", (data) => {
-        nameWall()
-        key = data.key;
+        if (nameWall(player)) return
 
         if (Key.keyAllowed(data.key, player.id)) {
             io.emit("keyPressEcho", `${player.id} pressed <b>${data.key}</b>.<br>`); // send to clients
             console.log(`Valid keypress from ${player.id}: ${data.key}`)
         } else {
-            socket.emit("keyPressEcho", `<b>${data.key}</b> is already reserved.<br>`); // send to clients
+            socket.emit("keyPressEcho", `<b>${data.key}` + messages.reserved); // send to clients
             console.log(`Inalid keypress from ${player.id}: ${data.key}`);
         }
     });
