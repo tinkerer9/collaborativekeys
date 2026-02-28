@@ -4,7 +4,6 @@ const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client");
 const Key = require("./key")
-const messages = require("./messages")
 
 const publicDir = path.join(__dirname, "public");
 
@@ -47,27 +46,17 @@ function handleNameRes(player, ev) {
     let toSend = "";
     switch (ev) {
         case 0:
-            toSend = messages.nameSetSuccessStart + player.getName();
+            sendPopup(player, "<li><b>Successfully set name to "  + player.getName() + "</b></li>");
+            player.getSocket().emit("actions","hideusernamebox");
             break;
         case 1:
-            toSend = messages.minName
+            sendPopup(player, "<li style='color: red;'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
             break;
         case 2:
-            toSend = messages.maxName
-            break;
-        case 3:
-            toSend = messages.disallowedChar
+            sendPopup(player, "<li style='color: red;'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
             break;
     }
     sendPopup(player, toSend)
-}
-
-function nameWall(player) {
-    if (player.noNameSet()) {
-        sendPopup(player, messages.noName)
-        return true
-    }
-    return false
 }
 
 const io = new Server(server);
@@ -80,21 +69,18 @@ io.on("connection", (socket) => {
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
             handleNameRes(player, player.setName(data));
-        } else {
-            sendPopup(player, messages.nameSet)
         }
     })
 
     socket.on("keyPress", (data) => {
-        if (data.length != 1) return
-        if (nameWall(player)) return
+        if (player.noNameSet()) { return; }
 
         if (Key.keyAllowed(data.key, player.id)) {
-            io.emit("keyPressEcho", `${player.id} pressed <b>${data.key}</b>.<br>`); // send to clients
+            socket.emit("keyPressEcho", `<li><b>You pressed ${data.key}.</b><li>`); // send to client
             socket.broadcast.emit("keyPressEcho", `<li>${socket.id} pressed ${data.key}.</li>`); // send to others
             console.log(`Valid keypress from ${player.id}: ${data.key}`)
         } else {
-            socket.emit("keyPressEcho", `<b>${data.key}` + messages.reserved); // send to clients
+            socket.emit("keyPressEcho", `</li styles="color: red;"><b>${data.key}</b>${messages.reverved}</li>`); // send to clients
             console.log(`Inalid keypress from ${player.id}: ${data.key}`);
         }
     });
