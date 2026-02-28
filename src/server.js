@@ -84,17 +84,17 @@ io.on("connection", (socket) => {
         nameWall()
         key = data.key;
 
-        if (Key.keyAllowed(data.key, socket.id)) {
-            io.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b>.<br>`); // send to clients
-            console.log(`Valid keypress from ${socket.id}: ${data.key}`)
+        if (Key.keyAllowed(data.key, player.id)) {
+            io.emit("keyPressEcho", `${player.id} pressed <b>${data.key}</b>.<br>`); // send to clients
+            console.log(`Valid keypress from ${player.id}: ${data.key}`)
         } else {
             socket.emit("keyPressEcho", `<b>${data.key}</b> is already reserved.<br>`); // send to clients
-            console.log(`Inalid keypress from ${socket.id}: ${data.key}`);
+            console.log(`Inalid keypress from ${player.id}: ${data.key}`);
         }
     });
 
     socket.on("disconnect", () => {
-        console.log("User disconnected:", socket.id);
+        console.log("User disconnected:", player.id);
         player.destroy();
         Key.freeAssignment(socket.id);
     });
