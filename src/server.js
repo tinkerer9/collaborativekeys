@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
-const Client = require("client")
+const Client = require("./client")
 
 const publicDir = path.join(__dirname, "public");
 
