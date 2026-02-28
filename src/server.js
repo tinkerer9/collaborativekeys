@@ -2,6 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
+const Client = require("client")
 
 const publicDir = path.join(__dirname, "public");
 
@@ -38,8 +39,10 @@ const server = http.createServer((req, res) => {
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
-
+    var player = new Client(socket, "Test");
+    socket.on("setName", (data) => {
+        
+    })
     socket.on("keyPress", (data) => {
         socket.emit("keyPressEcho", `Key pressed from ${socket.id}: <b>${data.key}</b>`); // send to clients
         console.log(`Key pressed from ${socket.id}: ${data.key}`);
@@ -47,6 +50,7 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
+        player.destroy();
     });
 });
 
