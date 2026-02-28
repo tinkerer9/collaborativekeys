@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Press Any Key!</h1>
-    <input id="i"><button id="confirm"></button>
+    <input type="text" id="i" pattern="^[a-zA-Z0-9_-]{3,20}$" title="Only alphanumeric charachters, dashes, and underscores allowed."><button id="confirm">Enter</button>
     <ui id="list"></ui>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
