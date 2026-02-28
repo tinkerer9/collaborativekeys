@@ -3,6 +3,8 @@ const socket = io();
 var list = document.getElementById("list")
 var input = document.getElementById("input")
 var enter = document.getElementById("enter")
+var pf = document.getElementById("playframe")
+
 
 input.addEventListener('input', () => {
   input.value = input.value.replace(/[^a-zA-Z0-9_-]/g, '');
@@ -11,6 +13,10 @@ input.addEventListener('input', () => {
 enter.onclick = function() {
     var username = input.value;
     socket.emit("setName", username);
+}
+
+function reloadPF() {
+    pf.contentWindow.location.reload();
 }
 
 socket.on("actions", function(e) {
@@ -22,6 +28,8 @@ socket.on("actions", function(e) {
 
             input.style.display = "none";
             enter.style.display = "none";
+        case "reloadPlay":
+            reloadPF()
     }
 });
 
@@ -34,6 +42,9 @@ socket.on("keyPressEcho", function(e) {
 })
 socket.on("PopupEvent", function(e) {
     prependToList(e);
+})
+socket.on("setFrameLocation", function(e) {
+    pf.contentWindow.location.set
 })
 
 function prependToList(message) {
