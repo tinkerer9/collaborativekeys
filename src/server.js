@@ -2,12 +2,12 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
-const Client = require("./client")
+const Client = require("./client");
 const Key = require("./key")
 
 const publicDir = path.join(__dirname, "public");
 
-// let keyAssignments = {}; // key = charachter, value = socket.id
+let keyAssignments = {}; // key = charachter, value = socket.id
 
 const server = http.createServer((req, res) => {
     // Default to index.html if requesting /
@@ -39,13 +39,37 @@ const server = http.createServer((req, res) => {
     });
 });
 
+//Helper Functions
+function sendPopup(player, content) {
+    player.getSocket().emit("PopupEvent", content)
+}
+
+function handleNameRes(player, ev) {
+    switch (ev) {
+        case 0:
+            sendPopup(player, "Successfully set name to " + player.getName());
+            break;
+        case 1:
+            sendPopup(player, "Could not set name: Your name must be more than 3 characters long");
+            break;
+        case 2:
+            sendPopup(player, "Could not set name: Your name must be shorter than 20 characters long");
+            break;
+    }
+}
+
+
 const io = new Server(server);
 
 io.on("connection", (socket) => {
     var player = new Client(socket, "Test");
+
     socket.on("setName", (data) => {
-        
+        if (player.noNameSet()) {
+            handleNameRes(player, player.setName(data));
+        }
     })
+
     socket.on("keyPress", (data) => {
         key = data.key;
 
