@@ -44,17 +44,22 @@ function sendPopup(player, content) {
 }
 
 function handleNameRes(player, ev) {
+    let toSend = "";
     switch (ev) {
         case 0:
-            sendPopup(player, messages.nameSetSuccessStart + player.getName());
+            toSend = messages.nameSetSuccessStart + player.getName();
             break;
         case 1:
-            sendPopup(player, messages.minName);
+            toSend = messages.minName
             break;
         case 2:
-            sendPopup(player, messages.maxName);
+            toSend = messages.maxName
+            break;
+        case 3:
+            toSend = messages.disallowedChar
             break;
     }
+    sendPopup(player, toSend)
 }
 
 function nameWall(player) {

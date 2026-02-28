@@ -4,5 +4,6 @@ module.exports = {
     "nameSet": "You already have a name set.",
     "nameSetSuccessStart": "Successfully set name to ",
     "noName": "Please set a name.",
-    "reserved": "</b> is already reserved.<br>"
+    "reserved": "</b> is already reserved.<br>",
+    "disallowedChar": "Your name must only contain alphanumeric characters."
 }
