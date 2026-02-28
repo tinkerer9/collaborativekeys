@@ -18,6 +18,7 @@ socket.on("PopupEvent", function(e) {
 confrm.onclick = function() {
     var i = input.value
     socket.emit("setName", i)
+}
 
 function prependToList(message) {
     list.insertAdjacentHTML('afterbegin', message);
