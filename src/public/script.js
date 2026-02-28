@@ -9,13 +9,16 @@ document.addEventListener("keydown", (e) => {
 });
 
 socket.on("keyPressEcho", function(e) {
-    list.innerHTML += e;
+    prependToList(e);
 })
 socket.on("PopupEvent", function(e) {
-    list.innerHTML += e;
+    prependToList(e);
 })
 
 confrm.onclick = function() {
     var i = input.value
     socket.emit("setName", i)
+
+function prependToList(message) {
+    list.insertAdjacentHTML('afterbegin', message);
 }

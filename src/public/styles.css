@@ -1,0 +1,9 @@
+#list {
+    list-style: none;
+    padding-left: 20px;
+}
+
+#list li:first-child {
+    font-size: 22px;
+    margin-bottom: 10px;
+}

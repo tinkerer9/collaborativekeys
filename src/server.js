@@ -85,6 +85,7 @@ io.on("connection", (socket) => {
 
         if (Key.keyAllowed(data.key, player.id)) {
             io.emit("keyPressEcho", `${player.id} pressed <b>${data.key}</b>.<br>`); // send to clients
+            socket.broadcast.emit("keyPressEcho", `<li>${socket.id} pressed ${data.key}.</li>`); // send to others
             console.log(`Valid keypress from ${player.id}: ${data.key}`)
         } else {
             socket.emit("keyPressEcho", `<b>${data.key}` + messages.reserved); // send to clients
