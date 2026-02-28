@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Key Press Client</title>
+</head>
+<body>
+    <h1>Press Any Key!</h1>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.addEventListener("keydown", (e) => {
+            socket.emit("keyPress", { key: e.key });
+        });
+    </script>
+</body>
+</html>
