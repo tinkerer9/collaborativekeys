@@ -7,5 +7,5 @@ document.addEventListener("keydown", (e) => {
 });
 
 socket.on("keyPressEcho", function(e) {
-    list.innerText += e;
+    list.innerHTML += e;
 })

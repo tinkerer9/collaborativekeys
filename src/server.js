@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     socket.on("keyPress", (data) => {
-        socket.emit("keyPressEcho", `Key pressed from ${socket.id}: <b>${data.key}</b>`); // send to clients
+        socket.emit("keyPressEcho", `Key pressed from ${socket.id}: <b>${data.key}</b><br>`); // send to clients
         console.log(`Key pressed from ${socket.id}: ${data.key}`);
     });
 
