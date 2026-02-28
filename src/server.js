@@ -5,6 +5,8 @@ const { Server } = require("socket.io");
 
 const publicDir = path.join(__dirname, "public");
 
+let keyAssigments = {}; // key = charachter, value = socket.id
+
 const server = http.createServer((req, res) => {
     // Default to index.html if requesting /
     let filePath = path.join(publicDir, req.url === "/" ? "index.html" : req.url);
@@ -41,8 +43,14 @@ io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     socket.on("keyPress", (data) => {
-        socket.emit("keyPressEcho", `Key pressed from ${socket.id}: <b>${data.key}</b><br>`); // send to clients
-        console.log(`Key pressed from ${socket.id}: ${data.key}`);
+        key = data.key;
+
+        if (keyAllowed(key, id)) {
+            socket.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b><br>`); // send to clients
+            console.log(`Valid keypress from ${socket.id}: ${data.key}`);
+        } else {
+            console.log(`Inalid keypress from ${socket.id}: ${data.key}`);
+        }
     });
 
     socket.on("disconnect", () => {
@@ -53,3 +61,25 @@ io.on("connection", (socket) => {
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
+
+function assignKey(key, id) {
+    keyAssignments[key] = id;
+}
+function isAssignedKey(key, id) {
+    return keyassignments[key] == id;
+}
+function keyIsAssigned(key) {
+    return key in keyAssignments;
+}
+function keyAllowed(key, id) {
+    if (keyIsAssigned(key)) {
+        if (isAssignedKey(key, id)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        assignKey(key, id);
+        return true;
+    }    
+}
