@@ -81,6 +81,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("keyPress", (data) => {
+        if (data.length != 1) return
         if (nameWall(player)) return
 
         if (Key.keyAllowed(data.key, player.id)) {
