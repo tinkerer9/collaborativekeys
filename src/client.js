@@ -35,7 +35,10 @@ class Client {
         return this.assignedKey;
     }
     setKey(key) {
-        this.assignedKey = key
+        this.assignedKey = key;
+    }
+    isKey(key) {
+        return this.assignedKey == key;
     }
 }
 
