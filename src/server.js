@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     socket.on("keyPress", (data) => {
-        console.log(`Key pressed from ${socket.id}:`, data.key);
+        socket.emit("keyPressEcho", `Key pressed from ${socket.id}:`, data.key);
     });
 
     socket.on("disconnect", () => {
