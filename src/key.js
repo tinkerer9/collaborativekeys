@@ -28,3 +28,5 @@ function freeAssignment(id) {
         }
     }
 }
+
+module.exports = { keyAllowed, freeAssignment }; 

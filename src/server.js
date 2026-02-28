@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client");
-const key = require("./key");
+const Key = require("./key");
 
 const publicDir = path.join(__dirname, "public");
 
@@ -40,12 +40,14 @@ const server = http.createServer((req, res) => {
 const io = new Server(server);
 
 io.on("connection", (socket) => {
+    console.log("User connected:", socket.id);
+
     var player = new Client(socket, "Test");
     socket.on("setName", (data) => {
         
     })
     socket.on("keyPress", (data) => {
-        if (key.keyAllowed(data.key, socket.id)) {
+        if (Key.keyAllowed(data.key, socket.id)) {
             socket.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b><br>`); // send to clients
             console.log(`Valid keypress from ${socket.id}: ${data.key}`);
         } else {
@@ -56,7 +58,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
         player.destroy();
-        key.freeAssignment(socket.id);
+        Key.freeAssignment(socket.id);
     });
 });
 
