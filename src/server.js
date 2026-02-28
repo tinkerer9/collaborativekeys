@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client")
+const Key = require("./key")
 
 const publicDir = path.join(__dirname, "public");
 
@@ -59,12 +60,35 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
         player.destroy();
+
     });
 });
 
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
+
+function assignKey(key, id) {
+    keyAssignments[key] = id;
+}
+function isAssignedKey(key, id) {
+    return keyAssignments[key] == id;
+}
+function keyIsAssigned(key) {
+    return key in keyAssignments;
+}
+function keyAllowed(key, id) {
+    if (keyIsAssigned(key)) {
+        if (isAssignedKey(key, id)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        assignKey(key, id);
+        return true;
+    }    
+}
 
 // function assignKey(key, id) {
 //     keyAssignments[key] = id;
