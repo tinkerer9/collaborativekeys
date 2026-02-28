@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 
 const server = http.createServer((req, res) => {
     // Serve index.html for /
-    let filePath = path.join(__dirname, "index.html");
+    let filePath = path.join(__dirname, "public/index.html");
     fs.readFile(filePath, (err, data) => {
         if (err) {
             res.writeHead(500);
@@ -23,6 +23,7 @@ io.on("connection", (socket) => {
 
     socket.on("keyPress", (data) => {
         socket.emit("keyPressEcho", `Key pressed from ${socket.id}:`, data.key);
+        console.log(`Key pressed from ${socket.id}:`, data.key);
     });
 
     socket.on("disconnect", () => {
