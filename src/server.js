@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client");
-const Key = require("./key");
+const Key = require("./key")
+const messages = require("./messages")
 
 const publicDir = path.join(__dirname, "public");
 
@@ -45,17 +46,24 @@ function sendPopup(player, content) {
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0:
-            sendPopup(player, "Successfully set name to " + player.getName());
+            sendPopup(player, messages.nameSetSuccessStart + player.getName());
             break;
         case 1:
-            sendPopup(player, "Could not set name: Your name must be more than 3 characters long");
+            sendPopup(player, messages.minName);
             break;
         case 2:
-            sendPopup(player, "Could not set name: Your name must be shorter than 20 characters long");
+            sendPopup(player, messages.maxName);
             break;
     }
 }
 
+function nameWall(player) {
+    if (player.noNameSet()) {
+        sendPopup(player, messages.noName)
+        return true
+    }
+    return false
+}
 
 const io = new Server(server);
 
@@ -67,13 +75,18 @@ io.on("connection", (socket) => {
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
             handleNameRes(player, player.setName(data));
+        } else {
+            sendPopup(player, messages.nameSet)
         }
     })
 
     socket.on("keyPress", (data) => {
+        nameWall()
+        key = data.key;
+
         if (Key.keyAllowed(data.key, socket.id)) {
             io.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b>.<br>`); // send to clients
-            console.log(`Valid keypress from ${socket.id}: ${data.key}`);
+            console.log(`Valid keypress from ${socket.id}: ${data.key}`)
         } else {
             socket.emit("keyPressEcho", `<b>${data.key}</b> is already reserved.<br>`); // send to clients
             console.log(`Inalid keypress from ${socket.id}: ${data.key}`);

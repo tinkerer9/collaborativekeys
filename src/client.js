@@ -9,8 +9,9 @@ class Client {
         this.socket = socket
         this.name = DEFAULT_NAME
         this.id = maxId++
+
         //Flags
-        
+        this.canChat = true
     }
     getSocket() {
         return this.socket;
@@ -29,6 +30,9 @@ class Client {
     }
     noNameSet() {
         return this.name == DEFAULT_NAME;
+    }
+    getId() {
+        return this.id
     }
 }
 
