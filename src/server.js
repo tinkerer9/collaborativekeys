@@ -4,6 +4,7 @@ const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client");
 const Key = require("./key")
+const Room = require("./room")
 
 const publicDir = path.join(__dirname, "public");
 

@@ -14,13 +14,14 @@ enter.onclick = function() {
 }
 
 socket.on("actions", function(e) {
-    if (e == "hideusernamebox") {
-        document.addEventListener("keydown", (e) => {
-            socket.emit("keyPress", { key: e.key });
-        });
+    switch (e) {
+        case "hideusernamebox":
+            document.addEventListener("keydown", (e) => {
+                socket.emit("keyPress", { key: e.key });
+            });
 
-        input.style.display = "none";
-        enter.style.display = "none";
+            input.style.display = "none";
+            enter.style.display = "none";
     }
 });
 
