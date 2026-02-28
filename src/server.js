@@ -48,9 +48,10 @@ io.on("connection", (socket) => {
     })
     socket.on("keyPress", (data) => {
         if (Key.keyAllowed(data.key, socket.id)) {
-            socket.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b><br>`); // send to clients
+            io.emit("keyPressEcho", `${socket.id} pressed <b>${data.key}</b>.<br>`); // send to clients
             console.log(`Valid keypress from ${socket.id}: ${data.key}`);
         } else {
+            socket.emit("keyPressEcho", `<b>${data.key}</b> is already reserved.<br>`); // send to clients
             console.log(`Inalid keypress from ${socket.id}: ${data.key}`);
         }
     });
