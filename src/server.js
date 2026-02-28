@@ -2,12 +2,12 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
-const Client = require("client");
+const Client = require("./client");
 const { connect } = require("http2");
 
 const publicDir = path.join(__dirname, "public");
 
-// let keyAssignments = {}; // key = charachter, value = socket.id
+let keyAssignments = {}; // key = charachter, value = socket.id
 
 const server = http.createServer((req, res) => {
     // Default to index.html if requesting /
@@ -91,24 +91,24 @@ server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
 
-// function assignKey(key, id) {
-//     keyAssignments[key] = id;
-// }
-// function isAssignedKey(key, id) {
-//     return keyAssignments[key] == id;
-// }
-// function keyIsAssigned(key) {
-//     return key in keyAssignments;
-// }
-// function keyAllowed(key, id) {
-//     if (keyIsAssigned(key)) {
-//         if (isAssignedKey(key, id)) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } else {
-//         assignKey(key, id);
-//         return true;
-//     }    
-// }
+function assignKey(key, id) {
+    keyAssignments[key] = id;
+}
+function isAssignedKey(key, id) {
+    return keyAssignments[key] == id;
+}
+function keyIsAssigned(key) {
+    return key in keyAssignments;
+}
+function keyAllowed(key, id) {
+    if (keyIsAssigned(key)) {
+        if (isAssignedKey(key, id)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        assignKey(key, id);
+        return true;
+    }    
+}
