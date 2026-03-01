@@ -84,8 +84,8 @@ io.on("connection", (socket) => {
             let keyName = Type.keypress(data.key); // emulate keypress and get name
 
             if (keyName != undefined) {
-                socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to player
-                socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
+                socket.emit("keyPressEcho", `<li><b>You pressed ${data.key}.</b><li>`); // send to player
+                socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${data.key}.</li>`); // send to other players
             }
             console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${data.key}).`);
 
