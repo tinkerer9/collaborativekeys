@@ -66,7 +66,7 @@ Each player can get one or two keys, and they have to work together (or alone!) 
 
 Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated.
 
-There was also a test game made for this project at `localhost/demo/index.html`.
+There was also a test game made for this project at `IP_ADDRESS/demo/index.html`.
 
 ## Security concerns
 
