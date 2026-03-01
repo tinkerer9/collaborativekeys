@@ -41,11 +41,11 @@ Players should enter the server's IP address into their web browser (port 80).
 They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections.
 **Hosting over the internet is not recommended for security purposes.**
 
-Example URL (IP address): `192.168.1.197` (port 80 is HTTP default)
+#### Example URLs
 
-Example URL (hostname): `mycomputer.local`
-
-Example URL (cross-internet): `1.2.3.4`
+- IP address: `192.168.1.197` (port 80 is HTTP default)
+- Hostname: `mycomputer.local`
+- Cross-internet: `1.2.3.4`
 
 ### Gameplay
 
