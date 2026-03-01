@@ -28,7 +28,7 @@ Set directory to project root. Run the following command:
 node src/server.js
 ```
 
-#### Example output
+#### Example terminal output
 
 ```
 Server running at localhost (port 80).
@@ -52,6 +52,15 @@ Any unreserved key will be assigned to them, and only they can press their assig
 
 Keypresses will be sent to the server, which will parse them and emulate the same keypress in the current application.
 
+#### Reccomended games
+
+- Snake
+- 2048
+
+Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated.
+
+There was also a test game made for this project at `localhost/demo/index.html`.
+
 ---
 
 ## Security concerns
@@ -67,3 +76,19 @@ The `type.js` script only allows the following keys to be emulated:
 More powerful keys like the `command` or `esc` keys are send from the client, but not emulated by the server.
 
 The host should always monitor what other people are typing and what is happening on their computer.
+
+---
+
+## Possible updates
+
+This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
+
+Here are a few we might want to add later:
+- Each player can see their assigned keys
+- The host must allow each player to join
+- The host can choose which key each player is assigned
+- The host can easily start/stop emulation
+- The host can easily reset assignments (currently players can reload their page to "give up" their assignments)
+- Each player gets the same amount of keys assigned
+- Better user interface for both players and the host
+- Virtual keyboard support
