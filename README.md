@@ -1,7 +1,7 @@
 # CollaboKeys
-a collaborative keyboard game made
+a collaborative keyboard game
 
-Made by @tinkerer9, @LethalShadowFlame, and @chickenlloyd.
+Made by @tinkerer9, @LethalShadowFlame, and @chickenlloyd for a hackathon with theme "Connection".
 
 ## Dependencies
 - `nodejs`

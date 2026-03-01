@@ -21,13 +21,13 @@ html, body {
     margin-right: 1%;
     margin-top: 1%;
     background-color: black;
-    width: 36%;
+    width: 95%;
     height: 30%;
     position: absolute;
-    left: 62%;
+    left: 2.5%;
     background-color: white;
     border-radius: 1em;
-    top: 0px;
+    top: 2.5%;
 }
 
 .chat {
@@ -35,40 +35,14 @@ html, body {
     margin-right: 1%;
     margin-top: 1%;
     background-color: black;
-    width: 36%;
-    height: 64%;
+    width: 95%;
+    height: 57.5%;
     position: absolute;
-    left: 62%;
-    top: 33%;
+    left: 2.5%;
+    top: 35%;
     border-radius: 1em;
     background-color: white;
 
-}
-
-.screen {
-    display: block;
-    margin-left: 1%;
-    margin-top: 1%;
-    width: 59%;
-    height: 60%;
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    border-radius: 1em;
-    background-color: white;
-}
-.keyboard {
-    display: block;
-    margin-left: 1%;
-    margin-top: 1%;
-    background-color: black;
-    width: 59%;
-    height: 33%;
-    position: absolute;
-    left: 0%;
-    top: 64%;
-    border-radius: 1em;
-    background-color: white;
 }
 .showAfterNaming {
     display: none;
@@ -78,4 +52,8 @@ html, body {
 }
 li {
   margin-left: 20px;  
+}
+
+* {
+  font-family: "Roboto", sans-serif;
 }

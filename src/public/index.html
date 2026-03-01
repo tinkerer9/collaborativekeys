@@ -4,6 +4,9 @@
     <title>CollaboKeys Client</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="pl">
@@ -16,12 +19,6 @@
         <input type="text" id="input" class="hideAfterNaming interdiv" placeholder="Username">
         <button id="enter" class="hideAfterNaming">Continue</button>
         <ui id="list"></ui>
-    </div>
-
-    <div class="keyboard"></div>
-
-    <div class="screen">
-        <ui id="list" class=".interdiv"></ui>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
