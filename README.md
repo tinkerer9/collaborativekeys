@@ -50,8 +50,8 @@ Keypresses will be sent to the server, which will parse them and emulate the sam
 
 #### Reccomended games
 
-- Snake
-- 2048
+**2048** is a great game to play with multiple players.
+Each player can get one or two keys, and they have to work together (or alone!) to play.
 
 Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated.
 
@@ -80,7 +80,8 @@ Here are a few we might want to add later:
 - The host must allow each player to join
 - The host can choose which key each player is assigned
 - The host can easily start/stop emulation
-- The host can easily reset assignments (currently players can reload their page to "give up" their assignments)
+- The host can easily reset assignments
+- The host can choose which keys are pressable
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
 - Virtual keyboard support
