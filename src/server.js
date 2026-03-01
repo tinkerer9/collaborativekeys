@@ -90,7 +90,7 @@ io.on("connection", (socket) => {
             console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${data.key}).`);
 
         } else {
-            socket.emit("keyPressEcho", `<li styles="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to player
+            socket.emit("keyPressEcho", `<li style="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to player
             console.log(`Inalid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
         }
     });
