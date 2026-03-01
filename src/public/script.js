@@ -1,10 +1,13 @@
 const socket = io();
 
-var list = document.getElementById("list")
-var input = document.getElementById("input")
-var enter = document.getElementById("enter")
-var pf = document.getElementById("playframe")
-var hideAfterNaming = document.getElementsByClassName("hideAfterNaming");
+const naming = document.getElementsByClassName("naming")[0];
+const input = document.getElementById("input");
+const enter = document.getElementById("enter");
+const logList = document.getElementById("logList");
+const keysHeader = document.getElementById("keysHeader");
+const keysList = document.getElementById("keysList");
+
+input.focus(); // immediately focus textbox
 
 input.addEventListener('input', () => {
   input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
@@ -28,9 +31,8 @@ socket.on("actions", function(e) {
             socket.emit("keyPress", { key: e.key });
         });
 
-        for (const element of hideAfterNaming) {
-            element.style.display = 'none';
-        }
+        naming.style.display = 'none';
+        keysHeader.style.display = 'block';
     }
 });
 
@@ -45,5 +47,5 @@ socket.on("setFrameLocation", function(e) {
 })
 
 function prependToList(message) {
-    list.insertAdjacentHTML('afterbegin', message);
+    logList.insertAdjacentHTML('afterbegin', message);
 }

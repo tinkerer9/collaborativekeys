@@ -1,10 +1,10 @@
-#list {
-    list-style: none;
-    padding-left: 20px;
-    width: 70px;
-}
-
 html, body {
+    font-family: "Roboto", sans-serif;
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
     background-image: linear-gradient(to bottom, rgb(46, 46, 46), rgb(0, 0, 0));
     background-color: black;
     background-repeat: no-repeat;
@@ -12,39 +12,30 @@ html, body {
     overflow: hidden;
 }
 
-#list li:first-child {
-    font-size: 22px;
-    margin-bottom: 10px;
+.container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr; /* horizontal ratios */
+    grid-template-rows: 1fr 2fr; /* vertical ratios */
+
+    grid-template-areas:
+        "header header" /* header merged */
+        "logs keys";
+
+    height: 100vh;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.pl {
-    display: block;
-    margin-right: 1%;
-    margin-top: 1%;
-    background-color: black;
-    width: 95%;
-    height: 30%;
-    position: absolute;
-    left: 2.5%;
-    background-color: white;
-    border-radius: 1em;
-    top: 2.5%;
+.header {
+    grid-area: header;
 }
 
-.chat {
-    display: block;
-    margin-right: 1%;
-    margin-top: 1%;
-    background-color: black;
-    width: 95%;
-    height: 57.5%;
-    position: absolute;
-    left: 2.5%;
-    top: 35%;
-    border-radius: 1em;
-    background-color: white;
-    /*overflow: hidden;*/
-    overflow-y: scroll; /* Enable vertical scrolling */
+.logs {
+    grid-area: logs;
+
+    overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar {
         display: none;
@@ -52,17 +43,46 @@ html, body {
     -ms-overflow-style: none; 
     scrollbar-width: none; 
 }
-.interdiv {
-    margin-left: 20px;
-}
-li {
-  margin-left: 20px;  
-}
-* {
-  font-family: "Roboto", sans-serif;
+
+#enter {
+    margin-bottom: 20px;
 }
 
-/*.chat, .pl {
-    background-image: radial-gradient(circle at center, #e5e5e5 1px, transparent 0);
-    background-size: 20px 20px;
-}*/
+#logList {
+    list-style: none;
+}
+
+#logList li:first-child {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.keys {
+    grid-area: keys;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+#keysHeader {
+    display: none;
+}
+
+#keysList {
+    list-style: none;
+}
+
+.item {
+    border-radius: 1em;
+    background-color: white;
+    padding: 30px;
+}
+
+.item *:first-child {
+    margin-top: 0;
+}

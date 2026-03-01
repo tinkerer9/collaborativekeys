@@ -9,16 +9,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="pl">
-        <h1 class="interdiv">CollaboKeys</h1>
-        <p class="interdiv"><i>Made by Mason, Max, and Nate. Be the first person to press a key to reserve it.<br>Only you can use that key to play the game! Have fun! <a href="https://github.com/tinkerer9/collaborativekeys/tree/main">GitHub</a></i></p>
-    </div>
+    <div class="container">
+        <div class="item header">
+            <h1>CollaboKeys</h1>
+            <p><i>Made by Mason, Max, and Nate. Be the first person to press a key to reserve it.<br>Only you can use that key to play the game! Have fun! <a href="https://github.com/tinkerer9/collaborativekeys/tree/main">GitHub</a></i></p>
+        </div>
 
-    <div class="chat">
-        <p class="hideAfterNaming interdiv" id="inputlabel">Please choose a username to play:</p>
-        <input type="text" id="input" class="hideAfterNaming interdiv" placeholder="Username">
-        <button id="enter" class="hideAfterNaming">Continue</button><br class="hideAfterNaming">
-        <ui id="list"></ui><br>
+        <div class="item logs">
+            <div class="naming">
+                <p>Please choose a username to play:</p>
+                <input type="text" id="input" placeholder="Username">
+                <button id="enter">Continue</button>
+            </div>
+            <ui id="logList"></ui><br>
+        </div>
+
+        <div class="item keys">
+            <h2 id="keysHeader">Your keys:</h2>
+            <ui id="keysList"></ui><br>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
