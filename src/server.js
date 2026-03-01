@@ -1,16 +1,19 @@
+/* This is the main JavaScript file that runs on the host's computer. */
+
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { Server } = require("socket.io");
+const Server = require("socket.io");
+
+/* Other scripts we made to organize functions and more: */
 const Client = require("./client");
 const Key = require("./key");
-const Room = require("./room");
 const Type = require("./type");
 
 const publicDir = path.join(__dirname, "public");
 
 const server = http.createServer((req, res) => {
-    // Default to index.html if requesting /
+    // Default to index.html if requesting / (root)
     let filePath = path.join(publicDir, req.url === "/" ? "index.html" : req.url);
 
     // Determine content type
@@ -39,7 +42,7 @@ const server = http.createServer((req, res) => {
     });
 });
 
-//Helper Functions
+// Helper Functions
 function sendPopup(player, content) {
     player.getSocket().emit("PopupEvent", content)
 }
@@ -78,20 +81,22 @@ io.on("connection", (socket) => {
         if (player.noNameSet()) { return; }
 
         if (Key.keyAllowed(data.key, player.getId())) {
-            socket.emit("keyPressEcho", `<li><b>You pressed ${data.key}.</b><li>`); // send to client
-            socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${data.key}.</li>`); // send to others
-            console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
+            let keyName = Type.keypress(data.key); // emulate keypress and get name
 
-            Type.keypress(data.key);
+            if (keyName != undefined) {
+                socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to player
+                socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
+            }
+            console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${data.key}).`);
 
         } else {
-            socket.emit("keyPressEcho", `<li styles="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to clients
+            socket.emit("keyPressEcho", `<li styles="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to player
             console.log(`Inalid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
         }
     });
 
     socket.on("disconnect", () => {
-        console.log(`Player ${player.getId()} disconnected.`);
+        console.log(`${player.getName()} (player ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
     });

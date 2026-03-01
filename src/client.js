@@ -1,3 +1,5 @@
+/* This script manages metadata about each player. */
+
 const DEFAULT_NAME = null
 const MIN_NAME_LEN = 3
 const MAX_NAME_LEN = 20

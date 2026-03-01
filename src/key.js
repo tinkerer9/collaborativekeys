@@ -1,3 +1,5 @@
+/* This script manages which keys are assigned to each player */
+
 let keyAssignments = {}; // key = charachter, value = socket.id
 
 function assignKey(key, id) {

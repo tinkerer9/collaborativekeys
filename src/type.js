@@ -1,6 +1,8 @@
-const osascript = require('node-osascript');
-const { exec } = require("child_process");
+/* This script manages the keyboard emulation on the host's computer. */
 
+const exec = require("child_process");
+
+/* Parse select JavaScript key names into AppleScript key names */
 function parseKey(key) {
     switch (key) {
         case "Enter":
@@ -28,8 +30,10 @@ function parseKey(key) {
             return "key code 51";
             break;
         default:
-            if (key.length == 1) {
+            if (key.length == 1) { // other "complex" keys aside ones above not allowed
                 return "keystroke \"" + key + "\"";
+            } else {
+                return;
             }
     }
 }
@@ -37,7 +41,11 @@ function parseKey(key) {
 function keypress(key) {
     keycode = parseKey(key);
 
-    exec(`osascript -e \'tell application "System Events" to ${keycode}\'`);
+    if (keycode != undefined) {
+        exec(`osascript -e \'tell application "System Events" to ${keycode}\'`); // run shell script to emulate keypress
+    }
+
+    return keycode;
 }
 
 module.exports = { keypress };
