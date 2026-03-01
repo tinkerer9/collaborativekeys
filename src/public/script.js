@@ -23,23 +23,6 @@ enter.onclick = function() {
     socket.emit("setName", username);
 }
 
-<<<<<<< HEAD
-function reloadPF() {
-    pf.contentWindow.location.reload();
-}
-
-socket.on("actions", function(e) {
-    switch (e) {
-        case "hideusernamebox":
-            document.addEventListener("keydown", (e) => {
-                socket.emit("keyPress", { key: e.key });
-            });
-
-            input.style.display = "none";
-            enter.style.display = "none";
-        case "reloadPlay":
-            reloadPF()
-=======
 input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -59,7 +42,6 @@ socket.on("actions", function(e) {
         for (const element of showAfterNaming) {
             element.style.display = 'block';
         }
->>>>>>> d69fa24 (much stuff)
     }
 });
 
