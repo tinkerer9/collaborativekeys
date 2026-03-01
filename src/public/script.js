@@ -5,8 +5,6 @@ var input = document.getElementById("input")
 var enter = document.getElementById("enter")
 var pf = document.getElementById("playframe")
 var hideAfterNaming = document.getElementsByClassName("hideAfterNaming");
-var showAfterNaming = document.getElementsByClassName("showAfterNaming");
-
 
 input.addEventListener('input', () => {
   input.value = input.value.replace(/[^a-zA-Z0-9_-]/g, '');
@@ -32,9 +30,6 @@ socket.on("actions", function(e) {
 
         for (const element of hideAfterNaming) {
             element.style.display = 'none';
-        }
-        for (const element of showAfterNaming) {
-            element.style.display = 'block';
         }
     }
 });
