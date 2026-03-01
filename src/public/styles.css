@@ -4,13 +4,69 @@
     width: 70px;
 }
 
+html, body {
+    background-image: linear-gradient(to bottom, rgb(46, 46, 46), rgb(0, 0, 0));
+    background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 #list li:first-child {
     font-size: 22px;
     margin-bottom: 10px;
 }
 
-#playframe {
+.pl {
+    display: block;
+    margin-right: 1%;
+    margin-top: 1%;
+    background-color: black;
+    width: 36%;
+    height: 30%;
     position: absolute;
-    left: 70%;
-    width: 30%
+    left: 62%;
+    background-color: white;
+    border-radius: 1em;
+    top: 0px;
+}
+
+.chat {
+    display: block;
+    margin-right: 1%;
+    margin-top: 1%;
+    background-color: black;
+    width: 36%;
+    height: 64%;
+    position: absolute;
+    left: 62%;
+    top: 33%;
+    border-radius: 1em;
+    background-color: white;
+
+}
+
+.screen {
+    display: block;
+    margin-left: 1%;
+    margin-top: 1%;
+    width: 59%;
+    height: 60%;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    border-radius: 1em;
+    background-color: white;
+}
+.keyboard {
+    display: block;
+    margin-left: 1%;
+    margin-top: 1%;
+    background-color: black;
+    width: 59%;
+    height: 33%;
+    position: absolute;
+    left: 0%;
+    top: 64%;
+    border-radius: 1em;
+    background-color: white;
 }

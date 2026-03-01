@@ -33,7 +33,7 @@ socket.on("actions", function(e) {
     }
 });
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keyup", (e) => {
     socket.emit("keyPress", { key: e.key });
 });
 
