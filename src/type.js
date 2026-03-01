@@ -1,8 +1,6 @@
 const osascript = require('node-osascript');
 const { exec } = require("child_process");
 
-//const osa = spawn("osascript", ["-i"]);
-
 function parseKey(key) {
     switch (key) {
         case "Enter":
@@ -38,8 +36,6 @@ function parseKey(key) {
 
 function keypress(key) {
     keycode = parseKey(key);
-
-    //osa.stdin.write("tell application \"System Events\" to " + keycode);
 
     exec(`osascript -e \'tell application "System Events" to ${keycode}\'`);
 }

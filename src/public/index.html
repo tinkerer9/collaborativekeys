@@ -7,20 +7,21 @@
 </head>
 <body>
     <div class="pl">
-        <h1>Press Any Key!</h1>
-        <p class="showAfterNaming"><i><b>Instructions:</b> be the first person to press a key to reserve it. Only you can use that key to play the game!</i></p>
+        <h1 class="interdiv">Press Any Key!</h1>
+        <p class="showAfterNaming interdiv"><i><b>Instructions:</b> be the first person to press a key to reserve it.<br>Only you can use that key to play the game!<br>Ignore the lag. Have fun!</i></p>
     </div>
 
     <div class="chat">
+        <p class="hideAfterNaming interdiv" id="inputlabel">Please choose a username:</p>
+        <input type="text" id="input" class="hideAfterNaming interdiv" placeholder="Username">
+        <button id="enter" class="hideAfterNaming">Continue</button>
         <ui id="list"></ui>
-        <label for="input" class="hideAfterNaming">Please choose a username:</label><br class="hideAfterNaming">
-        <input type="text" id="input" class="hideAfterNaming" placeholder="Username"><button id="enter" class="hideAfterNaming">Continue</button>
     </div>
 
     <div class="keyboard"></div>
 
     <div class="screen">
-        <ui id="list"></ui>
+        <ui id="list" class=".interdiv"></ui>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

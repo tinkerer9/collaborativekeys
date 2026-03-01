@@ -73,3 +73,9 @@ html, body {
 .showAfterNaming {
     display: none;
 }
+.interdiv {
+    margin-left: 20px;
+}
+li {
+  margin-left: 20px;  
+}
