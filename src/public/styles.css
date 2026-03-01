@@ -51,7 +51,11 @@ html, body {
 li {
   margin-left: 20px;  
 }
-
 * {
   font-family: "Roboto", sans-serif;
 }
+
+/*.chat, .pl {
+    background-image: radial-gradient(circle at center, #e5e5e5 1px, transparent 0);
+    background-size: 20px 20px;
+}*/
