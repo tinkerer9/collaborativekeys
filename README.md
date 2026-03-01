@@ -48,6 +48,7 @@ Players should enter a username (between 3-20 alphanumeric charachters) into the
 
 After that, said user can start pressing keys.
 Any unreserved key will be assigned to them after the first press, and only they can press their assigned keys.
+They can see those keys on the right side of the screen.
 
 Keypresses will be sent to the server, which will parse them and emulate the same keypress in the current application.
 
@@ -83,7 +84,6 @@ If at any point someone malicious connects to your computer and starts pressing 
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later:
-- **Each player can see their assigned keys** (starred)
 - The host must allow each player to join
 - The host can choose which key each player is assigned
 - The host can easily start/stop emulation

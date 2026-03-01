@@ -3,9 +3,9 @@ const socket = io();
 const naming = document.getElementsByClassName("naming")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
+const logHeader = document.getElementById("logHeader");
 const logList = document.getElementById("logList");
-const keysHeader = document.getElementById("keysHeader");
-const keysList = document.getElementById("keysList");
+const contentHeaders = document.getElementsByClassName("contentHeaders");
 
 input.focus(); // immediately focus textbox
 
@@ -32,19 +32,29 @@ socket.on("actions", function(e) {
         });
 
         naming.style.display = 'none';
-        keysHeader.style.display = 'block';
+        for (let contentHeader of contentHeaders) {
+            contentHeader.style.display = 'block';
+        }
     }
 });
 
 socket.on("keyPressEcho", function(e) {
     prependToLogList(e);
-})
+});
+
 socket.on("PopupEvent", function(e) {
     prependToLogList(e);
-})
+});
+
 socket.on("keyReserved", function(e) {
     appendToKeyList(e);
-})
+});
+
+socket.on("connect_error", (error) => {
+  console.error("Connection error:", error.message);
+
+  prependToLogList("<li style='color: red;'><b>Failed to connect. Server may be down.</b></li>");
+});
 
 function prependToLogList(message) {
     logList.insertAdjacentHTML('afterbegin', message);

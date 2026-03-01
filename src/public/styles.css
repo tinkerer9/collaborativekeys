@@ -69,8 +69,9 @@ html, body {
     scrollbar-width: none;
 }
 
-#keysHeader {
+.contentHeaders {
     display: none;
+    margin-top: 0;
 }
 
 #keysList {
