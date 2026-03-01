@@ -39,10 +39,6 @@ socket.on("actions", function(e) {
     }
 });
 
-document.addEventListener("keyup", (e) => {
-    socket.emit("keyPress", { key: e.key });
-});
-
 socket.on("keyPressEcho", function(e) {
     prependToList(e);
 })

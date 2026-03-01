@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 const Client = require("./client");
 const Key = require("./key");
 const Room = require("./room");
-const osascript = require('node-osascript');
+const Type = require("./type");
 
 const publicDir = path.join(__dirname, "public");
 
@@ -82,11 +82,7 @@ io.on("connection", (socket) => {
             socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${data.key}.</li>`); // send to others
             console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
 
-            let keystroke = data.key.length == 1 ? "\"" + data.key.toLowerCase() + "\"" : data.key.toLowerCase();
-            
-            osascript.execute('tell application "System Events" to keystroke ' + keystroke, function(err, result, raw){
-                if (err) return console.error(err)
-            });
+            Type.keypress(data.key);
 
         } else {
             socket.emit("keyPressEcho", `<li styles="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to clients
