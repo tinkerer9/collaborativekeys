@@ -3,7 +3,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const Server = require("socket.io");
+const { Server } = require("socket.io");
 
 /* Other scripts we made to organize functions and more: */
 const Client = require("./client");

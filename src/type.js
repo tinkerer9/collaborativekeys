@@ -1,6 +1,6 @@
 /* This script manages the keyboard emulation on the host's computer. */
 
-const exec = require("child_process");
+const { exec } = require("child_process");
 
 /* Parse select JavaScript key names into AppleScript key names */
 function parseKey(key) {
