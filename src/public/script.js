@@ -1,18 +1,12 @@
 const socket = io();
 
-<<<<<<< HEAD
 var list = document.getElementById("list")
 var input = document.getElementById("input")
 var enter = document.getElementById("enter")
 var pf = document.getElementById("playframe")
-
-=======
-var list = document.getElementById("list");
-var input = document.getElementById("input");
-var enter = document.getElementById("enter");
 var hideAfterNaming = document.getElementsByClassName("hideAfterNaming");
 var showAfterNaming = document.getElementsByClassName("showAfterNaming");
->>>>>>> d69fa24 (much stuff)
+
 
 input.addEventListener('input', () => {
   input.value = input.value.replace(/[^a-zA-Z0-9_-]/g, '');
