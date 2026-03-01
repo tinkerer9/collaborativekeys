@@ -11,16 +11,16 @@ function isAssignedKey(key, id) {
 function keyIsAssigned(key) {
     return key in keyAssignments;
 }
-function keyAllowed(key, id) {
+function keyAllowed(key, id) { // returns if key is allowed to be pressed and if was unreserved
     if (keyIsAssigned(key)) {
         if (isAssignedKey(key, id)) {
-            return true;
+            return [true, false];
         } else {
-            return false;
+            return [false, false];
         }
     } else {
-        assignKey(key, id);
-        return true;
+        assignKey(key, id); // assign and allow
+        return [true, true];
     }    
 }
 function freeAssignment(id) {

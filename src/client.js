@@ -1,10 +1,10 @@
 /* This script manages metadata about each player. */
 
-const DEFAULT_NAME = null
-const MIN_NAME_LEN = 3
-const MAX_NAME_LEN = 20
+const DEFAULT_NAME = null;
+const MIN_NAME_LEN = 3;
+const MAX_NAME_LEN = 20;
 
-var maxId = 0
+let maxId = 0;
 
 function hasNoAlphabeticalChars(str) {
     return !/[a-zA-Z0-9]/.test(str);
@@ -12,12 +12,12 @@ function hasNoAlphabeticalChars(str) {
 
 class Client {
     constructor(socket) {
-        this.socket = socket
-        this.name = DEFAULT_NAME
-        this.id = maxId++
+        this.socket = socket;
+        this.name = DEFAULT_NAME;
+        this.id = maxId++;
 
-        //Flags
-        this.canChat = true
+        // flags
+        this.canChat = true; // future proofing
     }
     getSocket() {
         return this.socket;
@@ -33,7 +33,7 @@ class Client {
         return 0;
     }
     destroy() {
-        //Do something at some point :)
+        // doesn't do anything yet
     }
     noNameSet() {
         return this.name == DEFAULT_NAME;

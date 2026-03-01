@@ -23,9 +23,6 @@ function parseKey(key) {
         case " ":
             return "key code 49";
             break;
-        case "Tab":
-            return "key code 48";
-            break;
         case "Backspace":
             return "key code 51";
             break;
@@ -38,14 +35,48 @@ function parseKey(key) {
     }
 }
 
+function nameKey(key) { // names a key (human readable)
+    switch (key) {
+        case "Enter":
+            return "return"; // assuming Mac
+            break;
+        case "ArrowLeft":
+            return "left arrow";
+            break;
+        case "ArrowRight":
+            return "right arrow";
+            break;
+        case "ArrowDown":
+            return "down arrow";
+            break;
+        case "ArrowUp":
+            return "up arrow";
+            break;
+        case " ":
+            return "space";
+            break;F
+        case "Backspace":
+            return "delete"; // assuming Mac
+            break;
+        default:
+            if (key.length == 1) { // other "complex" keys aside ones above not allowed
+                return key;
+            } else {
+                return;
+            }
+    }
+}
+
 function keypress(key) {
     keycode = parseKey(key);
 
     if (keycode != undefined) {
         exec(`osascript -e \'tell application "System Events" to ${keycode}\'`); // run shell script to emulate keypress
+
+        return true;
     }
 
-    return keycode;
+    return false;
 }
 
-module.exports = { keypress };
+module.exports = { nameKey, keypress };

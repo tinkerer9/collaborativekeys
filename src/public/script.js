@@ -37,15 +37,23 @@ socket.on("actions", function(e) {
 });
 
 socket.on("keyPressEcho", function(e) {
-    prependToList(e);
+    prependToLogList(e);
 })
 socket.on("PopupEvent", function(e) {
-    prependToList(e);
+    prependToLogList(e);
 })
-socket.on("setFrameLocation", function(e) {
-    pf.contentWindow.location.set
+socket.on("keyReserved", function(e) {
+    appendToKeyList(e);
 })
 
-function prependToList(message) {
+function prependToLogList(message) {
     logList.insertAdjacentHTML('afterbegin', message);
+}
+
+function appendToKeyList(key) {
+    const newItem = document.createElement("li");
+    const itemText = document.createTextNode(key);
+    
+    newItem.appendChild(itemText);
+    keysList.appendChild(newItem);
 }
