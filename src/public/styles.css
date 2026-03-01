@@ -43,7 +43,14 @@ html, body {
     top: 35%;
     border-radius: 1em;
     background-color: white;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    overflow-y: scroll; /* Enable vertical scrolling */
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
 }
 .interdiv {
     margin-left: 20px;

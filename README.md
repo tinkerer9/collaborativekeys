@@ -1,15 +1,11 @@
 # CollaboKeys
 A collaborative keyboard game
 
----
-
 Made by @tinkerer9, @LethalShadowFlame, and @chickenlloyd for a hackathon with theme "Connection".
 We got 2nd place out of 14 teams!
 
 Players collaborate to play any keyboard-based game with their assigned key.
 Think quick!
-
----
 
 ## Instructions
 
@@ -45,7 +41,7 @@ Example URL: `MaxsMax.local` (port 80 is http default)
 
 ### Gameplay
 
-Players should enter a username (between 3-20 charachters, alphanumeric charachters, dashes, and underscores only) into the username box.
+Players should enter a username (between 3-20 alphanumeric charachters) into the username box.
 
 Then, they can start pressing keys.
 Any unreserved key will be assigned to them, and only they can press their assigned keys.
@@ -61,8 +57,6 @@ Keep in mind that there is quite a bit of lag between a player typing a key and 
 
 There was also a test game made for this project at `localhost/demo/index.html`.
 
----
-
 ## Security concerns
 
 As this program allows players on the same network to control the host's keyboard (limited to only their assigned keys, which could be all), it has some security concerns.
@@ -77,14 +71,12 @@ More powerful keys like the `command` or `esc` keys are send from the client, bu
 
 The host should always monitor what other people are typing and what is happening on their computer.
 
----
-
 ## Possible updates
 
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later:
-- Each player can see their assigned keys
+- **Each player can see their assigned keys** (starred)
 - The host must allow each player to join
 - The host can choose which key each player is assigned
 - The host can easily start/stop emulation

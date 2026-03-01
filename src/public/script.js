@@ -7,7 +7,7 @@ var pf = document.getElementById("playframe")
 var hideAfterNaming = document.getElementsByClassName("hideAfterNaming");
 
 input.addEventListener('input', () => {
-  input.value = input.value.replace(/[^a-zA-Z0-9_-]/g, '');
+  input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
 });
 
 enter.onclick = function() {
