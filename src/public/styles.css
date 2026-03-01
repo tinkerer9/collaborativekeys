@@ -9,6 +9,7 @@ html, body {
     background-color: black;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow: hidden;
 }
 
 #list li:first-child {
@@ -42,7 +43,7 @@ html, body {
     top: 35%;
     border-radius: 1em;
     background-color: white;
-
+    overflow: hidden;
 }
 .showAfterNaming {
     display: none;

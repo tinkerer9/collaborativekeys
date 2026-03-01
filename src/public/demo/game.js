@@ -634,12 +634,12 @@ function update() {
  const speed = 4;
 
  if (keys.left) {
- player.x -= speed;
+ player.x -= 50;
  player.facing = -1;
  }
 
  if (keys.right) {
- player.x += speed;
+ player.x += 50;
  player.facing = 1;
  }
 
