@@ -12,7 +12,8 @@ Think quick!
 ### Install dependencies
 
 The host/server program is made to run on MacOS, but the client webpage should run on almost any computer.
-See `src/type.js` if you want to change the key emulation system to work for another platform. It currently uses AppleScript to emulate key strokes using a built-in MacOS library called "osascript."
+See `src/type.js` if you want to change the key emulation system to work for another platform.
+It currently uses AppleScript to emulate key strokes using a built-in MacOS library called `osascript`.
 
 - `nodejs`: download latest version from https://nodejs.org/en/download
 - `socket.io`: run `npm install socket.io` in the terminal
@@ -36,10 +37,14 @@ Valid keypress from Max (player 0): key code 49 ( ).
 
 ### Join server
 
-Players should enter the server's IP address into their web browser (port 80). They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections. **Hosting over the internet is not recommended for security purposes.**
+Players should enter the server's IP address into their web browser (port 80).
+They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections.
+**Hosting over the internet is not recommended for security purposes.**
 
 Example URL (IP address): `192.168.1.197` (port 80 is HTTP default)
+
 Example URL (hostname): `mycomputer.local`
+
 Example URL (cross-internet): `1.2.3.4`
 
 ### Gameplay
@@ -77,7 +82,10 @@ More powerful keys like the `command` or `esc` keys are send from the client, bu
 
 The host should always monitor what other people are typing and what is happening on their computer.
 
-If at any point someone malicious connects to your computer and starts pressing keys, press Control+C on the terminal as soon as possible. If you cannot do this, hold your power button for 10 seconds.
+### How to stop
+
+If at any point someone malicious connects to your computer and starts pressing keys,press `Control+C` on the terminal as soon as possible.
+If you cannot do this, press `Command+Option+Escape`, select the application running this program, and press `Force Quit`.
 
 ## Possible updates
 
