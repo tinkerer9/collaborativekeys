@@ -3,9 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
 const Client = require("./client");
-const Key = require("./key")
-const Room = require("./room")
-
+const Key = require("./key");
+const Room = require("./room");
+const osascript = require('node-osascript');
 
 const publicDir = path.join(__dirname, "public");
 
@@ -48,7 +48,7 @@ function handleNameRes(player, ev) {
     let toSend = "";
     switch (ev) {
         case 0:
-            sendPopup(player, "<li><b>Successfully set name to "  + player.getName() + "</b></li>");
+            sendPopup(player, "<li><b>Successfully set name to "  + player.getName() + ".</b></li>");
             player.getSocket().emit("actions","hideusernamebox");
             break;
         case 1:
@@ -64,9 +64,9 @@ function handleNameRes(player, ev) {
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
-
     var player = new Client(socket, "Test");
+
+    console.log(`Player ${player.getId()} connected.`);
 
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
@@ -77,20 +77,27 @@ io.on("connection", (socket) => {
     socket.on("keyPress", (data) => {
         if (player.noNameSet()) { return; }
 
-        if (Key.keyAllowed(data.key, player.id)) {
+        if (Key.keyAllowed(data.key, player.getId())) {
             socket.emit("keyPressEcho", `<li><b>You pressed ${data.key}.</b><li>`); // send to client
-            socket.broadcast.emit("keyPressEcho", `<li>${socket.id} pressed ${data.key}.</li>`); // send to others
-            console.log(`Valid keypress from ${player.id}: ${data.key}`)
+            socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${data.key}.</li>`); // send to others
+            console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
+
+            let keystroke = data.key.length == 1 ? "\"" + data.key.toLowerCase() + "\"" : data.key.toLowerCase();
+            
+            osascript.execute('tell application "System Events" to keystroke ' + keystroke, function(err, result, raw){
+                if (err) return console.error(err)
+            });
+
         } else {
-            socket.emit("keyPressEcho", `</li styles="color: red;"><b>${data.key}</b>${messages.reverved}</li>`); // send to clients
-            console.log(`Inalid keypress from ${player.id}: ${data.key}`);
+            socket.emit("keyPressEcho", `<li styles="color: red;"><b>${data.key} is already reserved.</b></li>`); // send to clients
+            console.log(`Inalid keypress from ${player.getName()} (player ${player.getId()}): ${data.key}`);
         }
     });
 
     socket.on("disconnect", () => {
-        console.log("User disconnected:", player.id);
+        console.log(`Player ${player.getId()} disconnected.`);
         player.destroy();
-        Key.freeAssignment(socket.id);
+        Key.freeAssignment(player.getId());
     });
 });
 

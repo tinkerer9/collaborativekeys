@@ -16,6 +16,7 @@ html, body {
     margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
 .pl {
     display: block;
     margin-right: 1%;
@@ -69,4 +70,8 @@ html, body {
     top: 64%;
     border-radius: 1em;
     background-color: white;
+=======
+.showAfterNaming {
+    display: none;
+>>>>>>> d69fa24 (much stuff)
 }
