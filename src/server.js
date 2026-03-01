@@ -102,6 +102,6 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(80, () => {
+server.listen(80, () => { // Change port here
     console.log("Server running at localhost (port 80).");
 });
