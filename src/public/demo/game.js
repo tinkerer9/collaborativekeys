@@ -102,7 +102,7 @@ canvas.addEventListener("click", (e) => {
 });
 
 function spawnZombiesWave() {
- const amount = Math.floor(Math.random() * 2) + 1;
+ const amount = Math.floor(Math.random() * 1) + 1;
  let lastX = canvas.width;
 
  for (let i = 0; i < amount; i++) {
