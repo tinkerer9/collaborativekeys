@@ -37,7 +37,8 @@ Valid keypress from Max (player 0): key code 49 ( ).
 
 Players should enter the server's IP address into their web browser (port 80). They must be on the same internet network.
 
-Example URL: `MaxsMax.local` (port 80 is http default)
+Example URL (IP address): `192.168.1.197` (port 80 is HTTP default)
+Example URL (hostname): `MaxsMax.local`
 
 ### Gameplay
 
