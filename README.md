@@ -91,7 +91,7 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
-Here are a few we might want to add later:
+Here are a few we might want to add later (and are working on!):
 - **Host interface (starred)**
     - The host can easily start/stop emulation and/or assignments
     - The host can choose which keys are pressable
