@@ -13,7 +13,7 @@ class Client {
         this.id = maxId++;
 
         /* flags */
-        this.waitingRoom = true; // future-proofing
+        // this.waitingRoom = true; // future-proofing
     }
     getSocket() {
         return this.socket;
@@ -49,7 +49,7 @@ class Client {
         return this.waitingRoom;
     }*/
     processChecks() { // if player allowed to type
-        return this.inWaitingRoom() || this.noNameSet();
+        return this.noNameSet(); // || this.inWaitingRoom();
     }
     
 }
