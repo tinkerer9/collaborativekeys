@@ -89,7 +89,6 @@ function handleKeyPress(player, data) {
     if (keyAllowed) { // if key allowed
         keyAllowedHandle(player, keyData, keyName)
     } else {
-
         socket.emit("keyPressEcho", `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
         console.log(`Invalid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
     }
@@ -113,8 +112,7 @@ io.on("connection", (socket) => { // new client connected
     });
 
     socket.on("disconnect", () => { // client disconnected
-        if (player.processChecks()) return;
-        console.log(`${player.getName()} (client ${player.getId()}) disconnected.`);
+        console.log(player.noNameSet() ? `Client ${player.getId()} disconnected.` : `${player.getName()} (client ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
     });

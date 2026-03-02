@@ -92,12 +92,13 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later:
-- Host interface
+- **Host interface (starred)**
     - The host can easily start/stop emulation and/or assignments
     - The host can choose which keys are pressable
-    - The host must allow each player to join
+    - The host must allow each player to join (waiting room)
     - The host can easily reset assignments
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
-- Virtual keyboard support
+- Virtual keyboard support for mobile/tablet
+- Responsive grid
 - Cleaner GUI

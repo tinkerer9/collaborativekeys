@@ -1,11 +1,6 @@
 /* This script manages metadata about each player. */
 
-const DEFAULT_NAME = null;
-const PLACEHOLDER_NAME = "No Name";
-const MIN_NAME_LEN = 3;
-const MAX_NAME_LEN = 20;
-
-let maxId = 0;
+let maxId = 0; // increments every time
 
 function hasNoAlphabeticalChars(str) {
     return !/[a-zA-Z0-9]/.test(str);
@@ -14,22 +9,22 @@ function hasNoAlphabeticalChars(str) {
 class Client {
     constructor(socket) {
         this.socket = socket;
-        this.name = DEFAULT_NAME;
+        this.name = null; // null as preset for unnamed
         this.id = maxId++;
 
-        // flags
-        this.canChat = true; // future proofing
-        this.waitingRoom = true;
+        /* flags */
+        this.waitingRoom = true; // future-proofing
     }
     getSocket() {
         return this.socket;
     }
     getName() {
-        return this.name || PLACEHOLDER_NAME;
+        return this.name;
     }
     setName(name) {
-        if (name.length < MIN_NAME_LEN) return 1
-        if (name.length > MAX_NAME_LEN) return 2
+        /* name must be between 3 and 20 chars long */
+        if (name.length < 3) return 1
+        if (name.length > 20) return 2
         if (hasNoAlphabeticalChars(name)) return 3
         this.name = name;
         return 0;
@@ -38,11 +33,12 @@ class Client {
         // doesn't do anything yet
     }
     noNameSet() {
-        return this.name == DEFAULT_NAME;
+        return this.name == null; // if no name set
     }
     getId() {
-        return this.id || -1;
+        return this.id; // all players have an id, regardless if they are named or not.
     }
+    /* FUTURE-PROOFING:
     admit() {
         this.waitingRoom = false;
     }
@@ -51,8 +47,8 @@ class Client {
     }
     inWaitingRoom() {
         return this.waitingRoom;
-    }
-    processChecks() {
+    }*/
+    processChecks() { // if player allowed to type
         return this.inWaitingRoom() || this.noNameSet();
     }
     
