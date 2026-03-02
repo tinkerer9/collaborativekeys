@@ -80,11 +80,13 @@ io.on("connection", (socket) => { // new client connected
 
         [keyAllowed, keyNew] = Key.keyAllowed(data.key, player.getId()); // if key unreserved also reserves it for the player
 
+        let keyData = data.key
+        let keyName = Type.nameKey(keyData);
+
         if (keyAllowed) { // if key allowed
-            let keyValid = Type.keypress(data.key); // emulate keypress
+            let keyValid = Type.keypress(keyData); // emulate keypress
 
             if (keyValid) { // if key is "pressable"
-                let keyName = Type.nameKey(data.key);
 
                 socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to playerrs
                 socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
@@ -93,14 +95,13 @@ io.on("connection", (socket) => { // new client connected
                     socket.emit("keyReserved", keyName);
                 }
 
-                console.log(`Valid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${data.key}).`);
+                console.log(`Valid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
             }
 
         } else {
-            let keyName = Type.nameKey(data.key);
 
             socket.emit("keyPressEcho", `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
-            console.log(`Invalid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${data.key}).`);
+            console.log(`Invalid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
         }
     });
 
