@@ -97,6 +97,7 @@ Here are a few we might want to add later:
     - The host can choose which keys are pressable
     - The host must allow each player to join (waiting room)
     - The host can easily reset assignments
+- Show players unassigned keys (after above completed)
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
 - Virtual keyboard support for mobile/tablet
