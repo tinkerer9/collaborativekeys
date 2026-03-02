@@ -1,6 +1,7 @@
 /* This script manages metadata about each player. */
 
 const DEFAULT_NAME = null;
+const PLACEHOLDER_NAME = "No Name";
 const MIN_NAME_LEN = 3;
 const MAX_NAME_LEN = 20;
 
@@ -24,7 +25,7 @@ class Client {
         return this.socket;
     }
     getName() {
-        return this.name;
+        return this.name || PLACEHOLDER_NAME;
     }
     setName(name) {
         if (name.length < MIN_NAME_LEN) return 1
@@ -40,7 +41,7 @@ class Client {
         return this.name == DEFAULT_NAME;
     }
     getId() {
-        return this.id
+        return this.id || -1;
     }
     admit() {
         this.waitingRoom = false;
