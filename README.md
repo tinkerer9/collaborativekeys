@@ -31,8 +31,8 @@ Be sure to accept the requests to control your keyboard, as it is needed to simu
 ```
 Server running at localhost (port 80).
 Player 0 connected.
-Valid keypress from Max (player 0): keystroke "e" (e).
-Valid keypress from Max (player 0): key code 49 ( ).
+Valid keypress from User (player 0): keystroke "e" (e).
+Valid keypress from User (player 0): key code 49 ( ).
 ```
 
 ### Join server
