@@ -18,6 +18,7 @@ class Client {
 
         // flags
         this.canChat = true; // future proofing
+        this.waitingRoom = true;
     }
     getSocket() {
         return this.socket;
@@ -41,6 +42,19 @@ class Client {
     getId() {
         return this.id
     }
+    admit() {
+        this.waitingRoom = false;
+    }
+    dismiss() {
+        this.waitingRoom = true;
+    }
+    inWaitingRoom() {
+        return this.waitingRoom;
+    }
+    processChecks() {
+        return this.inWaitingRoom() || this.noNameSet();
+    }
+    
 }
 
 module.exports = Client;

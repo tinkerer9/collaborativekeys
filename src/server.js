@@ -1,5 +1,4 @@
 /* This is the main JavaScript file that runs on the host's computer. */
-
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -76,7 +75,7 @@ io.on("connection", (socket) => { // new client connected
     })
 
     socket.on("keyPress", (data) => {
-        if (player.noNameSet()) { return; }
+        if (player.processChecks()) return;
 
         [keyAllowed, keyNew] = Key.keyAllowed(data.key, player.getId()); // if key unreserved also reserves it for the player
 
@@ -106,11 +105,8 @@ io.on("connection", (socket) => { // new client connected
     });
 
     socket.on("disconnect", () => { // client disconnected
-        if (player.noNameSet()) {
-            console.log(`Client ${player.getId()} (no name) disconnected.`);
-        } else {
-            console.log(`${player.getName()} (client ${player.getId()}) disconnected.`);
-        }
+        if (player.processChecks()) return;
+        console.log(`${player.getName() || "No name"} (client ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
     });
