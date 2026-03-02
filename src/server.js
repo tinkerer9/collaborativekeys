@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { Server } = require("socket.io");
 
-/* Other scripts we made to organize functions and more: */
+/* Import other scripts we made to organize functions and more: */
 const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
@@ -49,6 +49,7 @@ function sendPopup(player, content) {
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0:
+            console.log(`Client ${player.getId()} name set to ${player.getName()}.`);
             sendPopup(player, "<li style='color: green;'><b>Successfully set name to "  + player.getName() + ".</b></li>");
             player.getSocket().emit("actions","hideusernamebox");
             break;

@@ -51,9 +51,10 @@ socket.on("keyReserved", function(e) {
 });
 
 socket.on("connect_error", (error) => {
-  console.error("Connection error:", error.message);
+    socket.disconnect();
+    console.error("Connection error:", error.message);
 
-  prependToLogList("<li style='color: red;'><b>Failed to connect. Server may be down.</b></li>");
+    prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please reload or try again.</b></li>");
 });
 
 function prependToLogList(message) {

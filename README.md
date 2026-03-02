@@ -75,28 +75,28 @@ As this program allows players on the same network to control the host's keyboar
 The `type.js` script only allows the following keys to be emulated:
 - a-z, A-Z, 0-9
 - any one-charachter symbol (ex. `$`, `.`, `★`) or emojis
-- `space`, `tab`, `shift`, `delete`, `return`
+- `space`, `return`
 - arrow keys
 
-More powerful keys like the `command` or `esc` keys are send from the client, but not emulated by the server.
+More powerful keys like the `command` or `esc` keys are sent from the client, but not emulated by the server.
 
 The host should always monitor what other people are typing and what is happening on their computer.
 
 ### How to stop
 
-If at any point someone malicious connects to your computer and starts pressing keys,press `Control+C` on the terminal as soon as possible.
-If you cannot do this, press `Command+Option+Escape`, select the application running this program, and press `Force Quit`.
+If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
+If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
 
 ## Possible updates
 
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later:
-- The host must allow each player to join
-- The host can choose which key each player is assigned
-- The host can easily start/stop emulation
-- The host can easily reset assignments
-- The host can choose which keys are pressable
+- Host interface
+    - The host can easily start/stop emulation and/or assignments
+    - The host can choose which keys are pressable
+    - The host must allow each player to join
+    - The host can easily reset assignments
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
 - Virtual keyboard support
