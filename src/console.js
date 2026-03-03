@@ -34,6 +34,8 @@ function fallback(args) {
 }
 
 function processToLog(player, filter) {
+    //Returns true if should print, false if should filter.
+    if (player == null) return false;
     switch (filter) {
         case "all":
             return true
@@ -44,6 +46,7 @@ function processToLog(player, filter) {
         case "nameless":
             return player.noNameSet()
         default:
+            //Invalid filter
             return false
     }
 }
@@ -62,18 +65,39 @@ function logPlayerInfo(player, showWait, filter) {
 function waitingRoom(args) {
     let action = args[0] || null
     let id = args[1] || null
-    //Check if set
+
+    //Check if allowed (easier to read as one line)
     if ((action == null) || isInt(id)) { log("You need to provide more arguments! Ussage: waitingroom <admit/dismiss> <id>"); return; }
-    log("passed check");
+    if (!Manager.isPlayer(id)) { log("Invalid player, did you mistype the id?"); return };
+
+    //Setup more vars now that check has passed
+    let player = Manager.getPlayerById(id);
+    //Use switch statement so if more options added later they'll be easier to implement
+
+    switch (action) {
+        case "admit":
+            player.admit();
+            log("Admitted " + player.getName())
+            break;
+        case "dismiss":
+            player.dismiss();
+            log("Dismissed " + player.getName())
+            break;
+        default:
+            log("Invalid method, did you misspell the first argument?")
+            return;
+    }
 };
 
 function listHandle(args) {
+    //Setup vars
     let pc = Manager.getPlayerCount();
     let filterBy = args[0] || "active";
     if (filterBy == "waitingroom") filterBy = "wr"
     
     let showWait = !(filterBy == "wr")
 
+    //Now print info
     log("");
 
     for (let i = 0; i < pc; i++) {

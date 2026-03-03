@@ -18,4 +18,8 @@ m.removePlayer = function(id) {
     list[id] = undefined;
 }
 
+m.isPlayer = function(id) {
+    return !(list[id] == undefined);
+}
+
 module.exports = m;
