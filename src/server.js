@@ -9,6 +9,7 @@ const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
 const GameConsole = require("./console");
+const Manager = require("./manager");
 
 const publicDir = path.join(__dirname, "public");
 
@@ -95,7 +96,7 @@ const io = new Server(server);
 
 io.on("connection", (socket) => { // new client connected
     var player = new Client(socket, "Test"); // create player class
-
+    var mid = Manager.addPlayer(player);
     console.log(`Client ${player.getId()} connected.`);
 
     socket.on("setName", (data) => {
@@ -112,6 +113,7 @@ io.on("connection", (socket) => { // new client connected
         console.log(player.noNameSet() ? `Client ${player.getId()} disconnected.` : `${player.getName()} (client ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
+        Manager.removePlayer(mid);
     });
 });
 

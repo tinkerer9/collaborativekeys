@@ -1,4 +1,6 @@
+//Handles console commands
 const readline = require('readline');
+const Manager = require('./manager')
 
 const COMMAND_ARG_SEP = " "
 
@@ -32,7 +34,9 @@ function waitingRoom(args) {
 };
 
 function listHandle(args) {
-    
+    //debug stuff
+    log(Manager.getPlayerCount());
+    log(Manager.getPlayerById(args[0]))
 };
 
 function keyHandle(args) {
