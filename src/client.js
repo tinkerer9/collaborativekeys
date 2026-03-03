@@ -15,7 +15,7 @@ class Client {
         this.id = maxId++;
 
         /* flags */
-        // this.waitingRoom = true; // future-proofing
+        this.waitingRoom = true;
     }
     getSocket() {
         return this.socket;

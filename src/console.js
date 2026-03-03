@@ -10,7 +10,7 @@ const rl = readline.createInterface({
 });
 
 function log(a) {
-    console.log(a + "\n"); //in case this should do extra like send to clients or whatever
+    console.log(a); //in case this should do extra like send to clients or whatever
 }
 
 function spliceCommand(input) {
@@ -46,6 +46,9 @@ function listHandle(args) {
     let pc = Manager.getPlayerCount();
     let filterBy = args[0] || "active";
     let showWait = !(filterBy == "wr" || filterBy == "waitingroom")
+
+    log();
+
     for (let i = 0; i < pc; i++) {
         logPlayerInfo(Manager.getPlayerById(i), showWait);
     }
