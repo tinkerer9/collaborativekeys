@@ -48,7 +48,7 @@ function handleKeyPress(socket, player, data) {
         if (keyValid) { // if key is "pressable"
 
             socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to playerrs
-            socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
+            socket.broadcast.to('main').emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
 
             if (keyNew) socket.emit("keyReserved", keyName);
 
@@ -77,8 +77,6 @@ function getLocalIP() {
 
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
-    console.log("Namespace of socket:", socket.nsp.name); // debug
-
     socket.join("main");
 
     var player = new Client.Player(socket); // create player class
@@ -105,8 +103,6 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 
 const admin = io.of("/admin"); // creats a namespace for just /admin
 admin.on("connection", (socket) => { // new client connected (non-admin)
-    console.log("Namespace of socket:", socket.nsp.name); // debug
-
     socket.join("admin");
 
     var admin = new Client.Admin(socket); // create admin class
