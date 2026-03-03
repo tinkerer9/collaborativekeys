@@ -29,7 +29,24 @@ function fallback(args) {
     log("Unrecognized command. Please try again.")
 }
 
-function logPlayerInfo(player, showWait) {
+function processToLog(player, filter) {
+    switch (filter) {
+        case "all":
+            return true
+        case "wr":
+            return player.inWaitingRoom()
+        case "active":
+            return player.processChecks()
+        case "nameless":
+            return player.noNameSet()
+        default:
+            return false
+    }
+}
+
+function logPlayerInfo(player, showWait, filter) {
+    if (!processToLog(player, filter)) return;
+
     let pa = player.getSocket().handshake.address;
     log("Client ID " + player.getId() + ":")
     log("Name: " + player.getName())
@@ -45,12 +62,14 @@ function waitingRoom(args) {
 function listHandle(args) {
     let pc = Manager.getPlayerCount();
     let filterBy = args[0] || "active";
-    let showWait = !(filterBy == "wr" || filterBy == "waitingroom")
+    if (filterBy == "waitingroom") filterBy = "wr"
+    
+    let showWait = !(filterBy == "wr")
 
     log("");
 
     for (let i = 0; i < pc; i++) {
-        logPlayerInfo(Manager.getPlayerById(i), showWait);
+        logPlayerInfo(Manager.getPlayerById(i), showWait, filterBy);
     }
     log("Logged all player information.")
 };

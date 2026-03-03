@@ -97,7 +97,7 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 
 `waitingroom`/`wr <admit/dismiss> <id>`: Admit or dismiss someone from the waiting room.
 
-`list <active/wr/waitingroom/all>`: Lists player ids/names that are either currently active, in the waiting room, or both.
+`list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
 
 `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
 
