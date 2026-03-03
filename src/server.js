@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
+const GameConsole = require("./console");
 
 const publicDir = path.join(__dirname, "public");
 
