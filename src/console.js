@@ -10,7 +10,7 @@ const rl = readline.createInterface({
 });
 
 function log(a) {
-    console.log(a); //in case this should do extra like send to clients or whatever
+    console.log(a + "\n"); //in case this should do extra like send to clients or whatever
 }
 
 function spliceCommand(input) {
@@ -29,14 +29,27 @@ function fallback(args) {
     log("Unrecognized command. Please try again.")
 }
 
+function logPlayerInfo(player, showWait) {
+    let pa = player.getSocket().handshake.address;
+    log("Client ID " + player.getId() + ":")
+    log("Name: " + player.getName())
+    log("IP: " + pa)
+    if (showWait) log("In Waiting Room: " + player.inWaitingRoom()); //Used to hide waiting room info if filtered by waiting room
+    log("") //Clean up (will print a newline, see definition)
+}
+
 function waitingRoom(args) {
 
 };
 
 function listHandle(args) {
-    //debug stuff
-    log(Manager.getPlayerCount());
-    log(Manager.getPlayerById(args[0]))
+    let pc = Manager.getPlayerCount();
+    let filterBy = args[0] || "active";
+    let showWait = !(filterBy == "wr" || filterBy == "waitingroom")
+    for (let i = 0; i < pc; i++) {
+        logPlayerInfo(Manager.getPlayerById(i), showWait);
+    }
+    log("Logged all player information")
 };
 
 function keyHandle(args) {

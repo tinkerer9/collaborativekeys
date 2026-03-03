@@ -1,5 +1,7 @@
 /* This script manages metadata about each player. */
 
+const FALLBACK_NAME = "No Name"; //Used if the player has not set a name yet
+
 let maxId = 0; // increments every time
 
 function hasNoAlphabeticalChars(str) {
@@ -19,7 +21,7 @@ class Client {
         return this.socket;
     }
     getName() {
-        return this.name;
+        return this.name || FALLBACK_NAME; //returns FALLBACK_NAME if no name is set
     }
     setName(name) {
         /* name must be between 3 and 20 chars long */
@@ -38,7 +40,7 @@ class Client {
     getId() {
         return this.id; // all players have an id, regardless if they are named or not.
     }
-    /* FUTURE-PROOFING:
+
     admit() {
         this.waitingRoom = false;
     }
@@ -47,9 +49,9 @@ class Client {
     }
     inWaitingRoom() {
         return this.waitingRoom;
-    }*/
+    }
     processChecks() { // if player allowed to type
-        return this.noNameSet(); // || this.inWaitingRoom();
+        return this.noNameSet() || this.inWaitingRoom();
     }
     
 }
