@@ -15,12 +15,12 @@ html, body {
 .container {
     display: grid;
 
-    grid-template-columns: 1fr 1fr; /* horizontal ratios */
+    grid-template-columns: 1fr 1fr 1fr; /* horizontal ratios */
     grid-template-rows: 1fr 2fr; /* vertical ratios */
 
     grid-template-areas:
-        "header header" /* header merged */
-        "controls logs";
+        "header header logs" /* header merged */
+        "controls responses logs";
 
     height: 100vh;
     gap: 20px;
@@ -42,6 +42,27 @@ html, body {
     }
     -ms-overflow-style: none; 
     scrollbar-width: none;
+}
+
+.responses {
+    grid-area: responses;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+#responsesList {
+    list-style: none;
+}
+
+#responsesList li:first-child {
+    font-size: 22px;
+    margin-bottom: 10px;
 }
 
 .logs {
