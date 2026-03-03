@@ -1,7 +1,4 @@
 /* This is the main JavaScript file that runs on the host's computer. */
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
 const { Server } = require("socket.io");
 
 /* Import other scripts we made to organize functions and more: */
@@ -10,52 +7,10 @@ const Key = require("./key");
 const Type = require("./type");
 const GameConsole = require("./console");
 const Manager = require("./manager");
+const Admin = require("./admin");
+const Http = require("./http");
 
-const publicDir = path.join(__dirname, "public");
-
-const server = http.createServer((req, res) => {
-    let requestPath = decodeURIComponent(req.url.split("?")[0]);
-
-    // Remove leading slash
-    if (requestPath.startsWith("/")) {
-        requestPath = requestPath.slice(1);
-    }
-
-    // If root, go to index.html
-    if (requestPath == "") {
-        requestPath = "index.html";
-    }
-
-    let filePath = path.join(publicDir, requestPath);
-
-    // If no extension, assume it's a folder, so append index.html
-    if (!path.extname(filePath)) {
-        filePath = path.join(filePath, "index.html");
-    }
-
-    const extname = path.extname(filePath);
-    let contentType = "text/plain";
-
-    switch (extname) {
-        case ".html": contentType = "text/html"; break;
-        case ".js": contentType = "application/javascript"; break;
-        case ".css": contentType = "text/css"; break;
-        case ".png": contentType = "image/png"; break;
-        case ".jpg": contentType = "image/jpeg"; break;
-        case ".gif": contentType = "image/gif"; break;
-        case ".ico": contentType = "image/x-icon"; break;
-    }
-
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.writeHead(404);
-            res.end("File not found");
-            return;
-        }
-        res.writeHead(200, { "Content-Type": contentType });
-        res.end(data);
-    });
-});
+const server = Http.createServer();
 
 // Helper Functions
 function sendPopup(player, content) {
@@ -96,36 +51,54 @@ function handleKeyPress(socket, player, data) {
 
             if (keyNew) socket.emit("keyReserved", keyName);
 
-            console.log(`Valid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
+            console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
         }
     } else {
         socket.emit("keyPressEcho", `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
-        console.log(`Invalid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
+        console.log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
     }
 }
 
 const io = new Server(server);
+io.on("connection", (socket) => { // new client connected (non-admin)
+    console.log("Namespace of socket:", socket.nsp.name); // debug
 
-io.on("connection", (socket) => { // new client connected
-    var player = new Client(socket, "Test"); // create player class
+    socket.join("main");
+
+    var player = new Client.Player(socket); // create player class
     var mid = Manager.addPlayer(player);
-    console.log(`Client ${player.getId()} connected.`);
+    console.log(`Player ${player.getId()} connected.`);
 
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
             handleNameRes(player, player.setName(data));
         }
-    })
+    });
 
     socket.on("keyPress", (data) => {
         handleKeyPress(socket, player, data);
     });
 
     socket.on("disconnect", () => { // client disconnected
-        console.log(player.noNameSet() ? `Client ${player.getId()} disconnected.` : `${player.getName()} (client ${player.getId()}) disconnected.`);
+        console.log(player.noNameSet() ? `Player ${player.getId()} disconnected.` : `${player.getName()} (player ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
         Manager.removePlayer(mid);
+    });
+});
+
+const admin = io.of("/admin"); // creats a namespace for just /admin
+admin.on("connection", (socket) => { // new client connected (non-admin)
+    console.log("Namespace of socket:", socket.nsp.name); // debug
+
+    socket.join("admin");
+
+    var admin = new Client.Admin(socket); // create admin class
+    console.log(`Admin ${admin.getId()} connected.`);
+
+    socket.on("disconnect", () => { // admin disconnected
+        console.log(`Admin ${admin.getId()} disconnected.`);
+        admin.destroy();
     });
 });
 

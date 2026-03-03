@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CollaboKeys Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="item header">
+            <h1>CollaboKeys Admin</h1>
+            <p><i>CollaboKeys admin controls from another device <a href="https://github.com/tinkerer9/collaborativekeys/tree/main">GitHub</a></i></p>
+        </div>
+
+        <div class="item controls">
+            <h2 class="contentHeaders">Admin controls:</h2>
+            <p><i>Work in progress.</i></p>
+        </div>
+
+        <div class="item logs">
+            <h2 class="contentHeaders">Log:</h2>
+            <ui id="logList"></ui><br>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -2,17 +2,18 @@
 
 const FALLBACK_NAME = "No Name"; //Used if the player has not set a name yet
 
-let maxId = 0; // increments every time
+let maxPlayerId = 0; // increments every time
+let maxAdminId = 0; // increments every time
 
 function hasNoAlphabeticalChars(str) {
     return !/[a-zA-Z0-9]/.test(str);
 }
 
-class Client {
+class Player {
     constructor(socket) {
         this.socket = socket;
         this.name = null; // null as preset for unnamed
-        this.id = maxId++;
+        this.id = maxPlayerId++;
 
         /* flags */
         this.waitingRoom = true;
@@ -21,7 +22,7 @@ class Client {
         return this.socket;
     }
     getName() {
-        return this.name || FALLBACK_NAME; //returns FALLBACK_NAME if no name is set
+        return this.name || FALLBACK_NAME; // returns FALLBACK_NAME if no name is set
     }
     setName(name) {
         /* name must be between 3 and 20 chars long */
@@ -53,9 +54,22 @@ class Client {
     processChecks() { // if player allowed to type
         return !this.noNameSet() && this.inWaitingRoom();
     }
-    message(text) {
-        this.getSocket().emit("keyPressEcho", text);
+}
+
+class Admin {
+    constructor(socket) {
+        this.socket = socket;
+        this.id = maxAdminId++;
+    }
+    getSocket() {
+        return this.socket;
+    }
+    destroy() {
+        // doesn't do anything yet
+    }
+    getId() {
+        return this.id; // all admins have an id
     }
 }
 
-module.exports = Client;
+module.exports = { Player, Admin };

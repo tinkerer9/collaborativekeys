@@ -1,0 +1,88 @@
+html, body {
+    font-family: "Roboto", sans-serif;
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-image: linear-gradient(to bottom, rgb(46, 46, 46), rgb(0, 0, 0));
+    background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr; /* horizontal ratios */
+    grid-template-rows: 1fr 2fr; /* vertical ratios */
+
+    grid-template-areas:
+        "header header" /* header merged */
+        "controls logs";
+
+    height: 100vh;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    grid-area: header;
+}
+
+.controls {
+    grid-area: controls;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.logs {
+    grid-area: logs;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+#logList {
+    list-style: none;
+}
+
+#logList li:first-child {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.contentHeaders {
+    margin-top: 0;
+}
+
+.item {
+    border-radius: 1em;
+    background-color: white;
+    padding: 30px;
+}
+
+.item *:first-child {
+    margin-top: 0;
+}
+
+.bad {
+    color: red;
+}
+
+.good {
+    color: green;
+}
