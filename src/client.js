@@ -1,23 +1,22 @@
 /* This script manages metadata about each player. */
 
-const FALLBACK_NAME = "No Name"; //Used if the player has not set a name yet
-const ADMIN_THRESHOLD = 1;
+const FALLBACK_NAME = "No Name"; // Used if the player has not set a name yet
 
 let maxPlayerId = 0; // increments every time
+let maxAdminId = 0; // increments every time
 
 function hasNoAlphabeticalChars(str) {
     return !/[a-zA-Z0-9]/.test(str);
 }
 
 class Player {
-    constructor(socket, pl) {
+    constructor(socket) {
         this.socket = socket;
         this.name = null; // null as preset for unnamed
         this.id = maxPlayerId++;
 
         /* flags */
         this.waitingRoom = true;
-        this.permission = pl;
     }
     getSocket() {
         return this.socket;
@@ -57,12 +56,37 @@ class Player {
     processChecks() { // if player allowed to type
         return !this.noNameSet() && this.inWaitingRoom();
     }
-    isAdmin() {
-        return this.pl > ADMIN_THRESHOLD;
+}
+
+/* To LethalShadowFlame:
+I decided to merge back the Player and Admin classes because they don't share much in common.
+For example, admins aren't named, and players don't need to authenticate themselves.
+They can have different IDs too, because of that.
+from Tinkerer9 */
+
+class Admin {
+    constructor(socket) {
+        this.socket = socket;
+        this.id = maxAdminId++;
+
+        /* flags */
+        this.authenticated = false;
     }
-    permissionLevel() {
-        return this.pl;
+    getSocket() {
+        return this.socket;
+    }
+    destroy() {
+        // doesn't do anything yet
+    }
+    getId() {
+        return this.id; // all players have an id, regardless if they are named or not.
+    }
+    message(txt) {
+        this.getSocket().emit("ChatMessageEcho", txt);
+    }
+    admit() {
+        this.waitingRoom = false;
     }
 }
 
-module.exports = Player;
+module.exports = { Player, Admin };
