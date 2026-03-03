@@ -89,7 +89,7 @@ Pressing the `Escape` Key at an point will toggle whether keystrokes will be acc
 If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
 If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
 
-## Command Ussage
+## Command usage
 
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
@@ -98,7 +98,18 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 - `list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
 - `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
 
-A dedicated admin page is being made.
+## Admin page
+
+An admin page that can be opened on another device is being made. So far, visitors can use use the Inspect Console feature to manually send a command with:
+```
+socket.emit("command",COMMAND_HERE);
+```
+
+### To-do
+
+- Add authentication with a password
+- Add buttons for each command
+- Possibly add custom command box
 
 ## Possible updates
 

@@ -1,8 +1,10 @@
 /* This is the main JavaScript file that runs on the host's computer. */
+
+/* Import modules used directly by server.js */
 const { Server } = require("socket.io");
 const os = require('os');
 
-/* Import other scripts we made to organize functions and more: */
+/* Import other scripts we made to organize functions and more: (have other modules as well) */
 const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
