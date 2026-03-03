@@ -15,35 +15,48 @@ const Config = require("./config");
 
 const server = Http.createServer();
 
-// Helper Functions
-function sendPopup(player, content) {
-    player.getSocket().emit("PopupEvent", content)
+/* Helper Functions */
+function sendLog(client, content) {
+    client.getSocket().emit("log", content);
+}
+function broadcastLog(client, content) {
+    client.getSocket().broadcast.emit("log", content);
+}
+function sendGlobalLog(content) { // to everyone
+    io.emit("log", content);
+}
+function sendAdminLog(content) { // to all admins
+    io.in("admin").emit("log", content);
+}
+function log(content) {
+    console.log(content);
+    sendAdminLog(content);
 }
 
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0: // valid name entered
-            console.log(`Client ${player.getId()} name set to ${player.getName()}.`);
-            sendPopup(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
+            log(`Client ${player.getId()} name set to ${player.getName()}.`);
+            sendLog(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
             player.getSocket().emit("actions","hideusernamebox");
             //player.getSocket().emit("actions","swapToChat");
             break;
         case 1: // name too short
-            sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
+            sendLog(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
             break;
         case 2: // name too long
-            sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
+            sendLog(player, "<li class='bad'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
             break;
     }
 }
 
 function handleAuthRes(admin, ev) {
     if (ev) { // correct password entered
-        console.log(`Admin ${admin.getId()} successfully authenticated.`);
-        sendPopup(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
+        log(`Admin ${admin.getId()} successfully authenticated.`);
+        sendLog(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
         admin.getSocket().emit("actions","hidepasswordbox");
     } else { // incorrect password entered
-        sendPopup(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
+        sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
 }
 
@@ -59,17 +72,16 @@ function handleKeyPress(socket, player, data) {
         let keyValid = Type.keypress(keyData); // emulate keypress
 
         if (keyValid) { // if key is "pressable"
-
-            socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to playerrs
-            socket.broadcast.to('main').emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
+            sendLog(player, `<li><b>You pressed ${keyName}.</b><li>`); // send to player
+            broadcastLog(player, `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other clients
 
             if (keyNew) socket.emit("keyReserved", keyName);
 
-            console.log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
+            log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
         }
     } else {
-        socket.emit("keyPressEcho", `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
-        console.log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
+        sendLog(player, `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
+        log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
     }
 }
 
@@ -94,7 +106,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 
     var player = new Client.Player(socket); // create player class
     var mid = Manager.addPlayer(player);
-    console.log(`Player ${player.getId()} connected.`);
+    log(`Player ${player.getId()} connected.`);
 
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
@@ -112,7 +124,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 
         let message = "[" + player.getName() + "]: " + data
         io.emit("ChatMessageEcho", message);
-        console.log(message)
+        log(message)
     });*/
 
     socket.on("keyPress", (data) => {
@@ -120,7 +132,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("disconnect", () => { // client disconnected
-        console.log(player.noNameSet() ? `Player ${player.getId()} disconnected.` : `${player.getName()} (player ${player.getId()}) disconnected.`);
+        log(player.noNameSet() ? `Player ${player.getId()} disconnected.` : `${player.getName()} (player ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
         Manager.removePlayer(mid);
@@ -132,7 +144,7 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     socket.join("admin");
 
     var admin = new Client.Admin(socket); // create admin class
-    console.log(`Admin ${admin.getId()} connected.`);
+    log(`Admin ${admin.getId()} connected.`);
 
     socket.on("authenticate", (data) => {
         if (!admin.isAuthenticated()) {
@@ -141,14 +153,14 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("command", (data) => {
-        if (!admin.isAuthenticated) return;
+        if (!admin.isAuthenticated()) return;
 
         response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
-        socket.emit("log", `<li><b>${response}</b><li>`);
+        socket.emit("response", `<li><b>${data}</b>:<br>${response}<li>`);
     });
 
     socket.on("disconnect", () => { // admin disconnected
-        console.log(`Admin ${admin.getId()} disconnected.`);
+        log(`Admin ${admin.getId()} disconnected.`);
         admin.destroy();
     });
 });
@@ -159,6 +171,6 @@ server.listen(serverPort, "0.0.0.0", () => { // Change port here
     let portString = serverPort == 80 ? "" : ":" + serverPort;
     let uri = localIP + portString;
 
-    console.log(`Server running at ${uri}.`);
-    console.log(`Admin controls at ${uri}/admin.`);
+    log(`Server running at ${uri}.`);
+    log(`Admin controls at ${uri}/admin.`);
 });

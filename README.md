@@ -100,15 +100,18 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 
 ## Admin page
 
-An admin page that can be opened on another device is being made. So far, visitors can use use the Inspect Console feature to manually send a command with:
+An admin page that can be opened on another device is being made. They have to enter the admin password found at `config.js` (defualt is `hackathon2026`). So far, visitors can use use the Inspect Console feature to manually send a command with:
 ```
 socket.emit("command",COMMAND_HERE);
 ```
+The commands are the same as the console commands in the section above.
 
 ### To-do
 
-- Add authentication with a password
+- Make admin logs actually work
+- Make admin logs only send to authenticated admins
 - Add buttons for each command
+- Add response box functionality
 - Possibly add custom command box
 
 ## Possible updates

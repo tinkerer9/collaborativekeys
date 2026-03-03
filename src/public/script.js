@@ -3,7 +3,6 @@ const socket = io();
 const naming = document.getElementsByClassName("naming")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
-const logHeader = document.getElementById("logHeader");
 const logList = document.getElementById("logList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
@@ -35,8 +34,8 @@ enter.onclick = function() {
         case "CHAT":
             socket.emit("chatMessage", input.value)
             input.value = "";
-            break;*/
-    }
+            break;
+    }*/
 }
 
 input.addEventListener("keypress", function(event) {
@@ -59,11 +58,7 @@ socket.on("actions", function(e) {
     }*/
 });
 
-socket.on("keyPressEcho", function(e) {
-    prependToLogList(e);
-});
-
-socket.on("PopupEvent", function(e) {
+socket.on("log", function(e) {
     prependToLogList(e);
 });
 

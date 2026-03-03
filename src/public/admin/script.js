@@ -3,9 +3,7 @@ const socket = io("/admin");
 const authentication = document.getElementsByClassName("authentication")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
-const logHeader = document.getElementById("logHeader");
 const logList = document.getElementById("logList");
-const responsesHeader = document.getElementById("responsesHeader");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
@@ -35,6 +33,10 @@ socket.on("log", function(e) {
     prependToLogList(e);
 });
 
+socket.on("response", function(e) {
+    prependToResponseList(e);
+});
+
 socket.on("connect_error", (error) => {
     socket.disconnect();
     console.error("Connection error:", error.message);
@@ -44,4 +46,8 @@ socket.on("connect_error", (error) => {
 
 function prependToLogList(message) {
     logList.insertAdjacentHTML('afterbegin', message);
+}
+
+function prependToResponseList(message) {
+    responsesList.insertAdjacentHTML('afterbegin', message);
 }
