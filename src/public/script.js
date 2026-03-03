@@ -7,15 +7,32 @@ const logHeader = document.getElementById("logHeader");
 const logList = document.getElementById("logList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
+var allowKeyPresses = false;
+var inputFocus = "NAME"
+
+document.addEventListener("keydown", (e) => {
+    if (allowKeyPresses) socket.emit("keyPress", { key: e.key });
+});
+
 input.focus(); // immediately focus textbox
 
 input.addEventListener('input', () => {
   input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
 });
 
+
 enter.onclick = function() {
-    var username = input.value;
-    socket.emit("setName", username);
+    switch (inputFocus) {
+        case "NAME":
+            socket.emit("setName", input.value);
+            inputFocus = "CHAT"
+            input.value = ""
+            break;
+        case "CHAT":
+            socket.emit("chatMessage", input.value)
+            input.value = "";
+            break;
+    }
 }
 
 input.addEventListener("keypress", function(event) {
@@ -27,14 +44,14 @@ input.addEventListener("keypress", function(event) {
 
 socket.on("actions", function(e) {
     if (e == "hideusernamebox") {
-        document.addEventListener("keydown", (e) => {
-            socket.emit("keyPress", { key: e.key });
-        });
-
+        allowKeyPresses = true
         naming.style.display = 'none';
         for (let contentHeader of contentHeaders) {
             contentHeader.style.display = 'block';
         }
+    }
+    if (e == "swapToChat") {
+        input.placeHolder = "Chat..."
     }
 });
 
@@ -45,6 +62,13 @@ socket.on("keyPressEcho", function(e) {
 socket.on("PopupEvent", function(e) {
     prependToLogList(e);
 });
+
+socket.on("ChatMessageEcho", function(e) {
+    let chatelem = document.createElement("li")
+    logList.prepend(chatelem);
+    chatelem.innerText = e;
+});
+
 
 socket.on("keyReserved", function(e) {
     appendToKeyList(e);

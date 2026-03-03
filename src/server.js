@@ -24,7 +24,7 @@ function handleNameRes(player, ev) {
         case 0:
             console.log(`Client ${player.getId()} name set to ${player.getName()}.`);
             sendPopup(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
-            player.getSocket().emit("actions","hideusernamebox");
+            player.getSocket().emit("actions","swapToChat");
             break;
         case 1:
             sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
@@ -89,6 +89,14 @@ io.on("connection", (socket) => { // new client connected (non-admin)
             handleNameRes(player, player.setName(data));
         }
     });
+
+    socket.on("chatMessage", (data) => {
+        if (player.processChecks()) return;
+
+        let message = "[" + player.getName() + "]: " + data
+        io.emit("ChatMessageEcho", message);
+        console.log(message)
+    })
 
     socket.on("keyPress", (data) => {
         handleKeyPress(socket, player, data);

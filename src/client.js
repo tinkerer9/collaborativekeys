@@ -42,7 +42,9 @@ class Player {
     getId() {
         return this.id; // all players have an id, regardless if they are named or not.
     }
-
+    message(txt) {
+        this.getSocket().emit("ChatMessageEcho", txt);
+    }
     admit() {
         this.waitingRoom = false;
     }
@@ -57,6 +59,9 @@ class Player {
     }
     isAdmin() {
         return this.pl > ADMIN_THRESHOLD;
+    }
+    permissionLevel() {
+        return this.pl;
     }
 }
 
