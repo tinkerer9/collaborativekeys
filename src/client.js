@@ -15,7 +15,7 @@ class Client {
         this.id = maxId++;
 
         /* flags */
-        this.waitingRoom = false;
+        this.waitingRoom = true;
     }
     getSocket() {
         return this.socket;
