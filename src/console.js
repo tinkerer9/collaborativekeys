@@ -9,6 +9,10 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+function isInt(a) { //Easier to type
+    return Number.isInteger(a);
+}
+
 function log(a) {
     console.log(a); //in case this should do extra like send to clients or whatever
 }
@@ -56,7 +60,11 @@ function logPlayerInfo(player, showWait, filter) {
 }
 
 function waitingRoom(args) {
-
+    let action = args[0] || null
+    let id = args[1] || null
+    //Check if set
+    if ((action == null) || isInt(id)) { log("You need to provide more arguments! Ussage: waitingroom <admit/dismiss> <id>"); return; }
+    log("passed check");
 };
 
 function listHandle(args) {
@@ -75,7 +83,7 @@ function listHandle(args) {
 };
 
 function keyHandle(args) {
-
+    
 };
 
 function commandCallbacks(cmd) {

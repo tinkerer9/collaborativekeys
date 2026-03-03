@@ -80,9 +80,7 @@ function handleKeyPress(socket, player, data) {
             socket.emit("keyPressEcho", `<li><b>You pressed ${keyName}.</b><li>`); // send to playerrs
             socket.broadcast.emit("keyPressEcho", `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other players
 
-            if (keyNew) {
-                socket.emit("keyReserved", keyName);
-            }
+            if (keyNew) socket.emit("keyReserved", keyName);
 
             console.log(`Valid keypress from ${player.getName()} (client ${player.getId()}): ${keyName} (${keyData}).`);
         }
