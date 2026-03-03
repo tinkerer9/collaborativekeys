@@ -1,5 +1,6 @@
 /* This is the main JavaScript file that runs on the host's computer. */
 const { Server } = require("socket.io");
+const os = require('os');
 
 /* Import other scripts we made to organize functions and more: */
 const Client = require("./client");
@@ -59,6 +60,21 @@ function handleKeyPress(socket, player, data) {
     }
 }
 
+function getLocalIP() {
+    const networkInterfaces = os.networkInterfaces();
+    let localIP;
+    
+    // Iterate over network interfaces to find the non-internal IPv4 address
+    Object.keys(networkInterfaces).forEach((ifname) => {
+        networkInterfaces[ifname].forEach((iface) => {
+            if ('IPv4' !== iface.family || iface.internal !== false) return; // skip internal (i.e. 127.0.0.1) and non-IPv4 addresses
+            localIP = iface.address;
+        });
+    });
+
+    return localIP;
+}
+
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
     console.log("Namespace of socket:", socket.nsp.name); // debug
@@ -103,5 +119,6 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
 });
 
 server.listen(80, "0.0.0.0", () => { // Change port here
-    console.log("Server running at localhost (port 80).");
+    console.log(`Server running at ${getLocalIP()}.`);
+    console.log(`Admin controls at ${getLocalIP()}/admin.`);
 });
