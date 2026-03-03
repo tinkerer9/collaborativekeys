@@ -15,7 +15,7 @@ m.getPlayerById = function(id) {
 }
 
 m.removePlayer = function(id) {
-    list[id] = null;
+    list[id] = undefined;
 }
 
 module.exports = m;
