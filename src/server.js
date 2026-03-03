@@ -90,13 +90,18 @@ io.on("connection", (socket) => { // new client connected (non-admin)
         }
     });
 
-    socket.on("chatMessage", (data) => {
+    /* To LethalShadowFlame:
+    Do we really need a chat? This game is meant more for people in the same room looking at the same big screen.
+    They can still talk to eachother.
+    from Tinkerer9 */
+
+    /*socket.on("chatMessage", (data) => {
         if (player.processChecks()) return;
 
         let message = "[" + player.getName() + "]: " + data
         io.emit("ChatMessageEcho", message);
         console.log(message)
-    })
+    });*/
 
     socket.on("keyPress", (data) => {
         handleKeyPress(socket, player, data);
