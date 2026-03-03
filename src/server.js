@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 const os = require('os');
 
 /* Import other scripts we made to organize functions and more: (have other modules as well) */
-const Client = require("./client");
+const Player = require("./client");
 const Key = require("./key");
 const Type = require("./type");
 const Console = require("./console");
@@ -80,7 +80,7 @@ const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
     socket.join("main");
 
-    var player = new Client.Player(socket); // create player class
+    var player = new Player(socket, 0); // create player class
     var mid = Manager.addPlayer(player);
     console.log(`Player ${player.getId()} connected.`);
 
@@ -106,7 +106,7 @@ const admin = io.of("/admin"); // creats a namespace for just /admin
 admin.on("connection", (socket) => { // new client connected (non-admin)
     socket.join("admin");
 
-    var admin = new Client.Admin(socket); // create admin class
+    var admin = new Player(socket, 2); // create admin class
     console.log(`Admin ${admin.getId()} connected.`);
 
     socket.on("command", (data) => {

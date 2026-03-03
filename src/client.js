@@ -1,22 +1,23 @@
 /* This script manages metadata about each player. */
 
 const FALLBACK_NAME = "No Name"; //Used if the player has not set a name yet
+const ADMIN_THRESHOLD = 1;
 
 let maxPlayerId = 0; // increments every time
-let maxAdminId = 0; // increments every time
 
 function hasNoAlphabeticalChars(str) {
     return !/[a-zA-Z0-9]/.test(str);
 }
 
 class Player {
-    constructor(socket) {
+    constructor(socket, pl) {
         this.socket = socket;
         this.name = null; // null as preset for unnamed
         this.id = maxPlayerId++;
 
         /* flags */
         this.waitingRoom = true;
+        this.permission = pl;
     }
     getSocket() {
         return this.socket;
@@ -54,22 +55,9 @@ class Player {
     processChecks() { // if player allowed to type
         return !this.noNameSet() && this.inWaitingRoom();
     }
-}
-
-class Admin {
-    constructor(socket) {
-        this.socket = socket;
-        this.id = maxAdminId++;
-    }
-    getSocket() {
-        return this.socket;
-    }
-    destroy() {
-        // doesn't do anything yet
-    }
-    getId() {
-        return this.id; // all admins have an id
+    isAdmin() {
+        return this.pl > ADMIN_THRESHOLD;
     }
 }
 
-module.exports = { Player, Admin };
+module.exports = Player;
