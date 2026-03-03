@@ -52,14 +52,14 @@ function handleNameRes(player, ev) {
     switch (ev) {
         case 0:
             console.log(`Client ${player.getId()} name set to ${player.getName()}.`);
-            sendPopup(player, "<li style='color: green;'><b>Successfully set name to "  + player.getName() + ".</b></li>");
+            sendPopup(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
             player.getSocket().emit("actions","hideusernamebox");
             break;
         case 1:
-            sendPopup(player, "<li style='color: red;'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
+            sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
             break;
         case 2:
-            sendPopup(player, "<li style='color: red;'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
+            sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
             break;
     }
 }

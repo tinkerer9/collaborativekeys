@@ -53,7 +53,9 @@ class Client {
     processChecks() { // if player allowed to type
         return !this.noNameSet() && !this.inWaitingRoom();
     }
-    
+    message(text) {
+        this.getSocket().emit("keyPressEcho", text);
+    }
 }
 
 module.exports = Client;

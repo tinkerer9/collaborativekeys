@@ -87,3 +87,11 @@ html, body {
 .item *:first-child {
     margin-top: 0;
 }
+
+.bad {
+    color: red;
+}
+
+.good {
+    color: green;
+}

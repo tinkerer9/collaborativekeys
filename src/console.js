@@ -77,10 +77,12 @@ function waitingRoom(args) {
     switch (action) {
         case "admit":
             player.admit();
+            player.message("You have been admitted from the waiting room!")
             log("Admitted " + player.getName())
             break;
         case "dismiss":
             player.dismiss();
+            player.message("You have been dismissed to the waiting room.")
             log("Dismissed " + player.getName())
             break;
         default:
