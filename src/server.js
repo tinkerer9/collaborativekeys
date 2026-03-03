@@ -14,10 +14,25 @@ const Manager = require("./manager");
 const publicDir = path.join(__dirname, "public");
 
 const server = http.createServer((req, res) => {
-    // Default to index.html if requesting / (root)
-    let filePath = path.join(publicDir, req.url == "/" ? "index.html" : req.url);
+    let requestPath = decodeURIComponent(req.url.split("?")[0]);
 
-    // Determine content type
+    // Remove leading slash
+    if (requestPath.startsWith("/")) {
+        requestPath = requestPath.slice(1);
+    }
+
+    // If root, go to index.html
+    if (requestPath == "") {
+        requestPath = "index.html";
+    }
+
+    let filePath = path.join(publicDir, requestPath);
+
+    // If no extension, assume it's a folder, so append index.html
+    if (!path.extname(filePath)) {
+        filePath = path.join(filePath, "index.html");
+    }
+
     const extname = path.extname(filePath);
     let contentType = "text/plain";
 
@@ -31,7 +46,6 @@ const server = http.createServer((req, res) => {
         case ".ico": contentType = "image/x-icon"; break;
     }
 
-    // Read the file
     fs.readFile(filePath, (err, data) => {
         if (err) {
             res.writeHead(404);

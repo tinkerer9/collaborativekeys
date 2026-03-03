@@ -1,4 +1,4 @@
-//Handles console commands
+/* Handles console commands */
 const readline = require('readline');
 const Manager = require('./manager')
 
@@ -9,12 +9,12 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-function isInt(a) { //Easier to type
+function isInt(a) { // Easier to type
     return Number.isInteger(a);
 }
 
 function log(a) {
-    console.log(a); //in case this should do extra like send to clients or whatever
+    console.log(a); // in case this should do extra like send to clients or whatever
 }
 
 function spliceCommand(input) {

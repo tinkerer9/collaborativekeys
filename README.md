@@ -67,7 +67,7 @@ Each player can get one or two keys, and they have to work together (or alone!) 
 
 Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated.
 
-There was also a test game made for this project at `IP_ADDRESS/demo/index.html`.
+There was also a test game made for this project at `/demo`.
 
 ## Security concerns
 
@@ -93,14 +93,10 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
-`stop`/`exit`: Terminates the process.
-
-`waitingroom`/`wr <admit/dismiss> <id>`: Admit or dismiss someone from the waiting room.
-
-`list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
-
-`key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
-
+- `stop`/`exit`: Terminates the process.
+- `waitingroom`/`wr <admit/dismiss> <id>`: Admit or dismiss someone from the waiting room.
+- `list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
+- `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
 
 ## Possible updates
 
@@ -108,9 +104,8 @@ This program was made very quickly for a hackathon, so we weren't able to add al
 
 Here are a few we might want to add later (and are working on!):
 - **Host interface (starred)**
-    - The host can easily start/stop emulation (by pressinng escape to toggle)
+    - The host can easily start/stop emulation (by pressing escape to toggle)
 - Show players unassigned keys (after above completed)
-- `IP_ADDRESS/demo/index.html` --> `IP_ADDRESS/demo`
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
 - Virtual keyboard support for mobile/tablet
