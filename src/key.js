@@ -2,16 +2,18 @@
 
 let keyAssignments = {}; // key = charachter, value = player.getId()
 
-function assignKey(key, id) {
+let m = {}
+
+m.assignKey = function(key, id) {
     keyAssignments[key] = id;
 }
-function isAssignedKey(key, id) {
+m.isAssignedKey = function(key, id) {
     return keyAssignments[key] == id;
 }
-function keyIsAssigned(key) {
+m.keyIsAssigned = function(key) {
     return key in keyAssignments;
 }
-function keyAllowed(key, id) { // returns if key is allowed to be pressed and if was unreserved
+m.keyAllowed = function(key, id) { // returns if key is allowed to be pressed and if was unreserved
     if (keyIsAssigned(key)) {
         if (isAssignedKey(key, id)) {
             return [true, false];
@@ -23,7 +25,7 @@ function keyAllowed(key, id) { // returns if key is allowed to be pressed and if
         return [true, true];
     }    
 }
-function freeAssignment(id) {
+m.freeAssignment = function(id) {
     for (const key in keyAssignments) {
         if (keyAssignments[key] == id) {
             delete keyAssignments[key];
@@ -31,4 +33,4 @@ function freeAssignment(id) {
     }
 }
 
-module.exports = { keyAllowed, freeAssignment }; 
+module.exports = m; 
