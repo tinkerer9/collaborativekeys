@@ -9,12 +9,14 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+let logList = []; // log that is sent out to console and admin page
+
 function isInt(a) { // Easier to type
     return Number.isInteger(a);
 }
 
 function log(a) {
-    console.log(a); // in case this should do extra like send to clients or whatever
+    logList.push(a);
 }
 
 function spliceCommand(input) {
@@ -67,7 +69,7 @@ function waitingRoom(args) {
     let id = args[1] || null
 
     //Check if allowed (easier to read as one line)
-    if ((action == null) || isInt(id)) { log("You need to provide more arguments! Ussage: waitingroom <admit/dismiss> <id>"); return; }
+    if ((action == null) || isInt(id)) { log("You need to provide more arguments! Usage: waitingroom <admit/dismiss> <id>"); return; }
     if (!Manager.isPlayer(id)) { log("Invalid player, did you mistype the id?"); return };
 
     //Setup more vars now that check has passed
@@ -77,29 +79,29 @@ function waitingRoom(args) {
     switch (action) {
         case "admit":
             player.admit();
-            player.message("You have been admitted from the waiting room!")
-            log("Admitted " + player.getName())
+            player.message("You have been admitted from the waiting room!");
+            log("Admitted " + player.getName());
             break;
         case "dismiss":
             player.dismiss();
-            player.message("You have been dismissed to the waiting room.")
-            log("Dismissed " + player.getName())
+            player.message("You have been dismissed to the waiting room.");
+            log("Dismissed " + player.getName());
             break;
         default:
-            log("Invalid method, did you misspell the first argument?")
+            log("Invalid method, did you misspell the first argument?");
             return;
     }
 };
 
 function listHandle(args) {
-    //Setup vars
+    // Setup vars
     let pc = Manager.getPlayerCount();
     let filterBy = args[0] || "active";
     if (filterBy == "waitingroom") filterBy = "wr"
     
     let showWait = !(filterBy == "wr")
 
-    //Now print info
+    // Now print info
     log("");
 
     for (let i = 0; i < pc; i++) {
@@ -135,9 +137,15 @@ function commandCallbacks(cmd) {
     }
 }
 
-function handleCommand(input) {
+function handleCommand(input) { // for in console only
+    logList = []; // reset log
+
     let cmdArr = spliceCommand(input);
     commandCallbacks(getCommand(cmdArr))(getArguments(cmdArr));
+
+    let logText = logList.join('\n'); // join log lines together into one string
+    console.log(logText);
+    return logText; // for admin page
 }
 
 function endRl() {
@@ -149,4 +157,6 @@ function endRl() {
 //Listeners
 rl.on('SIGINT', endRl);
 rl.on('SIGTERM', endRl);
-rl.on('line', handleCommand)
+rl.on('line', handleCommand);
+
+module.exports = { handleCommand };

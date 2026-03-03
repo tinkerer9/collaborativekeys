@@ -6,9 +6,8 @@ const os = require('os');
 const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
-const GameConsole = require("./console");
+const Console = require("./console");
 const Manager = require("./manager");
-const Admin = require("./admin");
 const Http = require("./http");
 
 const server = Http.createServer();
@@ -107,6 +106,11 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
 
     var admin = new Client.Admin(socket); // create admin class
     console.log(`Admin ${admin.getId()} connected.`);
+
+    socket.on("command", (data) => {
+        response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
+        socket.emit("log", `<li><b>${response}</b><li>`);
+    });
 
     socket.on("disconnect", () => { // admin disconnected
         console.log(`Admin ${admin.getId()} disconnected.`);

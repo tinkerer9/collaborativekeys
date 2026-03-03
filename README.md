@@ -98,6 +98,8 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 - `list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
 - `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
 
+A dedicated admin page is being made.
+
 ## Possible updates
 
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
