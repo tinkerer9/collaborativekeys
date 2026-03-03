@@ -42,7 +42,7 @@ function processToLog(player, filter) {
         case "wr":
             return player.inWaitingRoom()
         case "active":
-            return player.processChecks()
+            return !player.inWaitingRoom() && !player.noNameSet()
         case "nameless":
             return player.noNameSet()
         default:
