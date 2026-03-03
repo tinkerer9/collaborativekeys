@@ -1,11 +1,35 @@
 const socket = io("/admin");
 
-socket.on("connect", () => {
-    console.log("Connected:", socket.id, socket.nsp.name); // should be "/admin"
-});
-
+const authentication = document.getElementsByClassName("authentication")[0];
+const input = document.getElementById("input");
+const enter = document.getElementById("enter");
 const logHeader = document.getElementById("logHeader");
 const logList = document.getElementById("logList");
+const responsesHeader = document.getElementById("responsesHeader");
+const responsesList = document.getElementById("responsesList");
+const contentHeaders = document.getElementsByClassName("contentHeaders");
+
+input.focus(); // immediately focus textbox
+
+enter.onclick = function() {
+    socket.emit("authenticate", input.value);
+}
+
+input.addEventListener("keypress", function(event) {
+  if (event.key == "Enter") {
+    event.preventDefault();
+    enter.click(); // simulate click on enter button
+  }
+});
+
+socket.on("actions", function(e) {
+    if (e == "hidepasswordbox") { // when password entered successfully
+        authentication.style.display = 'none';
+        for (let contentHeader of contentHeaders) {
+            contentHeader.style.display = 'block';
+        }
+    }
+});
 
 socket.on("log", function(e) {
     prependToLogList(e);

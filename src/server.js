@@ -11,6 +11,7 @@ const Type = require("./type");
 const Console = require("./console");
 const Manager = require("./manager");
 const Http = require("./http");
+const Config = require("./config");
 
 const server = Http.createServer();
 
@@ -21,17 +22,28 @@ function sendPopup(player, content) {
 
 function handleNameRes(player, ev) {
     switch (ev) {
-        case 0:
+        case 0: // valid name entered
             console.log(`Client ${player.getId()} name set to ${player.getName()}.`);
             sendPopup(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
-            player.getSocket().emit("actions","swapToChat");
+            player.getSocket().emit("actions","hideusernamebox");
+            //player.getSocket().emit("actions","swapToChat");
             break;
-        case 1:
+        case 1: // name too short
             sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
             break;
-        case 2:
+        case 2: // name too long
             sendPopup(player, "<li class='bad'><b>Could not set name: Your name must be shorter than 20 characters long.</b></li>");
             break;
+    }
+}
+
+function handleAuthRes(admin, ev) {
+    if (ev) { // correct password entered
+        console.log(`Admin ${admin.getId()} successfully authenticated.`);
+        sendPopup(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
+        admin.getSocket().emit("actions","hidepasswordbox");
+    } else { // incorrect password entered
+        sendPopup(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
 }
 
@@ -122,7 +134,15 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     var admin = new Client.Admin(socket); // create admin class
     console.log(`Admin ${admin.getId()} connected.`);
 
+    socket.on("authenticate", (data) => {
+        if (!admin.isAuthenticated()) {
+            handleAuthRes(admin, admin.authenticate(data == Config.adminPassword));
+        }
+    });
+
     socket.on("command", (data) => {
+        if (!admin.isAuthenticated) return;
+
         response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
         socket.emit("log", `<li><b>${response}</b><li>`);
     });
@@ -133,7 +153,12 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     });
 });
 
-server.listen(80, "0.0.0.0", () => { // Change port here
-    console.log(`Server running at ${getLocalIP()}.`);
-    console.log(`Admin controls at ${getLocalIP()}/admin.`);
+let serverPort = Config.serverPort;
+server.listen(serverPort, "0.0.0.0", () => { // Change port here
+    let localIP = getLocalIP();
+    let portString = serverPort == 80 ? "" : ":" + serverPort;
+    let uri = localIP + portString;
+
+    console.log(`Server running at ${uri}.`);
+    console.log(`Admin controls at ${uri}/admin.`);
 });

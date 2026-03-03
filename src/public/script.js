@@ -21,7 +21,7 @@ document.addEventListener("keydown", (e) => {
 input.focus(); // immediately focus textbox
 
 input.addEventListener('input', () => {
-  input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+    input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
 });
 
 

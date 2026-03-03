@@ -44,6 +44,19 @@ html, body {
     scrollbar-width: none;
 }
 
+#enter {
+    margin-bottom: 20px;
+}
+
+#logList {
+    list-style: none;
+}
+
+#logList li:first-child {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
 .responses {
     grid-area: responses;
 
@@ -87,6 +100,7 @@ html, body {
 }
 
 .contentHeaders {
+    display: none;
     margin-top: 0;
 }
 

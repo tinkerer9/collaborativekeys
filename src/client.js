@@ -78,6 +78,18 @@ class Admin {
     destroy() {
         // doesn't do anything yet
     }
+    authenticate(correctPassword) {
+        /* name must be between 3 and 20 chars long */
+        if (correctPassword) {
+            this.authenticated = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    isAuthenticated() {
+        return this.authenticated;
+    }
     getId() {
         return this.id; // all players have an id, regardless if they are named or not.
     }
