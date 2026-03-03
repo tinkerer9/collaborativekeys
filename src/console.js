@@ -47,12 +47,12 @@ function listHandle(args) {
     let filterBy = args[0] || "active";
     let showWait = !(filterBy == "wr" || filterBy == "waitingroom")
 
-    log();
+    log("");
 
     for (let i = 0; i < pc; i++) {
         logPlayerInfo(Manager.getPlayerById(i), showWait);
     }
-    log("Logged all player information")
+    log("Logged all player information.")
 };
 
 function keyHandle(args) {
@@ -94,6 +94,6 @@ function endRl() {
 }
 
 //Listeners
-process.on('SIGINT', endRl);
-process.on('SIGTERM', endRl);
+rl.on('SIGINT', endRl);
+rl.on('SIGTERM', endRl);
 rl.on('line', handleCommand)
