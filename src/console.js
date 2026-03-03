@@ -32,7 +32,7 @@ function waitingRoom(args) {
 };
 
 function listHandle(args) {
-
+    
 };
 
 function keyHandle(args) {
@@ -41,13 +41,21 @@ function keyHandle(args) {
 
 function commandCallbacks(cmd) {
     switch (cmd) {
-        case "stop" || "exit":
+        case "stop":
             return endRl;
-        case "waitingroom" || "wr":
+        case "exit":
+            return endRl;
+        case "waitingroom":
             return waitingRoom;
-        case "list" || "ls":
+        case "wr":
+            return waitingRoom;
+        case "list":
             return listHandle;
-        case "key" || "k":
+        case "ls":
+            return listHandle;
+        case "key":
+            return keyHandle;
+        case "k":
             return keyHandle;
         default:
             return fallback;
