@@ -18,6 +18,7 @@ It currently uses AppleScript to emulate key strokes using a built-in MacOS libr
 - `nodejs`: download latest version from https://nodejs.org/en/download
 - `socket.io`: run `npm install socket.io` in the terminal
 
+
 ### Run server
 
 Set your working directory to project root. Run the following command:
@@ -84,8 +85,23 @@ The host should always monitor what other people are typing and what is happenin
 
 ### How to stop
 
+Pressing the `Escape` Key at an point will toggle whether keystrokes will be accepted.
 If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
 If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
+
+## Command Ussage
+
+Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
+`
+
+`stop`/`exit`: Terminates the program.
+
+`waitingroom`/`wr <admit/dismiss> <id>`: Admit or dismiss someone from the server waiting room
+
+`list <active/wr/waitingroom/all>`: Lists player ids/names that are either currently active, in the waiting room, or both.
+
+`key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
+
 
 ## Possible updates
 
@@ -93,9 +109,8 @@ This program was made very quickly for a hackathon, so we weren't able to add al
 
 Here are a few we might want to add later (and are working on!):
 - **Host interface (starred)**
-    - The host can easily start/stop emulation and/or assignments
-    - The host can choose which keys are pressable
-    - The host must allow each player to join (waiting room)
+    - The host can easily start/stop emulation (by pressinng escape to toggle)
+    - and/or assignments 
     - The host can easily reset assignments
 - Show players unassigned keys (after above completed)
 - `IP_ADDRESS/demo/index.html` --> `IP_ADDRESS/demo`
