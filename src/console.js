@@ -1,6 +1,7 @@
 /* Handles console commands */
 const readline = require('readline');
 const Manager = require('./manager')
+const Type = require('./type')
 
 const COMMAND_ARG_SEP = " "
 
@@ -93,6 +94,17 @@ function waitingRoom(args) {
     }
 };
 
+function pauseEmulation() {
+    Type.allowEmulation = false;
+    log("Emulation disabled.");
+}
+
+function resumeEmulation() {
+    Type.allowEmulation = true;
+    log("Emulation enabled.");
+}
+
+
 function listHandle(args) {
     // Setup vars
     let pc = Manager.getPlayerCount();
@@ -132,6 +144,10 @@ function commandCallbacks(cmd) {
             return keyHandle;
         case "k":
             return keyHandle;
+        case "pause":
+            return pauseEmulation;
+        case "resume":
+            return resumeEmulation;
         default:
             return fallback;
     }

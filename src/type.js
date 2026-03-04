@@ -2,6 +2,10 @@
 
 const { exec } = require("child_process");
 
+const Config = require("./config.json");
+
+let allowEmulation = Config.allowEmulationAtStart; // only referenced in server.js, changed in console.js
+
 /* Parse select JavaScript key names into AppleScript key names and human readable names */
 function parseKey(key) {
     switch (key) {
@@ -71,4 +75,4 @@ function keypress(key) {
     return true;
 }
 
-module.exports = { nameKey, keypress };
+module.exports = { nameKey, keypress, allowEmulation };

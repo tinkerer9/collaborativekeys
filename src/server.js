@@ -13,8 +13,6 @@ const Manager = require("./manager");
 const Http = require("./http");
 const Config = require("./config.json");
 
-const server = Http.createServer();
-
 /* Helper Functions */
 function sendLog(client, content) {
     client.getSocket().emit("log", content);
@@ -30,7 +28,6 @@ function log(content) {
 
     admin.in("admin").emit("log", `<li>${content}</li>`);
 }
-
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0: // valid name entered
@@ -47,7 +44,6 @@ function handleNameRes(player, ev) {
             break;
     }
 }
-
 function handleAuthRes(admin, ev) {
     if (ev) { // correct password entered
         log(`Admin ${admin.getId()} successfully authenticated.`);
@@ -58,8 +54,12 @@ function handleAuthRes(admin, ev) {
         sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
 }
-
 function handleKeyPress(socket, player, data) {
+    if (!Type.allowEmulation) {
+        sendLog(player, `<li style="color: red;"><b>Emulation is disabled by admin.</b></li>`); // send to player 
+        return;
+    }
+
     if (player.processChecks()) return;
 
     let keyData = data.key
@@ -67,24 +67,24 @@ function handleKeyPress(socket, player, data) {
 
     [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
 
-
-    if (keyAllowed) { // if key allowed
-        let keyValid = Type.keypress(keyData); // emulate keypress
-
-        if (keyValid) { // if key is "pressable"
-            sendLog(player, `<li><b>You pressed ${keyName}.</b><li>`); // send to player
-            broadcastLog(player, `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other clients
-
-            if (keyNew) socket.emit("keyReserved", keyName);
-
-            log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
-        }
-    } else {
+    if (!keyAllowed) { // if key not allowed
         sendLog(player, `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
         log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
+
+        return;
+    }
+        
+    let keyValid = Type.keypress(keyData); // emulate keypress
+
+    if (keyValid) { // if key is "pressable"
+        sendLog(player, `<li><b>You pressed ${keyName}.</b><li>`); // send to player
+        broadcastLog(player, `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other clients
+
+        if (keyNew) socket.emit("keyReserved", keyName);
+
+        log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
     }
 }
-
 function getLocalIP() {
     const networkInterfaces = os.networkInterfaces();
     let localIP;
@@ -100,6 +100,7 @@ function getLocalIP() {
     return localIP;
 }
 
+const server = Http.createServer();
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
 
