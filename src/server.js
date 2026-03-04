@@ -53,7 +53,7 @@ function handleAuthRes(admin, ev) {
         log(`Admin ${admin.getId()} successfully authenticated.`);
         sendLog(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
         admin.getSocket().emit("actions","hidepasswordbox");
-        admin.getSocket().join("admin"); // add to admins room
+        admin.getSocket().join("admin"); // add to admins room (only for authenticated admins)
     } else { // incorrect password entered
         sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
@@ -62,10 +62,11 @@ function handleAuthRes(admin, ev) {
 function handleKeyPress(socket, player, data) {
     if (player.processChecks()) return;
 
-    [keyAllowed, keyNew] = Key.keyAllowed(data.key, player.getId()); 
-
     let keyData = data.key
     let keyName = Type.nameKey(keyData);
+
+    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
+
 
     if (keyAllowed) { // if key allowed
         let keyValid = Type.keypress(keyData); // emulate keypress
@@ -162,7 +163,7 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
 });
 
 let serverPort = Config.serverPort;
-server.listen(serverPort, "0.0.0.0", () => { // Change port here
+server.listen(serverPort, "0.0.0.0", () => {
     let localIP = getLocalIP();
     let portString = serverPort == 80 ? "" : ":" + serverPort;
     let uri = localIP + portString;
