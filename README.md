@@ -98,10 +98,6 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 - `list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
 - `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
 
-### To-do
-
-- Add controls to start/stop the emulation process
-
 ## Admin page (beta)
 
 An admin page that can be opened on another device is being made. They have to enter the admin password found at `config.js` (defualt is `hackathon2026`). So far, visitors can use use the Inspect Console feature to manually send a command with:
