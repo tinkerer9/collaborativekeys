@@ -99,8 +99,11 @@ html, body {
     margin-bottom: 10px;
 }
 
-.contentHeaders {
+.controlButtons, .contentHeaders {
     display: none;
+}
+
+.contentHeaders {
     margin-top: 0;
 }
 

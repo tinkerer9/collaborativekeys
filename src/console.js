@@ -154,9 +154,9 @@ function endRl() {
     process.exit();
 }
 
-//Listeners
+// Listeners
 rl.on('SIGINT', endRl);
 rl.on('SIGTERM', endRl);
 rl.on('line', handleCommand);
 
-module.exports = { handleCommand };
+module.exports = { handleCommand }; // for admin page

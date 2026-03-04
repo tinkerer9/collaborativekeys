@@ -25,12 +25,10 @@ function broadcastLog(client, content) {
 function sendGlobalLog(content) { // to everyone
     io.emit("log", content);
 }
-function sendAdminLog(content) { // to all admins
-    io.in("admin").emit("log", content);
-}
 function log(content) {
     console.log(content);
-    sendAdminLog(content);
+
+    admin.in("admin").emit("log", `<li>${content}</li>`);
 }
 
 function handleNameRes(player, ev) {
@@ -55,6 +53,7 @@ function handleAuthRes(admin, ev) {
         log(`Admin ${admin.getId()} successfully authenticated.`);
         sendLog(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
         admin.getSocket().emit("actions","hidepasswordbox");
+        admin.getSocket().join("admin"); // add to admins room
     } else { // incorrect password entered
         sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
@@ -102,7 +101,6 @@ function getLocalIP() {
 
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
-    socket.join("main");
 
     var player = new Client.Player(socket); // create player class
     var mid = Manager.addPlayer(player);
@@ -141,8 +139,6 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 
 const admin = io.of("/admin"); // creats a namespace for just /admin
 admin.on("connection", (socket) => { // new client connected (non-admin)
-    socket.join("admin");
-
     var admin = new Client.Admin(socket); // create admin class
     log(`Admin ${admin.getId()} connected.`);
 

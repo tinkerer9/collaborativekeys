@@ -3,6 +3,7 @@ const socket = io("/admin");
 const authentication = document.getElementsByClassName("authentication")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
+const controlButtons = document.getElementsByClassName("controlButtons")[0];
 const logList = document.getElementById("logList");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
@@ -23,6 +24,7 @@ input.addEventListener("keypress", function(event) {
 socket.on("actions", function(e) {
     if (e == "hidepasswordbox") { // when password entered successfully
         authentication.style.display = 'none';
+        controlButtons.style.display = 'block';
         for (let contentHeader of contentHeaders) {
             contentHeader.style.display = 'block';
         }
