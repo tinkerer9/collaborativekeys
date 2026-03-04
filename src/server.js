@@ -11,7 +11,7 @@ const Type = require("./type");
 const Console = require("./console");
 const Manager = require("./manager");
 const Http = require("./http");
-const Config = require("./config");
+const Config = require("./config.json");
 
 const server = Http.createServer();
 

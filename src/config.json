@@ -1,0 +1,5 @@
+{
+    "adminPassword": "hackathon2026",
+    "serverPort": 80,
+    "allowEmulationAtStart": true
+}
