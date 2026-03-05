@@ -1,9 +1,8 @@
 /* Handles console commands */
-const readline = require('readline');
-const Manager = require('./manager')
-const Type = require('./type')
 
-const COMMAND_ARG_SEP = " "
+const readline = require('readline');
+const Manager = require('./manager');
+const Type = require('./type');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -21,7 +20,7 @@ function log(a) {
 }
 
 function spliceCommand(input) {
-    return input.split(COMMAND_ARG_SEP);
+    return input.split(" ");
 }
 
 function getCommand(arr) {
@@ -33,24 +32,24 @@ function getArguments(arr) {
 }
 
 function fallback(args) {
-    log("Unrecognized command. Please try again.")
+    log("Unrecognized command. Please try again.");
 }
 
 function processToLog(player, filter) {
-    //Returns true if should print, false if should filter.
+    // Returns true if should print, false if should filter.
     if (player == null) return false;
     switch (filter) {
         case "all":
-            return true
+            return true;
         case "wr":
-            return player.inWaitingRoom()
+            return player.inWaitingRoom();
         case "active":
-            return !player.inWaitingRoom() && !player.noNameSet()
+            return !player.inWaitingRoom() && !player.noNameSet();
         case "nameless":
-            return player.noNameSet()
+            return player.noNameSet();
         default:
-            //Invalid filter
-            return false
+            // Invalid filter
+            return false;
     }
 }
 
@@ -58,25 +57,31 @@ function logPlayerInfo(player, showWait, filter) {
     if (!processToLog(player, filter)) return;
 
     let pa = player.getSocket().handshake.address;
-    log("Client ID " + player.getId() + ":")
-    log("Name: " + player.getName())
-    log("IP: " + pa)
-    if (showWait) log("In Waiting Room: " + player.inWaitingRoom()); //Used to hide waiting room info if filtered by waiting room
-    log("") //Clean up (will print a newline, see definition)
+    log("Client ID " + player.getId() + ":");
+    log("Name: " + player.getName());
+    log("IP: " + pa);
+    if (showWait) log("In Waiting Room: " + player.inWaitingRoom()); // Used to hide waiting room info if filtered by waiting room
+    log(""); // Clean up (will print a newline, see definition)
 }
 
 function waitingRoom(args) {
-    let action = args[0] || null
-    let id = args[1] || null
+    let action = args[0] || null;
+    let id = args[1] || null;
 
-    //Check if allowed (easier to read as one line)
-    if ((action == null) || isInt(id)) { log("You need to provide more arguments! Usage: waitingroom <admit/dismiss> <id>"); return; }
-    if (!Manager.isPlayer(id)) { log("Invalid player, did you mistype the id?"); return };
+    // Check if allowed (easier to read as one line)
+    if ((action == null) || isInt(id)) {
+        log("You need to provide more arguments! Usage: waitingroom <admit/dismiss> <id>");
+        return;
+    }
+    if (!Manager.isPlayer(id)) {
+        log("Invalid player, did you mistype the id?");
+        return
+    };
 
-    //Setup more vars now that check has passed
+    // Setup more vars now that check has passed
     let player = Manager.getPlayerById(id);
-    //Use switch statement so if more options added later they'll be easier to implement
 
+    // Use switch statement so if more options added later they'll be easier to implement
     switch (action) {
         case "admit":
             player.admit();
@@ -109,9 +114,9 @@ function listHandle(args) {
     // Setup vars
     let pc = Manager.getPlayerCount();
     let filterBy = args[0] || "active";
-    if (filterBy == "waitingroom") filterBy = "wr"
+    if (filterBy == "waitingroom") filterBy = "wr";
     
-    let showWait = !(filterBy == "wr")
+    let showWait = filterBy !== "wr";
 
     // Now print info
     log("");
@@ -119,7 +124,7 @@ function listHandle(args) {
     for (let i = 0; i < pc; i++) {
         logPlayerInfo(Manager.getPlayerById(i), showWait, filterBy);
     }
-    log("Logged all player information.")
+    log("Logged all player information.");
 };
 
 function keyHandle(args) {
@@ -129,25 +134,25 @@ function keyHandle(args) {
 function commandCallbacks(cmd) {
     switch (cmd) {
         case "stop":
-            return endRl;
+            return endRl; break;
         case "exit":
-            return endRl;
+            return endRl; break;
         case "waitingroom":
-            return waitingRoom;
+            return waitingRoom; break;
         case "wr":
-            return waitingRoom;
+            return waitingRoom; break;
         case "list":
-            return listHandle;
+            return listHandle; break;
         case "ls":
-            return listHandle;
+            return listHandle; break;
         case "key":
-            return keyHandle;
+            return keyHandle; break;
         case "k":
-            return keyHandle;
+            return keyHandle; break;
         case "pause":
-            return pauseEmulation;
+            return pauseEmulation; break;
         case "resume":
-            return resumeEmulation;
+            return resumeEmulation; break;
         default:
             return fallback;
     }
@@ -165,7 +170,7 @@ function handleCommand(input) { // for in console only
 }
 
 function endRl() {
-    log("Ending process.")
+    log("Ending process.");
     rl.close();
     process.exit();
 }

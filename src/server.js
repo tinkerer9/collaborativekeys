@@ -9,7 +9,6 @@ const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
 const Console = require("./console");
-const Manager = require("./manager");
 const Http = require("./http");
 const Config = require("./config.json");
 
@@ -44,8 +43,9 @@ function handleNameRes(player, ev) {
             break;
     }
 }
-function handleAuthRes(admin, ev) {
-    if (ev) { // correct password entered
+function handleAuthRes(admin, data) {
+    if (data == Config.adminPassword) { // correct password entered
+        admin.authenticate();
         log(`Admin ${admin.getId()} successfully authenticated.`);
         sendLog(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
         admin.getSocket().emit("actions","hidepasswordbox");
@@ -60,14 +60,14 @@ function handleKeyPress(socket, player, data) {
         return;
     }
 
-    if (player.processChecks()) return;
+    if (player.processChecks()) return; // only allows players that are named and not waitroomed to press keys
 
     let keyData = data.key
     let keyName = Type.nameKey(keyData);
 
     [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
 
-    if (!keyAllowed) { // if key not allowed
+    if (!keyAllowed) { // if key already assigned
         sendLog(player, `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
         log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
 
@@ -105,7 +105,6 @@ const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
 
     var player = new Client.Player(socket); // create player class
-    var mid = Manager.addPlayer(player);
     log(`Player ${player.getId()} connected.`);
 
     socket.on("setName", (data) => {
@@ -135,7 +134,6 @@ io.on("connection", (socket) => { // new client connected (non-admin)
         log(player.noNameSet() ? `Player ${player.getId()} disconnected.` : `${player.getName()} (player ${player.getId()}) disconnected.`);
         player.destroy();
         Key.freeAssignment(player.getId());
-        Manager.removePlayer(mid);
     });
 });
 
@@ -145,9 +143,9 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     log(`Admin ${admin.getId()} connected.`);
 
     socket.on("authenticate", (data) => {
-        if (!admin.isAuthenticated()) {
-            handleAuthRes(admin, admin.authenticate(data == Config.adminPassword));
-        }
+        if (admin.isAuthenticated()) return;
+
+        handleAuthRes(admin, data);
     });
 
     socket.on("command", (data) => {

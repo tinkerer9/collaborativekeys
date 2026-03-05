@@ -42,7 +42,7 @@ class Player {
         return this.id; // all players have an id, regardless if they are named or not.
     }
     message(txt) {
-        this.getSocket().emit("ChatMessageEcho", txt);
+        this.getSocket().emit("log", txt);
     }
     admit() {
         this.waitingRoom = false;
@@ -79,13 +79,7 @@ class Admin {
         // doesn't do anything yet
     }
     authenticate(correctPassword) {
-        /* name must be between 3 and 20 chars long */
-        if (correctPassword) {
-            this.authenticated = true;
-            return true;
-        } else {
-            return false;
-        }
+        this.authenticated = true;
     }
     isAuthenticated() {
         return this.authenticated;
@@ -94,7 +88,7 @@ class Admin {
         return this.id; // all players have an id, regardless if they are named or not.
     }
     message(txt) {
-        this.getSocket().emit("ChatMessageEcho", txt);
+        this.getSocket().emit("log", txt);
     }
     admit() {
         this.waitingRoom = false;

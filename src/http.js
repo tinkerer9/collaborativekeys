@@ -6,6 +6,7 @@ const path = require("path");
 
 const publicDir = path.join(__dirname, "public");
 
+/* If other filetypes/extensions used, add here: */
 const mimeTypes = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -24,7 +25,7 @@ function createServer() {
         let requestPath = decodeURIComponent(req.url.split("?")[0]);
 
         // Default to root
-        if (requestPath === "/") requestPath = "/index.html";
+        if (requestPath == "/") requestPath = "/index.html";
 
         let filePath = path.join(publicDir, requestPath);
 
