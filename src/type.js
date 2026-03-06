@@ -3,7 +3,7 @@
 const { exec } = require("child_process");
 
 const Config = require("./config.json");
-const Keycodes = require("./keycodes.js"); // a list of keynames, their keycodes, human-readable names, and enabled/disabled
+const Keycodes = require("./keycodes"); // a list of keynames, their keycodes, human-readable names, and enabled/disabled
 
 let allowEmulation = Config.allowEmulationAtStart; // only referenced in server.js, changed in console.js
 

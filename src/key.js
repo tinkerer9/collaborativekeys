@@ -1,15 +1,15 @@
 /* This script manages which keys are assigned to each player */
 
-let keyAssignments = {}; // key = charachter, value = player.getId()
+const Keycodes = require("./keycodes");
 
 function assignKey(key, id) {
-    keyAssignments[key] = id;
+    Keycodes[key][4] = id;
 }
 function isAssignedKey(key, id) {
-    return keyAssignments[key] == id;
+    return Keycodes[key][4] == id;
 }
 function keyIsAssigned(key) {
-    return key in keyAssignments;
+    return Keycodes[key][4] !== null;
 }
 
 function keyAllowed(key, id) { // returns if key is allowed to be pressed and if was unreserved
@@ -27,8 +27,8 @@ function keyAllowed(key, id) { // returns if key is allowed to be pressed and if
 
 function freeAssignment(id) {
     for (const key in keyAssignments) {
-        if (keyAssignments[key] == id) {
-            delete keyAssignments[key];
+        if (Keycodes[key][4] == id) {
+            Keycodes[key][4] = null;
         }
     }
 }
