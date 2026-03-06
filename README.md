@@ -130,9 +130,8 @@ Here are a few we might want to add later (and are working on!):
 - Virtual keyboard support for mobile/tablet
 - Responsive grid
 - Cleaner GUI
-
-### Fixes
-
+- Add windows key emulation (platform checker)
+- When player screen dims, they leave & rejoin but still are logged in
 - Add `config.json` documentation in readme
 - Use key strokes for 1-letter keys on `keycodes.js` instead of keycodes
 - Add space after list element on admin page responses section
@@ -141,4 +140,3 @@ Here are a few we might want to add later (and are working on!):
 - Add “does my game work?” to readme
 - Allow keys to be held
 - Allow shift key to work
-- Add windows key emulation (platform checker)

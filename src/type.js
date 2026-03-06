@@ -26,7 +26,7 @@ function keyName(key) {
 }
 
 function keypress(key) {
-    let [keycode, humanName, needsShift, enabled] = Keycodes[key]; // get key info
+    let [keycode,, needsShift] = Keycodes[key]; // get key info
 
     exec(`osascript -e \'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}\'`); // run shell script to emulate keypress (SLOW)
 }
