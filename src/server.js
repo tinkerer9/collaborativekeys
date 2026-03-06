@@ -14,20 +14,25 @@ const Router = require("./router");
 const Config = require("./config.json");
 
 /* Helper Functions */
+
 function sendLog(client, content) {
     client.getSocket().emit("log", content);
 }
+
 function broadcastLog(client, content) {
     client.getSocket().broadcast.emit("log", content);
 }
+
 function sendGlobalLog(content) { // to everyone
     io.emit("log", content);
 }
+
 function log(content) {
     console.log(content);
 
     admin.in("admin").emit("log", `<li>${content}</li>`);
 }
+
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0: // valid name entered
@@ -44,6 +49,7 @@ function handleNameRes(player, ev) {
             break;
     }
 }
+
 function handleAuthRes(admin, data) {
     if (data == Config.adminPassword) { // correct password entered
         admin.authenticate();
@@ -55,6 +61,7 @@ function handleAuthRes(admin, data) {
         sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
 }
+
 function handleKeyPress(socket, player, data) {
     if (!Type.allowEmulation) {
         sendLog(player, `<li style="color: red;"><b>Emulation is disabled by admin.</b></li>`); // send to player
@@ -69,12 +76,13 @@ function handleKeyPress(socket, player, data) {
         sendLog(player, `<li style="color: red;"><b>${keyData} is not supported.</b></li>`); // send to player
         return;
     }
+
+    let keyName = Type.keyName(keyData);
+
     if (!Type.keyEnabled(keyData)) {
         sendLog(player, `<li style="color: red;"><b>${keyName} is disabled by admin.</b></li>`); // send to player
         return;
     }
-
-    let keyName = Type.keyName(keyData);
 
     [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
 
@@ -90,8 +98,9 @@ function handleKeyPress(socket, player, data) {
 
     Type.keypress(keyData); // emulate keypress
 
-    log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
+    log(`Valid keypress from ${player.getName()} (${player.getId()}): ${keyName}.`);
 }
+
 function getLocalIP() {
     const networkInterfaces = os.networkInterfaces();
     let localIP;
@@ -155,7 +164,7 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("disconnect", () => { // admin disconnected
-        log(`Admin ${aid()} disconnected.`);
+        log(`Admin ${aid} disconnected.`);
         admin.destroy();
     });
 });

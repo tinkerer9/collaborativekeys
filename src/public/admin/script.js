@@ -46,6 +46,10 @@ socket.on("connect_error", (error) => {
     prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please reload or try again.</b></li>");
 });
 
+function command(command, ...args) {
+    socket.emit("command", args.length == 0 ? command : command + " " + args.join(" "));
+}
+
 function prependToLogList(message) {
     logList.insertAdjacentHTML('afterbegin', message);
 }

@@ -6,15 +6,10 @@ const enter = document.getElementById("enter");
 const logList = document.getElementById("logList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
-var allowKeyPresses = false;
-// var inputFocus = "NAME"
-
-/* To LethalShadowFlame:
-See my comment on server.js on why we don't need a chat.
-from Tinkerer9 */
+var allowKeyPresses = false; // also does check on server-side
 
 document.addEventListener("keydown", (e) => {
-    if (allowKeyPresses) socket.emit("keyPress", { key: e.key });
+    if (allowKeyPresses && e !== "Shift") socket.emit("keyPress", { key: e.key });
 });
 
 input.focus(); // immediately focus textbox
@@ -25,17 +20,7 @@ input.addEventListener('input', () => {
 
 
 enter.onclick = function() {
-    /*switch (inputFocus) {
-        case "NAME":*/
-            socket.emit("setName", input.value);
-            /*inputFocus = "CHAT"
-            input.value = ""
-            break;
-        case "CHAT":
-            socket.emit("chatMessage", input.value)
-            input.value = "";
-            break;
-    }*/
+    socket.emit("setName", input.value);
 }
 
 input.addEventListener("keypress", function(event) {
@@ -53,21 +38,11 @@ socket.on("actions", function(e) {
             contentHeader.style.display = 'block';
         }
     }
-    /*if (e == "swapToChat") {
-        input.placeHolder = "Chat..."
-    }*/
 });
 
 socket.on("log", function(e) {
     prependToLogList(e);
 });
-
-/*socket.on("ChatMessageEcho", function(e) {
-    let chatelem = document.createElement("li"); // could still run HTML code in chat on other clients?
-    logList.prepend(chatelem);
-    chatelem.innerText = e;
-});*/
-
 
 socket.on("keyReserved", function(e) {
     appendToKeyList(e);

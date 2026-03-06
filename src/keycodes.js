@@ -2,6 +2,7 @@
 
 const keycodes = {
     // "keyName": [keyCode, "humanName", needsShift, enabled, AssignedPlayerAssignmentId],
+
     "a": [0, "a", false, true, null],
     "b": [11, "b", false, true, null],
     "c": [8, "c", false, true, null],
@@ -98,7 +99,7 @@ const keycodes = {
     "\"": [39, "\"", true, true, null],
 
     ",": [43, ",", false, true, null],
-    "<": [43, "<,>", true, true, null],
+    "<": [43, "<", true, true, null],
 
     ".": [47, ".", false, true, null],
     ">": [47, ">", true, true, null],
@@ -116,7 +117,38 @@ const keycodes = {
     "ArrowLeft": [123, "left arrow", false, true, null],
     "ArrowRight": [124, "right arrow", false, true, null],
     "ArrowDown": [125, "down arrow", false, true, null],
-    "ArrowUp": [126, "up arrow", false, true, null]
+    "ArrowUp": [126, "up arrow", false, true, null],
+
+    /* Keys disabled by default: */
+    "Shift": [56, "shift", false, false, null], // won't workA
+    "CapsLock": [57, "caps lock", false, false, null],
+    "Backspace": [51, "delete", false, false, null],
+    "Tab": [48, "tab", false, false, null],
+    "Meta": [55, "command", false, false, null],
+    "Alt": [58, "option", false, false, null],
+    "Control": [59, "control", false, false, null],
+    
+    /* Keys disabled by default: */
+    "F1": [122, "F1", false, false, null],
+    "F2": [120, "F2", false, false, null],
+    "F3": [99, "F3", false, false, null],
+    "F4": [118, "F4", false, false, null],
+    "F5": [96, "F5", false, false, null],
+    "F6": [97, "F6", false, false, null],
+    "F7": [98, "F7", false, false, null],
+    "F8": [100, "F8", false, false, null],
+    "F9": [101, "F9", false, false, null],
+    "F10": [109, "F10", false, false, null],
+    "F11": [103, "F11", false, false, null],
+    "F12": [111, "F12", false, false, null],
+    "F13": [105, "F13", false, false, null], // not on regular keyboard layout
+    "F14": [107, "F14", false, false, null], // not on regular keyboard layout
+    "F15": [113, "F15", false, false, null], // not on regular keyboard layout
+    "F16": [106, "F16", false, false, null], // not on regular keyboard layout
+    "F17": [64, "F17", false, false, null], // not on regular keyboard layout
+    "F18": [79, "F18", false, false, null], // not on regular keyboard layout
+    "F19": [80, "F19", false, false, null], // not on regular keyboard layout
+    "F20": [90, "F20", false, false, null] // not on regular keyboard layout
 }
 
 module.exports = keycodes;

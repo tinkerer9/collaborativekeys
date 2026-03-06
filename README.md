@@ -92,10 +92,16 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
-- `stop`/`exit`: Terminates the process.
-- `waitingroom`/`wr <admit/dismiss> <id>`: Admit or dismiss someone from the waiting room.
-- `list <active/wr/waitingroom/all/nameless>`: Lists player ids/names that are either currently active, in the waiting room, or both.
-- `key <code/char/all> <assign/revoke/ban/unban> (id)`: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
+- **`stop`/`exit`**: Terminates the process.
+- **`waitingroom`/`wr <admit/dismiss> <id>`**: Admit or dismiss someone from the waiting room.
+- **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
+- **BETA: `key <code/char/all> <assign/revoke/ban/unban> (id)`**: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
+- **`pause`/`resume`**: Disables or enables emulation.
+
+### To-do
+
+- Command to change allowed keys
+- Command to list key data (like `list`)
 
 ## Admin page (beta)
 
@@ -124,3 +130,15 @@ Here are a few we might want to add later (and are working on!):
 - Virtual keyboard support for mobile/tablet
 - Responsive grid
 - Cleaner GUI
+
+### Fixes
+
+- Add `config.json` documentation in readme
+- Use key strokes for 1-letter keys on `keycodes.js` instead of keycodes
+- Add space after list element on admin page responses section
+- `player.getId()` -> `player.id` (and for other player/admin variables)
+- `type.js` faster alternative (or make AppleScript faster)
+- Add “does my game work?” to readme
+- Allow keys to be held
+- Allow shift key to work
+- Add windows key emulation (platform checker)

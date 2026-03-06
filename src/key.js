@@ -26,11 +26,11 @@ function keyAllowed(key, id) { // returns if key is allowed to be pressed and if
 }
 
 function freeAssignment(id) {
-    for (const key in keyAssignments) {
+    Object.keys(Keycodes).forEach(key => {
         if (Keycodes[key][4] == id) {
             Keycodes[key][4] = null;
         }
-    }
+    });
 }
 
 module.exports = { keyAllowed, freeAssignment }; 
