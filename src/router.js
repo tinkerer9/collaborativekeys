@@ -1,4 +1,4 @@
-/* Create the HTTP server */
+/* Create the HTTP server and route requests */
 
 const http = require("http");
 const fs = require("fs");

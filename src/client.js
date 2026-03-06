@@ -1,5 +1,7 @@
 /* This script manages metadata about each player. */
 
+const Config = require("./config.json");
+
 const FALLBACK_NAME = "No Name"; // Used if the player has not set a name yet
 
 let maxPlayerId = 0; // increments every time
@@ -16,7 +18,7 @@ class Player {
         this.id = maxPlayerId++;
 
         /* flags */
-        this.waitingRoom = true;
+        this.waitingRoom = Config.waitRoomPlayersWhenJoined;
     }
     getSocket() {
         return this.socket;
@@ -42,7 +44,7 @@ class Player {
         return this.id; // all players have an id, regardless if they are named or not.
     }
     message(txt) {
-        this.getSocket().emit("log", txt);
+        this.getSocket().emit("log", `<li><b>${txt}</b></li>`);
     }
     admit() {
         this.waitingRoom = false;

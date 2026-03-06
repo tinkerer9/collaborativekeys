@@ -18,7 +18,6 @@ It currently uses AppleScript to emulate key strokes using a built-in MacOS libr
 - `nodejs`: download latest version from https://nodejs.org/en/download
 - `socket.io`: run `npm install socket.io` in the terminal
 
-
 ### Run server
 
 Set your working directory to project root. Run the following command:

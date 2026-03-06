@@ -53,33 +53,22 @@ function processToLog(player, filter) {
     }
 }
 
-function logPlayerInfo(player, showWait, filter) {
-    if (!processToLog(player, filter)) return;
-
-    let pa = player.getSocket().handshake.address;
-    log("Client ID " + player.getId() + ":");
-    log("Name: " + player.getName());
-    log("IP: " + pa);
-    if (showWait) log("In Waiting Room: " + player.inWaitingRoom()); // Used to hide waiting room info if filtered by waiting room
-    log(""); // Clean up (will print a newline, see definition)
-}
-
 function waitingRoom(args) {
     let action = args[0] || null;
-    let id = args[1] || null;
+    let pid = args[1] || null;
 
     // Check if allowed (easier to read as one line)
-    if ((action == null) || isInt(id)) {
+    if ((action == null) || isInt(pid)) {
         log("You need to provide more arguments! Usage: waitingroom <admit/dismiss> <id>");
         return;
     }
-    if (!Manager.isPlayer(id)) {
+    if (!Manager.isPlayer(pid)) {
         log("Invalid player, did you mistype the id?");
         return
     };
 
     // Setup more vars now that check has passed
-    let player = Manager.getPlayerById(id);
+    let player = Manager.getPlayerByPid(pid);
 
     // Use switch statement so if more options added later they'll be easier to implement
     switch (action) {
@@ -112,18 +101,22 @@ function resumeEmulation() {
 
 function listHandle(args) {
     // Setup vars
-    let pc = Manager.getPlayerCount();
-    let filterBy = args[0] || "active";
+    let filterBy = args[0] || "all";
     if (filterBy == "waitingroom") filterBy = "wr";
     
     let showWait = filterBy !== "wr";
 
-    // Now print info
     log("");
 
-    for (let i = 0; i < pc; i++) {
-        logPlayerInfo(Manager.getPlayerById(i), showWait, filterBy);
-    }
+    Manager.getAllPlayers().forEach(player => {
+        if (!processToLog(player, filterBy)) return;
+        log("Client ID " + player.getId() + ":");
+        log("Name: " + player.getName());
+        log("IP: " + player.getSocket().handshake.address);
+        if (showWait) log(player.inWaitingRoom() ? "In waiting room" : "Not in waiting room" );
+        log("");
+    });
+
     log("Logged all player information.");
 };
 

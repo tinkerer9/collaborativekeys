@@ -9,7 +9,8 @@ const Client = require("./client");
 const Key = require("./key");
 const Type = require("./type");
 const Console = require("./console");
-const Http = require("./http");
+const Manager = require("./manager");
+const Router = require("./router");
 const Config = require("./config.json");
 
 /* Helper Functions */
@@ -56,34 +57,40 @@ function handleAuthRes(admin, data) {
 }
 function handleKeyPress(socket, player, data) {
     if (!Type.allowEmulation) {
-        sendLog(player, `<li style="color: red;"><b>Emulation is disabled by admin.</b></li>`); // send to player 
+        sendLog(player, `<li style="color: red;"><b>Emulation is disabled by admin.</b></li>`); // send to player
         return;
     }
 
     if (player.processChecks()) return; // only allows players that are named and not waitroomed to press keys
 
-    let keyData = data.key
-    let keyName = Type.nameKey(keyData);
+    let keyData = data.key;
+
+    if (!Type.keyExists(keyData)) {
+        sendLog(player, `<li style="color: red;"><b>${keyData} is not supported.</b></li>`); // send to player
+        return;
+    }
+    if (!Type.keyEnabled(keyData)) {
+        sendLog(player, `<li style="color: red;"><b>${keyName} is disabled by admin.</b></li>`); // send to player
+        return;
+    }
+
+    let keyName = Type.keyName(keyData);
 
     [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
 
     if (!keyAllowed) { // if key already assigned
         sendLog(player, `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
-        log(`Invalid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
-
         return;
     }
-        
-    let keyValid = Type.keypress(keyData); // emulate keypress
 
-    if (keyValid) { // if key is "pressable"
-        sendLog(player, `<li><b>You pressed ${keyName}.</b><li>`); // send to player
-        broadcastLog(player, `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other clients
+    if (keyNew) socket.emit("keyReserved", keyName);
 
-        if (keyNew) socket.emit("keyReserved", keyName);
+    sendLog(player, `<li><b>You pressed ${keyName}.</b><li>`); // send to player
+    broadcastLog(player, `<li>${player.getName()} pressed ${keyName}.</li>`); // send to other clients
 
-        log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
-    }
+    Type.keypress(keyData); // emulate keypress
+
+    log(`Valid keypress from ${player.getName()} (player ${player.getId()}): ${keyName} (${keyData}).`);
 }
 function getLocalIP() {
     const networkInterfaces = os.networkInterfaces();
@@ -100,12 +107,14 @@ function getLocalIP() {
     return localIP;
 }
 
-const server = Http.createServer();
+const server = Router.createServer();
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
-
     var player = new Client.Player(socket); // create player class
-    log(`Player ${player.getId()} connected.`);
+    var pid = player.getId();
+    var mid = Manager.addPlayer(pid, player);
+
+    log(`Player ${pid} connected.`);
 
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
@@ -113,34 +122,24 @@ io.on("connection", (socket) => { // new client connected (non-admin)
         }
     });
 
-    /* To LethalShadowFlame:
-    Do we really need a chat? This game is meant more for people in the same room looking at the same big screen.
-    They can still talk to eachother.
-    from Tinkerer9 */
-
-    /*socket.on("chatMessage", (data) => {
-        if (player.processChecks()) return;
-
-        let message = "[" + player.getName() + "]: " + data
-        io.emit("ChatMessageEcho", message);
-        log(message)
-    });*/
-
     socket.on("keyPress", (data) => {
         handleKeyPress(socket, player, data);
     });
 
     socket.on("disconnect", () => { // client disconnected
-        log(player.noNameSet() ? `Player ${player.getId()} disconnected.` : `${player.getName()} (player ${player.getId()}) disconnected.`);
+        log(player.noNameSet() ? `Player ${pid} disconnected.` : `${player.getName()} (player ${pid}) disconnected.`);
         player.destroy();
-        Key.freeAssignment(player.getId());
+        Key.freeAssignment(pid);
+        Manager.removePlayer(mid);
     });
 });
 
 const admin = io.of("/admin"); // creats a namespace for just /admin
 admin.on("connection", (socket) => { // new client connected (non-admin)
     var admin = new Client.Admin(socket); // create admin class
-    log(`Admin ${admin.getId()} connected.`);
+    var aid = admin.getId();
+
+    log(`Admin ${aid} connected.`);
 
     socket.on("authenticate", (data) => {
         if (admin.isAuthenticated()) return;
@@ -156,7 +155,7 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("disconnect", () => { // admin disconnected
-        log(`Admin ${admin.getId()} disconnected.`);
+        log(`Admin ${aid()} disconnected.`);
         admin.destroy();
     });
 });
