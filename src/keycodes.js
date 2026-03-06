@@ -112,7 +112,6 @@ const keycodes = {
 
     " ": [49, "space", false, true, null],
     "Enter": [36, "return", false, true, null],
-    "Escape": [53, "esc", false, true, null],
 
     "ArrowLeft": [123, "left arrow", false, true, null],
     "ArrowRight": [124, "right arrow", false, true, null],
@@ -127,6 +126,7 @@ const keycodes = {
     "Meta": [55, "command", false, false, null],
     "Alt": [58, "option", false, false, null],
     "Control": [59, "control", false, false, null],
+    "Escape": [53, "esc", false, false, null],
     
     /* Keys disabled by default: */
     "F1": [122, "F1", false, false, null],
