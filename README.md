@@ -88,20 +88,19 @@ Pressing the `Escape` Key at an point will toggle whether keystrokes will be acc
 If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
 If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
 
-## Command usage
+## Command usage (BETA)
 
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
 - **`stop`/`exit`**: Terminates the process.
 - **`waitingroom`/`wr <admit/dismiss> <id/all>`**: Admit or dismiss someone from the waiting room.
 - **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
-- **BETA: `key`/`k <revoke/enable/disable> <name/all> (key)`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
+- **`key`/`k <revoke/enable/disable> <name/all> (key)`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
 - **`pause`**: Disables emulation.
 - **`resume`**: Enables emulation.
 
 ### To-do
 
-- Command to change allowed keys
 - Command to list key data (like `list`)
 
 ## Admin page (beta)
