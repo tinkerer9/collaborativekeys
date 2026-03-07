@@ -119,8 +119,8 @@ const keycodes = {
     "ArrowUp": [126, "up arrow", false, true, null],
 
     /* Keys disabled by default: */
-    "Shift": [56, "shift", false, false, null], // won't workA
-    "CapsLock": [57, "caps lock", false, false, null],
+    "Shift": [56, "shift", false, false, null], // won't work
+    "CapsLock": [57, "caps lock", false, false, null], // won't work
     "Backspace": [51, "delete", false, false, null],
     "Tab": [48, "tab", false, false, null],
     "Meta": [55, "command", false, false, null],

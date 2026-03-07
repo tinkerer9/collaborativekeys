@@ -74,9 +74,24 @@ As this program allows players on the same network to control the host's keyboar
 
 The `type.js` script only allows the following keys to be emulated:
 - a-z, A-Z, 0-9
-- any one-charachter symbol (ex. `$`, `.`, `★`) or emojis
+- `!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, `(`, `)`
+- `-`, `_`, `=`, `+`
+- `[`, `{`, `]`, `}`, `\`, `|`
+- `;`, `:`, `'`, `"`, ``` ` ```, `~`
+- `,`, `<`, `.`, `>`, `/`, `/`
 - `space`, `return`
 - arrow keys
+- `shift`, `caps lock`, `delete`, `tab`, `command`, `option`, `control`, `esc` (*disabled by default*)
+- F keys 1-20 (*disabled by default*)
+
+"Shift": [56, "shift", false, false, null], // won't work
+    "CapsLock": [57, "caps lock", false, false, null], // won't work
+    "Backspace": [51, "delete", false, false, null],
+    "Tab": [48, "tab", false, false, null],
+    "Meta": [55, "command", false, false, null],
+    "Alt": [58, "option", false, false, null],
+    "Control": [59, "control", false, false, null],
+    "Escape": [53, "esc", false, false, null],
 
 More powerful keys like the `command` or `esc` keys are sent from the client, but not emulated by the server.
 
