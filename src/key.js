@@ -28,7 +28,7 @@ function keyAllowed(key, id) { // returns if key is allowed to be pressed and if
 function freeAssignment(id) {
     Object.keys(Keycodes).forEach(key => {
         if (Keycodes[key][4] == id) {
-            Keycodes[key][4] = null;
+            revokeKey(key);
         }
     });
 }
@@ -37,4 +37,10 @@ function revokeKey(key) {
     assignKey(key, null);
 }
 
-module.exports = { assignKey, keyAllowed, freeAssignment, revokeKey }; 
+function revokeAllKeys() {
+    Object.keys(Keycodes).forEach(key => {
+        revokeKey(key);
+    });
+}
+
+module.exports = { assignKey, keyAllowed, freeAssignment, revokeKey, revokeAllKeys }; 

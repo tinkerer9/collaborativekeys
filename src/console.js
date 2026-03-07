@@ -162,8 +162,13 @@ function keyHandle(args) {
 
     switch (action) {
         case "revoke":
-            Key.revokeKey(key);
-            log(`${key} revoked from all players.`);
+            if (key == "all") {
+                Key.revokeAllKeys();
+                log(`All keys revoked from all players.`);
+            } else {
+                Key.revokeKey(key);
+                log(`${key} revoked from all players.`);
+            }
             break;
         case "enable":
             if (key == "all") {

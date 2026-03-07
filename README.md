@@ -64,9 +64,7 @@ You can refresh the page to give up all your assigned key presses.
 **2048** is a great game to play with multiple players.
 Each player can get one or two keys, and they have to work together (or alone!) to play.
 
-Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated.
-
-There was also a test game made for this project at `/demo`.
+Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated, due to AppleScript delqay times.
 
 ## Security concerns
 
@@ -84,7 +82,7 @@ The `type.js` script only allows the following keys to be emulated:
 - `shift`, `caps lock`, `delete`, `tab`, `command`, `option`, `control`, `esc` (*disabled by default*)
 - F keys 1-20 (*disabled by default*)
 
-More powerful keys like the `command` or `esc` keys are sent from the client, but not emulated by the server.
+See `keycodes.js` for more information on each key.
 
 The host should always monitor what other people are typing and what is happening on their computer.
 
