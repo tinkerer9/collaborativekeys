@@ -1,4 +1,5 @@
 /* Manages players globally. */
+
 const players = {};
 
 function getPlayerCount() {

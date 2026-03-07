@@ -36,10 +36,32 @@
                     <option value="admit">admit</option>
                     <option value="dismiss">dismiss</option>
                 </select>
-                <input type="number" id="wrCommandArg1" min="1" step="1vbggdhsrhx" placeholder="Player ID">
+                <select id="wrCommandArg1" onchange="wrCommandArg1Changed()">
+                    <option value="all">all</option>
+                    <option value="player">player</option>
+                </select>
+                <input type="number" id="wrCommandArg2" min="1" step="1" placeholder="Player ID">
                 <button id="wrCommand">waitingroom</button><br><br>
 
-                <p><i><b>To-do:</b><br>- <b>Commands:</b> list & key<br>- <b>Other:</b> make neater</i></p>
+                <select id="lsCommandArg0">
+                    <option value="all">all</option>
+                    <option value="active">active</option>
+                    <option value="waitingroom">waitingroom</option>
+                    <option value="nameless">nameless</option>
+                </select>
+                <button id="lsCommand">list</button><br><br>
+
+                <select id="keyCommandArg0">
+                    <option value="revoke">revoke</option>
+                    <option value="enable">enable</option>
+                    <option value="disable">disable</option>
+                </select>
+                <select id="keyCommandArg1" onchange="keyCommandArg1Changed()">
+                    <option value="all">all</option>
+                    <option value="keyname">keyname</option>
+                </select>
+                <input type="input" id="keyCommandArg2" placeholder="Keyname">
+                <button id="keyCommand">key</button><br><br>
             </div>
         </div>
 

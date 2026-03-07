@@ -33,4 +33,8 @@ function freeAssignment(id) {
     });
 }
 
-module.exports = { keyAllowed, freeAssignment }; 
+function revokeKey(key) {
+    assignKey(key, null);
+}
+
+module.exports = { assignKey, keyAllowed, freeAssignment, revokeKey }; 

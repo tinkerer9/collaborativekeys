@@ -3,6 +3,7 @@
 const readline = require('readline');
 const Manager = require('./manager');
 const Type = require('./type');
+const Key = require('./key');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -53,34 +54,49 @@ function processToLog(player, filter) {
     }
 }
 
+function endRl() {
+    // stop
+    
+    log("Ending process.");
+    rl.close();
+    process.exit();
+}
+
 function waitingRoom(args) {
+    // waitingroom <admit/dismiss> <id/all>
+
     let action = args[0] || null;
     let pid = args[1] || null;
+    if (pid == "all") pid = -1;
 
     // Check if allowed (easier to read as one line)
-    if ((action == null) || isInt(pid)) {
-        log("You need to provide more arguments! Usage: waitingroom <admit/dismiss> <id>");
+    if (action == null) {
+        log("You need to provide more arguments (action)! Usage: waitingroom <admit/dismiss> <id>");
         return;
     }
-    if (!Manager.isPlayer(pid)) {
+    if (pid !== -1 && !Manager.isPlayer(pid)) {
         log("Invalid player, did you mistype the id?");
-        return
+        return;
     };
 
     // Setup more vars now that check has passed
-    let player = Manager.getPlayerByPid(pid);
+    let players = pid == -1 ? Manager.getAllPlayers() : [Manager.getPlayerByPid(pid)];
 
     // Use switch statement so if more options added later they'll be easier to implement
     switch (action) {
         case "admit":
-            player.admit();
-            player.message("You have been admitted from the waiting room!");
-            log("Admitted " + player.getName());
+            players.forEach(player => {
+                player.admit();
+                player.message("You have been admitted from the waiting room.");
+                log("Admitted " + player.getName());
+            });
             break;
         case "dismiss":
-            player.dismiss();
-            player.message("You have been dismissed to the waiting room.");
-            log("Dismissed " + player.getName());
+            players.forEach(player => {
+                player.dismiss();
+                player.message("You have been dismissed from the waiting room.");
+                log("Dismissed " + player.getName());
+            });
             break;
         default:
             log("Invalid method, did you misspell the first argument?");
@@ -89,39 +105,88 @@ function waitingRoom(args) {
 };
 
 function pauseEmulation() {
+    // pause
+    
     Type.allowEmulation = false;
     log("Emulation disabled.");
 }
 
 function resumeEmulation() {
+    // resume
+
     Type.allowEmulation = true;
     log("Emulation enabled.");
 }
 
 
 function listHandle(args) {
+    // list <active/wr/waitingroom/all/nameless>
+
     // Setup vars
     let filterBy = args[0] || "all";
     if (filterBy == "waitingroom") filterBy = "wr";
     
     let showWait = filterBy !== "wr";
 
-    log("");
+    numPlayers = Manager.getPlayerCount();
 
-    Manager.getAllPlayers().forEach(player => {
+    if (numPlayers == 0) {
+        log("No players connected");
+        return;
+    }
+
+    Manager.getAllPlayers().forEach((player, index) => {
         if (!processToLog(player, filterBy)) return;
-        log("Client ID " + player.getId() + ":");
-        log("Name: " + player.getName());
-        log("IP: " + player.getSocket().handshake.address);
-        if (showWait) log(player.inWaitingRoom() ? "In waiting room" : "Not in waiting room" );
-        log("");
+        log(`Client ID ${player.getId()}:`);
+        log(`Name: ${player.getName()}`);
+        log(`IP: ${player.getSocket().handshake.address}`);
+        if (showWait) log(`Waiting room: ${player.inWaitingRoom() ? "yes" : "no"}`);
+        if (index !== numPlayers - 1) log("---");
     });
-
-    log("Logged all player information.");
 };
 
 function keyHandle(args) {
-    
+    // key <revoke/enable/disable> <name/all>
+
+    let action = args[0] || null;
+    let key = args[1] || null;
+
+    if (action == null) {
+        log("You need to provide more arguments (action)! Usage: key <assign/revoke/enable/disable> <name/all>");
+        return;
+    }
+    if (key !== "all" && (key == null || !Type.keyExists(key))) {
+        log("Invalid key, did you mistype the key name?");
+        return;
+    };
+
+    switch (action) {
+        case "revoke":
+            Key.revokeKey(key);
+            log(`${key} revoked from all players.`);
+            break;
+        case "enable":
+            if (key == "all") {
+                Type.enableAllKeys();
+                log("All keys enabled.");
+            } else {
+                Type.enableKey(key);
+                log(`${key} enabled.`);
+            }
+            break;
+        case "disable":
+            if (key == "all") {
+                Type.disableAllKeys();
+                log("All keys disabled.");
+            } else {
+                Type.disableKey(key);
+                log(`${key} disabled.`);
+            }
+            break;
+        default:
+            log("Invalid method, did you misspell the first argument?");
+            return;
+    }
 };
 
 function commandCallbacks(cmd) {
@@ -158,19 +223,16 @@ function handleCommand(input) { // for in console only
     commandCallbacks(getCommand(cmdArr))(getArguments(cmdArr));
 
     let logText = logList.join('\n'); // join log lines together into one string
-    console.log(logText);
     return logText; // for admin page
 }
 
-function endRl() {
-    log("Ending process.");
-    rl.close();
-    process.exit();
+function handleConsoleCommand(input) {
+    console.log(handleCommand(input));
 }
 
 // Listeners
 rl.on('SIGINT', endRl);
 rl.on('SIGTERM', endRl);
-rl.on('line', handleCommand);
+rl.on('line', handleConsoleCommand);
 
 module.exports = { handleCommand }; // for admin page

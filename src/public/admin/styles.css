@@ -48,6 +48,10 @@ html, body {
     margin-bottom: 20px;
 }
 
+#wrCommandArg2, #keyCommandArg2 {
+    display: none;
+}
+
 #logList {
     list-style: none;
 }
@@ -75,6 +79,10 @@ html, body {
 
 #responsesList li:first-child {
     font-size: 22px;
+    margin-bottom: 20px;
+}
+
+#responsesList li {
     margin-bottom: 10px;
 }
 

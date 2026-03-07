@@ -93,10 +93,11 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
 - **`stop`/`exit`**: Terminates the process.
-- **`waitingroom`/`wr <admit/dismiss> <id>`**: Admit or dismiss someone from the waiting room.
+- **`waitingroom`/`wr <admit/dismiss> <id/all>`**: Admit or dismiss someone from the waiting room.
 - **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
-- **BETA: `key <code/char/all> <assign/revoke/ban/unban> (id)`**: Modifies a specific/every key to either assign it to someone, revoke it from everyone, or ban/unban it.
-- **`pause`/`resume`**: Disables or enables emulation.
+- **BETA: `key`/`k <revoke/enable/disable> <name/all> (key)`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
+- **`pause`**: Disables emulation.
+- **`resume`**: Enables emulation.
 
 ### To-do
 

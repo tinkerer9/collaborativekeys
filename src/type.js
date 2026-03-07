@@ -10,7 +10,6 @@ let allowEmulation = Config.allowEmulationAtStart; // only referenced in server.
 function keyExists(key) {
     return key in Keycodes;
 }
-
 function keyEnabled(key) {
     return Keycodes[key][3];
 }
@@ -20,15 +19,23 @@ function enableKey(key) {
 function disableKey(key) {
     Keycodes[key][3] = false;
 }
-
+function enableAllKeys() {
+    Object.keys(Keycodes).forEach(key => {
+        enableKey(key);
+    });
+}
+function disableAllKeys() {
+    Object.keys(Keycodes).forEach(key => {
+        disableKey(key);
+    });
+}
 function keyName(key) {
     return Keycodes[key][1];
 }
-
 function keypress(key) {
     let [keycode,, needsShift] = Keycodes[key]; // get key info
 
     exec(`osascript -e \'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}\'`); // run shell script to emulate keypress (SLOW)
 }
 
-module.exports = { keyExists, keyEnabled, enableKey, disableKey, keyName, keypress, allowEmulation };
+module.exports = { keyExists, keyEnabled, enableKey, disableKey, enableAllKeys, disableAllKeys, keyName, keypress, allowEmulation };
