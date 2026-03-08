@@ -43,4 +43,5 @@ function revokeAllKeys() {
     });
 }
 
+
 module.exports = { assignKey, keyAllowed, freeAssignment, revokeKey, revokeAllKeys }; 

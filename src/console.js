@@ -14,10 +14,6 @@ const rl = readline.createInterface({
 
 let logList = []; // log that is sent out to console and admin page
 
-function isInt(a) { // Easier to type
-    return Number.isInteger(a);
-}
-
 function log(a) {
     logList.push(a);
 }
@@ -174,13 +170,13 @@ function keyHandle(args) {
 
     switch (action) {
         case "assign":
-            // actionCallback(
-            //     key,
-            //     Key.enableAllKeys, 
-            //     `All keys enabled.`,
-            //     Key.enableKey,
-            //     `${key} enabled.`,
-            // );
+            actionCallback(
+                key,
+                ()=>{}, 
+                `You don't want to do that.`,
+                ()=>{},
+                `Ask the player to press the key once. If it's reserved, use "key revoke ${key}"`,
+            );
 
             break;
         case "revoke":
