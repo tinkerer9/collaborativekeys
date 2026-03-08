@@ -12,6 +12,7 @@ const Console = require("./console");
 const Manager = require("./manager");
 const Router = require("./router");
 const Config = require("./config.json");
+const keyListener = fork('./keyListener.js');
 
 /* Helper Functions */
 
@@ -178,3 +179,4 @@ server.listen(serverPort, "0.0.0.0", () => {
     log(`Server running at ${uri}.`);
     log(`Admin controls at ${uri}/admin.`);
 });
+
