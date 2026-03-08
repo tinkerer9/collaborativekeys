@@ -4,7 +4,8 @@
     "client": "^0.0.1",
     "keyboard-simulator": "^0.0.10",
     "node-osascript": "^2.1.0",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "uiohook-napi": "^1.5.4"
   },
   "devDependencies": {
     "node-key-sender": "^1.0.11"

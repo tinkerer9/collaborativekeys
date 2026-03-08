@@ -3,6 +3,7 @@
 /* Import modules used directly by server.js */
 const { Server } = require("socket.io");
 const os = require('os');
+const { fork } = require('child_process');
 
 /* Import other scripts we made to organize functions and more: (have other modules as well) */
 const Client = require("./client");
@@ -12,7 +13,7 @@ const Console = require("./console");
 const Manager = require("./manager");
 const Router = require("./router");
 const Config = require("./config.json");
-const keyListener = fork('./keyListener.js');
+const keyListener = fork('./keylisten'); //Fork makes a child process, intentional
 
 /* Helper Functions */
 
@@ -180,3 +181,12 @@ server.listen(serverPort, "0.0.0.0", () => {
     log(`Admin controls at ${uri}/admin.`);
 });
 
+keyListener.on('message', (msg) => {
+    if (msg.type === 'keydown') {
+        console.log('Key down:', msg.keycode);
+    }
+
+    if (msg.type === 'keyup') {
+        console.log('Key up:', msg.keycode);
+    }
+});

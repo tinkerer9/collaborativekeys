@@ -16,7 +16,8 @@ See `src/type.js` if you want to change the key emulation system to work for ano
 It currently uses AppleScript to emulate key strokes using a built-in MacOS library called `osascript`.
 
 - `nodejs`: download latest version from https://nodejs.org/en/download
-- `socket.io`: run `npm install socket.io` in the terminal
+- `socket.io`: run `npm install socket.io` in the terminal.
+- `Uiohook`: run `npm install uiohook-napi` in the terminal.
 
 ### Run server
 
