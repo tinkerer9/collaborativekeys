@@ -5,6 +5,8 @@ const Manager = require('./manager');
 const Type = require('./type');
 const Key = require('./key');
 
+const ALL_KEYWORD = "all"
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -145,8 +147,18 @@ function listHandle(args) {
     });
 };
 
+function actionCallback(key, oneF, oneM, twoF, twoM) {
+    if (key == ALL_KEYWORD) {
+        oneF();
+        log(oneM);
+    } else {
+        twoF(key);
+        log(twoM)
+    }
+}
+
 function keyHandle(args) {
-    // key <revoke/enable/disable> <name/all>
+    // key <assign/revoke/enable/disable> <name/all>
 
     let action = args[0] || null;
     let key = args[1] || null;
@@ -155,38 +167,51 @@ function keyHandle(args) {
         log("You need to provide more arguments (action)! Usage: key <assign/revoke/enable/disable> <name/all>");
         return;
     }
-    if (key !== "all" && (key == null || !Type.keyExists(key))) {
+    if (key !== ALL_KEYWORD && (key == null || !Type.keyExists(key))) {
         log("Invalid key, did you mistype the key name?");
         return;
     };
 
     switch (action) {
+        case "assign":
+            // actionCallback(
+            //     key,
+            //     Key.enableAllKeys, 
+            //     `All keys enabled.`,
+            //     Key.enableKey,
+            //     `${key} enabled.`,
+            // );
+
+            break;
         case "revoke":
-            if (key == "all") {
-                Key.revokeAllKeys();
-                log(`All keys revoked from all players.`);
-            } else {
-                Key.revokeKey(key);
-                log(`${key} revoked from all players.`);
-            }
+            actionCallback(
+                key,
+                Key.revokeAllKeys, 
+                `Reset all keys.`,
+                Key.revokeKey,
+                `${key} revoked from all players.`,
+            );
+
             break;
         case "enable":
-            if (key == "all") {
-                Type.enableAllKeys();
-                log("All keys enabled.");
-            } else {
-                Type.enableKey(key);
-                log(`${key} enabled.`);
-            }
+            actionCallback(
+                key,
+                Type.enableAllKeys, 
+                `All keys enabled.`,
+                Type.enableKey,
+                `${key} enabled.`,
+            );
+
             break;
         case "disable":
-            if (key == "all") {
-                Type.disableAllKeys();
-                log("All keys disabled.");
-            } else {
-                Type.disableKey(key);
-                log(`${key} disabled.`);
-            }
+            actionCallback(
+                key,
+                Type.disableAllKeys, 
+                `All keys disabled.`,
+                Type.disableKey,
+                `${key} disabled.`,
+            );
+
             break;
         default:
             log("Invalid method, did you misspell the first argument?");
@@ -195,27 +220,27 @@ function keyHandle(args) {
 };
 
 function commandCallbacks(cmd) {
-    switch (cmd) {
+    switch (cmd) { // No breaks needed, the return stops the function.
         case "stop":
-            return endRl; break;
+            return endRl;
         case "exit":
-            return endRl; break;
+            return endRl;
         case "waitingroom":
-            return waitingRoom; break;
+            return waitingRoom;
         case "wr":
-            return waitingRoom; break;
+            return waitingRoom;
         case "list":
-            return listHandle; break;
+            return listHandle;
         case "ls":
-            return listHandle; break;
+            return listHandle;
         case "key":
-            return keyHandle; break;
+            return keyHandle; 
         case "k":
-            return keyHandle; break;
+            return keyHandle;
         case "pause":
-            return pauseEmulation; break;
+            return pauseEmulation;
         case "resume":
-            return resumeEmulation; break;
+            return resumeEmulation;
         default:
             return fallback;
     }
