@@ -40,13 +40,11 @@ Valid keypress from User (player 0): key code 49 ( ).
 
 Players should enter the server's IP address into their web browser (port 80).
 They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections.
-**Hosting over the internet is not recommended for security purposes.**
 
 #### Example URLs
 
-- IP address: `192.168.1.197` (port 80 is HTTP default)
+- IP address: `192.168.1.197`
 - Hostname: `mycomputer.local`
-- Cross-internet: `1.2.3.4`
 
 ### Gameplay
 
@@ -60,16 +58,34 @@ Keypresses will be sent to the server, which will parse them and emulate the sam
 
 You can refresh the page to give up all your assigned key presses.
 
-#### Reccomended games
+## Security concerns
+
+As this program allows players on the same network to control the host's keyboard (limited to only their assigned keys, which could be all), it has some security concerns.
+
+The host should always monitor what other people are typing and what is happening on their computer.
+
+### How to stop
+
+Pressing the `Escape` Key at an point will toggle whether keystrokes will be accepted.
+If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
+If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
+
+## Is my game supported?
+
+In order for a game to be supported by CollaboKeys, the following must all be true:
+- The game only uses keypresses for input (no mouse)
+- All keys used in the game are supported (see `Supported keys` below)
+- The game would work with input lag (no games that need a high response time)
+- The game has a number of keys greater than or equal to the number of players
+
+### Reccomended games
 
 **2048** is a great game to play with multiple players.
 Each player can get one or two keys, and they have to work together (or alone!) to play.
 
 Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated, due to AppleScript delqay times.
 
-## Security concerns
-
-As this program allows players on the same network to control the host's keyboard (limited to only their assigned keys, which could be all), it has some security concerns.
+## Supported keys
 
 The `type.js` script only allows the following keys to be emulated:
 - a-z, A-Z, 0-9
@@ -84,14 +100,6 @@ The `type.js` script only allows the following keys to be emulated:
 - F keys 1-20 (*disabled by default*)
 
 See `keycodes.js` for more information on each key.
-
-The host should always monitor what other people are typing and what is happening on their computer.
-
-### How to stop
-
-Pressing the `Escape` Key at an point will toggle whether keystrokes will be accepted.
-If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
-If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
 
 ## Command usage (BETA)
 
@@ -121,6 +129,17 @@ The commands are the same as the console commands in the section above.
 - Add buttons for each command
 - Add response box functionality
 - Possibly add custom command box
+
+## Configuration file
+
+There is a configuration file at `src/config.json` with the following settings:
+
+| Setting | Default | Description |
+| :-: | :-: | :-: |
+| `"adminPassword"` | `"hackathon2026"` | The password for admins to autheticate themselves |
+| `"serverPort"` | `80` | The port at which the server is listening |
+| `"allowEmulationAtStart"` | `true` | Enable key emulation by default |
+| `"waitRoomPlayersWhenJoined"` | `false` | Add new players to the wait room when joined |
 
 ## Possible updates
 
