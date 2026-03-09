@@ -125,6 +125,8 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 
     log(`Player ${pid} connected.`);
 
+    socket.emit("id", pid);
+
     socket.on("setName", (data) => {
         if (player.noNameSet()) {
             handleNameRes(player, player.setName(data));

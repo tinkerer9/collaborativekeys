@@ -44,6 +44,11 @@ socket.on("log", function(e) {
     prependToLogList(e);
 });
 
+socket.on("id", function(e) {
+    prependToLogList(`<li><b>Player ID: ${id}</b></li>`);
+    console.log(`Player ID: ${id}`);
+});
+
 socket.on("keyReserved", function(e) {
     appendToKeyList(e);
 });
