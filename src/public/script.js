@@ -1,12 +1,13 @@
 const socket = io();
 
+const header = document.getElementsByClassName("header")[0];
+const logs = document.getElementsByClassName("logs")[0];
+const keys = document.getElementsByClassName("keys")[0];
 const naming = document.getElementsByClassName("naming")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
 const logList = document.getElementById("logList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
-
-var allowKeyPresses = false; // also does check on server-side
 
 document.addEventListener("keydown", (e) => {
     if (allowKeyPresses && e !== "Shift") socket.emit("keyPress", { key: e.key });
@@ -32,7 +33,6 @@ input.addEventListener("keypress", function(event) {
 
 socket.on("actions", function(e) {
     if (e == "hideusernamebox") { // when name entered successfully
-        allowKeyPresses = true;
         naming.style.display = 'none';
         for (let contentHeader of contentHeaders) {
             contentHeader.style.display = 'block';
@@ -57,7 +57,10 @@ socket.on("connect_error", (error) => {
     socket.disconnect();
     console.error("Connection error:", error.message);
 
-    prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please reload or try again.</b></li>");
+    header.style.filter = "brightness(0.5)";
+    keys.style.filter = "brightness(0.5)";
+
+    prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please reload or contact the game host.</b></li>");
 });
 
 function prependToLogList(message) {

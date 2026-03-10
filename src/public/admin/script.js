@@ -1,5 +1,9 @@
 const socket = io("/admin");
 
+const header = document.getElementsByClassName("header")[0];
+const controls = document.getElementsByClassName("controls")[0];
+const responses = document.getElementsByClassName("responses")[0];
+const logs = document.getElementsByClassName("logs")[0];
 const authentication = document.getElementsByClassName("authentication")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
@@ -7,6 +11,7 @@ const controlButtons = document.getElementsByClassName("controlButtons")[0];
 const logList = document.getElementById("logList");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
+const overlay = document.getElementsByClassName("overlay")[0];
 
 const customCommandText = document.getElementById("customCommandText");
 const customCommand = document.getElementById("customCommand");
@@ -102,7 +107,11 @@ socket.on("connect_error", (error) => {
     socket.disconnect();
     console.error("Connection error:", error.message);
 
-    prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please reload or try again.</b></li>");
+    header.style.filter = "brightness(0.5)";
+    controls.style.filter = "brightness(0.5)";
+    responses.style.filter = "brightness(0.5)";
+
+    prependToLogList("<li style='color: red;'><b>Failed to connect to the server.<br>Please restart the server program.</b></li>");
 });
 
 function command(command, ...args) {
