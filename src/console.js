@@ -257,8 +257,8 @@ function handleConsoleCommand(input) {
 }
 
 // Listeners
-rl.on('SIGINT', endRl);
-rl.on('SIGTERM', endRl);
+rl.on('SIGINT', endRl); // Control + C pressed
+rl.on('SIGTERM', endRl); // terminal closed
 rl.on('line', handleConsoleCommand);
 
 module.exports = { handleCommand }; // for admin page

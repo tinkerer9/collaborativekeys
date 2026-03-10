@@ -20,52 +20,38 @@ It currently uses AppleScript to emulate key strokes using a built-in MacOS libr
 
 ### Run server
 
-Set your working directory to project root. Run the following command:
+Set your working directory to project root `/`. Run the following command:
 ```
 node src/server.js
 ```
-Be sure to accept the requests to control your keyboard, as it is needed to simulate input.
-
-#### Example terminal output
-
-```
-Server running at localhost (port 80).
-Player 0 connected.
-Valid keypress from User (player 0): keystroke "e" (e).
-Valid keypress from User (player 0): key code 49 ( ).
-```
+Be sure to accept MacOS requests to control your keyboard, as it is needed to simulate input.
 
 ### Join server
 
-Players should enter the server's IP address into their web browser (port 80).
-They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections.
+Players should enter the server's IP address into their web browser (port 80, see `config.json` to change port).
 
-#### Example URLs
-
-- IP address: `192.168.1.197`
-- Hostname: `mycomputer.local`
+They must be on the same Wi-Fi network, unless your router is configured to allow devices to host outbound internet connections (not reccomended).
 
 ### Gameplay
 
 Players should enter a username (between 3-20 alphanumeric charachters) into the username box.
 
 After that, said user can start pressing keys.
-Any unreserved key will be assigned to them after the first press, and only they can press their assigned keys.
+Any unreserved key will be assigned to them after the first press, and only they will be able to press their assigned keys.
 They can see those keys on the right side of the screen.
 
 Keypresses will be sent to the server, which will parse them and emulate the same keypress in the current application.
 
 You can refresh the page to give up all your assigned key presses.
 
-## Security concerns
+### Security concerns
 
 As this program allows players on the same network to control the host's keyboard (limited to only their assigned keys, which could be all), it has some security concerns.
 
 The host should always monitor what other people are typing and what is happening on their computer.
 
-### How to stop
+#### How to stop
 
-Pressing the `Escape` Key at an point will toggle whether keystrokes will be accepted.
 If at any point someone malicious connects to your computer and starts pressing keys, press `Control+C` on the terminal as soon as possible.
 If you cannot do this, press `Command+Option+Escape`, select the application running this program (ex. Code), and press `Force Quit`.
 
@@ -95,8 +81,10 @@ The `type.js` script only allows the following keys to be emulated:
 - `,`, `<`, `.`, `>`, `/`, `?`
 - `space`, `return`
 - arrow keys
-- `shift`, `caps lock`, `delete`, `tab`, `command`, `option`, `control`, `esc` (*disabled by default*)
+- `shift`, `caps lock`, `delete`, `tab`, `command`, `option`, `control`, `esc` (*disabled by default, `shift` and `caps lock` do not work*)
 - F keys 1-20 (*disabled by default*)
+
+All keys on a modern Mac laptop are supported, with the exeption of `fn` (as it is a low-level hardware modifier).
 
 See `keycodes.js` for more information on each key.
 
@@ -114,6 +102,7 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 ### To-do
 
 - Command to list key data (like `list`)
+- Disable/enable key reservation
 
 ## Admin page (beta)
 
@@ -145,8 +134,6 @@ There is a configuration file at `src/config.json` with the following settings:
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later (and are working on!):
-- **Host interface (starred)**
-    - The host can easily start/stop emulation (by pressing escape to toggle)
 - Show players unassigned keys (after above completed)
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
