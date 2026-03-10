@@ -20,17 +20,14 @@ class Player {
         /* flags */
         this.waitingRoom = Config.waitRoomPlayersWhenJoined;
     }
-    getSocket() {
-        return this.socket;
-    }
     getName() {
         return this.name || FALLBACK_NAME; // returns FALLBACK_NAME if no name is set
     }
     setName(name) {
         /* name must be between 3 and 20 chars long */
-        if (name.length < 3) return 1
-        if (name.length > 20) return 2
-        if (hasNoAlphabeticalChars(name)) return 3
+        if (name.length < 3) return 1;
+        if (name.length > 20) return 2;
+        if (hasNoAlphabeticalChars(name)) return 3;
         this.name = name;
         return 0;
     }
@@ -40,11 +37,8 @@ class Player {
     noNameSet() {
         return this.name == null; // if no name set
     }
-    getId() {
-        return this.id; // all players have an id, regardless if they are named or not.
-    }
     message(txt) {
-        this.getSocket().emit("log", `<li><b>${txt}</b></li>`);
+        this.socket.emit("log", `<li><b>${txt}</b></li>`);
     }
     admit() {
         this.waitingRoom = false;
@@ -52,11 +46,8 @@ class Player {
     dismiss() {
         this.waitingRoom = true;
     }
-    inWaitingRoom() {
-        return this.waitingRoom;
-    }
     processChecks() { // if player allowed to type
-        return !this.noNameSet() && this.inWaitingRoom();
+        return !this.noNameSet() && this.waitingRoom;
     }
 }
 
@@ -74,26 +65,14 @@ class Admin {
         /* flags */
         this.authenticated = false;
     }
-    getSocket() {
-        return this.socket;
-    }
     destroy() {
         // doesn't do anything yet
     }
     authenticate(correctPassword) {
         this.authenticated = true;
     }
-    isAuthenticated() {
-        return this.authenticated;
-    }
-    getId() {
-        return this.id; // all players have an id, regardless if they are named or not.
-    }
     message(txt) {
-        this.getSocket().emit("log", txt);
-    }
-    admit() {
-        this.waitingRoom = false;
+        this.socket.emit("log", txt);
     }
 }
 

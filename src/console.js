@@ -135,10 +135,10 @@ function listHandle(args) {
 
     Manager.getAllPlayers().forEach((player, index) => {
         if (!processToLog(player, filterBy)) return;
-        log(`Client ID ${player.getId()}:`);
+        log(`Client ID ${player.id}:`);
         log(`Name: ${player.getName()}`);
-        log(`IP: ${player.getSocket().handshake.address}`);
-        if (showWait) log(`Waiting room: ${player.inWaitingRoom() ? "yes" : "no"}`);
+        log(`IP: ${player.socket.handshake.address}`);
+        if (showWait) log(`Waiting room: ${player.waitingRoom ? "yes" : "no"}`);
         if (index !== numPlayers - 1) log("---");
     });
 };
@@ -249,16 +249,14 @@ function handleCommand(input) { // for in console only
     commandCallbacks(getCommand(cmdArr))(getArguments(cmdArr));
 
     let logText = logList.join('\n'); // join log lines together into one string
-    return logText; // for admin page
-}
 
-function handleConsoleCommand(input) {
-    console.log(handleCommand(input));
+    console.log(`${input}: ${logText}`);
+    return logText; // for admin page
 }
 
 // Listeners
 rl.on('SIGINT', endRl); // Control + C pressed
 rl.on('SIGTERM', endRl); // terminal closed
-rl.on('line', handleConsoleCommand);
+rl.on('line', handleCommand);
 
 module.exports = { handleCommand }; // for admin page

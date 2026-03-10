@@ -16,11 +16,11 @@ const Config = require("./config.json");
 /* Helper Functions */
 
 function sendLog(client, content) {
-    client.getSocket().emit("log", content);
+    client.socket.emit("log", content);
 }
 
 function broadcastLog(client, content) {
-    client.getSocket().broadcast.emit("log", content);
+    client.socket.broadcast.emit("log", content);
 }
 
 function sendGlobalLog(content) { // to everyone
@@ -36,10 +36,9 @@ function log(content) {
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0: // valid name entered
-            log(`Client ${player.getId()} name set to ${player.getName()}.`);
+            log(`Client ${player.id} name set to ${player.getName()}.`);
             sendLog(player, "<li class='good'><b>Successfully set name to "  + player.getName() + ".</b></li>");
-            player.getSocket().emit("actions","hideusernamebox");
-            //player.getSocket().emit("actions","swapToChat");
+            player.socket.emit("actions","hideusernamebox");
             break;
         case 1: // name too short
             sendLog(player, "<li class='bad'><b>Could not set name: Your name must be more than 3 characters long.</b></li>");
@@ -50,13 +49,13 @@ function handleNameRes(player, ev) {
     }
 }
 
-function handleAuthRes(admin, data) {
-    if (data == Config.adminPassword) { // correct password entered
+function handleAuthRes(admin, data, override) {
+    if (data == Config.adminPassword || override) { // correct password entered
         admin.authenticate();
-        log(`Admin ${admin.getId()} successfully authenticated.`);
+        log(`Admin ${admin.id} successfully authenticated.`);
         sendLog(admin, "<li class='good'><b>Successfully authenticated.</b></li>");
-        admin.getSocket().emit("actions","hidepasswordbox");
-        admin.getSocket().join("admin"); // add to admins room (only for authenticated admins)
+        admin.socket.emit("actions","hidepasswordbox");
+        admin.socket.join("admin"); // add to admins room (only for authenticated admins)
     } else { // incorrect password entered
         sendLog(admin, "<li class='bad'><b>Incorrect password entered.</b></li>");
     }
@@ -84,7 +83,7 @@ function handleKeyPress(socket, player, data) {
         return;
     }
 
-    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.getId()); 
+    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
 
     if (!keyAllowed) { // if key already assigned
         sendLog(player, `<li style="color: red;"><b>${keyName} is already reserved.</b></li>`); // send to player
@@ -98,7 +97,7 @@ function handleKeyPress(socket, player, data) {
 
     Type.keypress(keyData); // emulate keypress
 
-    log(`Valid keypress from ${player.getName()} (${player.getId()}): ${keyName}.`);
+    log(`Valid keypress from ${player.getName()} (${player.id}): ${keyName}.`);
 }
 
 function getLocalIP() {
@@ -120,7 +119,7 @@ const server = Router.createServer();
 const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
     var player = new Client.Player(socket); // create player class
-    var pid = player.getId();
+    var pid = player.id;
     var mid = Manager.addPlayer(pid, player);
 
     log(`Player ${pid} connected.`);
@@ -134,6 +133,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("keyPress", (data) => {
+        log("ee");
         handleKeyPress(socket, player, data);
     });
 
@@ -148,18 +148,20 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 const admin = io.of("/admin"); // creats a namespace for just /admin
 admin.on("connection", (socket) => { // new client connected (non-admin)
     var admin = new Client.Admin(socket); // create admin class
-    var aid = admin.getId();
+    var aid = admin.id;
 
     log(`Admin ${aid} connected.`);
 
-    socket.on("authenticate", (data) => {
-        if (admin.isAuthenticated()) return;
+    if (Config.adminPassword == "") handleAuthRes(admin, null, true); // auto auth if password is blank
 
-        handleAuthRes(admin, data);
+    socket.on("authenticate", (data) => {
+        if (admin.authenticated) return;
+
+        handleAuthRes(admin, data, false);
     });
 
     socket.on("command", (data) => {
-        if (!admin.isAuthenticated()) return;
+        if (!admin.authenticated) return;
 
         response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
         socket.emit("response", `<li><b>${data}</b>:<br>${response}<li>`);
