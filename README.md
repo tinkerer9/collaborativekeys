@@ -124,9 +124,9 @@ There is a configuration file at `src/config.json` with the following settings:
 
 | Setting | Default | Description |
 | :-: | :-: | :-: |
-| `"adminPassword"` | `"hackathon2026"` | The password for admins to autheticate themselves |
-| `"serverPort"` | `80` | The port at which the server is listening |
-| `"allowEmulationAtStart"` | `true` | Enable key emulation by default |
+| `"adminPassword"` | `""` | The password for admins to autheticate themselves (if set to `""` then no password needed) |
+| `"serverPort"` | `80` | The port at which the server is listening (port `80` is HTTP default so no colon needed) |
+| `"allowEmulationAtStart"` | `true` | Enable key emulation by default for all players |
 | `"waitRoomPlayersWhenJoined"` | `false` | Add new players to the wait room when joined |
 
 ## Possible updates
@@ -134,19 +134,16 @@ There is a configuration file at `src/config.json` with the following settings:
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later (and are working on!):
-- Show players unassigned keys (after above completed)
+- Show players unassigned keys
 - Each player gets the same amount of keys assigned
 - Better user interface for both players and the host
 - Virtual keyboard support for mobile/tablet
 - Responsive grid
 - Cleaner GUI
 - Add windows key emulation (platform checker)
-- When player screen dims, they leave & rejoin but still are logged in
-- Add `config.json` documentation in readme
+- FIX: When player screen dims, they leave & rejoin but still are logged in
 - Use key strokes for 1-letter keys on `keycodes.js` instead of keycodes
 - Add space after list element on admin page responses section
-- `player.getId()` -> `player.id` (and for other player/admin variables)
 - `type.js` faster alternative (or make AppleScript faster)
-- Add “does my game work?” to readme
 - Allow keys to be held
 - Allow shift key to work
