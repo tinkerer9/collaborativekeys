@@ -59,13 +59,13 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 
 In order for a game to be supported by CollaboKeys, the following must all be true:
 - The game only uses keypresses for input (no mouse)
-- All keys used in the game are supported (see `Supported keys` below)
+- All keys used in the game are supported (see [`Supported keys`](#supported-keys) below)
 - The game would work with input lag (no games that need a high response time)
 - The game has a number of keys greater than or equal to the number of players
 
 ### Reccomended games
 
-**2048** is a great game to play with multiple players.
+[**2048**](https://2048-online.io/) is a great game to play with multiple players.
 Each player can get one or two keys, and they have to work together (or alone!) to play.
 
 Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated, due to AppleScript delqay times.
@@ -109,7 +109,7 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 CollaboKeys supports an admin page that can be opened at any device, not just the host's computer.
 They have to enter the admin password found at `config.js` (defualt is `hackathon2026`).
 
-All controls supported by the console (see section above) can be used by the admin page, as well as a custom command box.
+All controls supported by the console ([see section above](#console-controls)) can be used by the admin page, as well as a custom command box.
 Those commands are the exact same as above.
 
 ## Configuration file
