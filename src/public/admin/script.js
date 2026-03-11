@@ -11,7 +11,6 @@ const controlButtons = document.getElementsByClassName("controlButtons")[0];
 const logList = document.getElementById("logList");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
-const overlay = document.getElementsByClassName("overlay")[0];
 
 const customCommandText = document.getElementById("customCommandText");
 const customCommand = document.getElementById("customCommand");
