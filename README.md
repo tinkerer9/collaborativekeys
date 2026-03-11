@@ -141,3 +141,4 @@ Here are a few we might want to add later (and are working on!):
 - `type.js` faster alternative (or make AppleScript faster)
 - Allow keys to be held
 - Allow shift key to work
+- Publish current keycodes.js to admins
