@@ -130,14 +130,12 @@ This program was made very quickly for a hackathon, so we weren't able to add al
 Here are a few we might want to add later (and are working on!):
 - Show players unassigned keys
 - Each player gets the same amount of keys assigned
-- Better user interface for both players and the host
 - Virtual keyboard support for mobile/tablet
 - Responsive grid
 - Cleaner GUI
-- Add windows key emulation (platform checker)
+- Add windows key emulation (or at least platform checker)
 - FIX: When player screen dims, they leave & rejoin but still are logged in
 - Use key strokes for 1-letter keys on `keycodes.js` instead of keycodes
-- Add space after list element on admin page responses section
 - `type.js` faster alternative (or make AppleScript faster)
 - Allow keys to be held
 - Allow shift key to work
