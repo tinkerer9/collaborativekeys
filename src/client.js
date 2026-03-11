@@ -51,12 +51,6 @@ class Player {
     }
 }
 
-/* To LethalShadowFlame:
-I decided to merge back the Player and Admin classes because they don't share much in common.
-For example, admins aren't named, and players don't need to authenticate themselves.
-They can have different IDs too, because of that.
-from Tinkerer9 */
-
 class Admin {
     constructor(socket) {
         this.socket = socket;
