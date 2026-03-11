@@ -20,7 +20,7 @@ It currently uses AppleScript to emulate key strokes using a built-in MacOS libr
 
 ### Run server
 
-Set your working directory to project root `/`. Run the following command:
+Set your working directory to project root. Run the following command:
 ```
 node src/server.js
 ```
@@ -59,7 +59,7 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 
 In order for a game to be supported by CollaboKeys, the following must all be true:
 - The game only uses keypresses for input (no mouse)
-- All keys used in the game are supported (see [`Supported keys`](#supported-keys) below)
+- All keys used in the game are supported (see [Supported keys](#supported-keys) below)
 - The game would work with input lag (no games that need a high response time)
 - The game has a number of keys greater than or equal to the number of players
 
