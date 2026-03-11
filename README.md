@@ -84,18 +84,18 @@ The `type.js` script only allows the following keys to be emulated:
 - `shift`, `caps lock`, `delete`, `tab`, `command`, `option`, `control`, `esc` (*disabled by default, `shift` and `caps lock` do not work*)
 - F keys 1-20 (*disabled by default*)
 
-All keys on a modern Mac laptop are supported, with the exeption of `fn` (as it is a low-level hardware modifier).
+All keys on a modern Mac laptop are supported, with the exeption of `fn` (as it is a low-level hardware modifier) and the power button.
 
 See `keycodes.js` for more information on each key.
 
-## Command usage (BETA)
+## Console controls
 
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
 - **`stop`/`exit`**: Terminates the process.
 - **`waitingroom`/`wr <admit/dismiss> <id/all>`**: Admit or dismiss someone from the waiting room.
 - **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
-- **`key`/`k <revoke/enable/disable> <name/all> (key)`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
+- **`key`/`k <revoke/enable/disable> <key/all>`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
 - **`pause`**: Disables emulation.
 - **`resume`**: Enables emulation.
 
@@ -104,19 +104,13 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 - Command to list key data (like `list`)
 - Disable/enable key reservation
 
-## Admin page (beta)
+## Admin page
 
-An admin page that can be opened on another device is being made. They have to enter the admin password found at `config.js` (defualt is `hackathon2026`). So far, visitors can use use the Inspect Console feature to manually send a command with:
-```
-socket.emit("command",COMMAND_HERE);
-```
-The commands are the same as the console commands in the section above.
+CollaboKeys supports an admin page that can be opened at any device, not just the host's computer.
+They have to enter the admin password found at `config.js` (defualt is `hackathon2026`).
 
-### To-do
-
-- Add buttons for each command
-- Add response box functionality
-- Possibly add custom command box
+All controls supported by the console (see section above) can be used by the admin page, as well as a custom command box.
+Those commands are the exact same as above.
 
 ## Configuration file
 
@@ -124,7 +118,7 @@ There is a configuration file at `src/config.json` with the following settings:
 
 | Setting | Default | Description |
 | :-: | :-: | :-: |
-| `"adminPassword"` | `""` | The password for admins to autheticate themselves (if set to `""` then no password needed) |
+| `"adminPassword"` | `"hackathon2026"` | The password for admins to autheticate themselves (if set to `""` then no password needed) |
 | `"serverPort"` | `80` | The port at which the server is listening (port `80` is HTTP default so no colon needed) |
 | `"allowEmulationAtStart"` | `true` | Enable key emulation by default for all players |
 | `"waitRoomPlayersWhenJoined"` | `false` | Add new players to the wait room when joined |
