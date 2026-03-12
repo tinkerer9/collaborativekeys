@@ -22,6 +22,7 @@ It currently uses AppleScript to emulate key strokes using a built-in MacOS libr
 ### Run server
 
 Set your working directory to project root. Run the following command:
+
 ```shell
 node src/server.js
 ```
