@@ -146,4 +146,3 @@ Here are a few we might want to add later (and are working on!):
 - Allow keys to be held
 - Allow shift key to work
 - Publish current keycodes.js to admins
-- Add the [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) lisence
