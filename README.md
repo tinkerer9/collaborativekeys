@@ -1,7 +1,8 @@
 # CollaboKeys
+
 A collaborative keyboard game
 
-Made by [@tinkerer9](https://github.com/tinkerer9), [@LethalShadowFlame](https://github.com/LethalShadowFlame), and [@chickenlloyd](https://github.com/chickenlloyd) for a hackathon with theme "Connection".
+Made by @tinkerer9, @LethalShadowFlame, and @chickenlloyd for a hackathon with theme "Connection".
 We got 2nd place out of 14 teams!
 
 Players collaborate to play any keyboard-based game with their assigned key, making browsing the internet a simple puzzle.
@@ -15,15 +16,16 @@ The host/server program is made to run on MacOS, but the client webpage should r
 See `src/type.js` if you want to change the key emulation system to work for another platform.
 It currently uses AppleScript to emulate key strokes using a built-in MacOS library called `osascript`.
 
-- `nodejs`: download latest version from https://nodejs.org/en/download
+- `nodejs`: download latest version from [nodejs.org/en/download](https://nodejs.org/en/download)
 - `socket.io`: run `npm install socket.io` in the terminal
 
 ### Run server
 
 Set your working directory to project root. Run the following command:
-```
+```shell
 node src/server.js
 ```
+
 Be sure to accept MacOS requests to control your keyboard, as it is needed to simulate input.
 
 ### Join server
@@ -58,6 +60,7 @@ If you cannot do this, press `Command+Option+Escape`, select the application run
 ## Is my game supported?
 
 In order for a game to be supported by CollaboKeys, the following must all be true:
+
 - The game only uses keypresses for input (no mouse)
 - All keys used in the game are supported (see [Supported keys](#supported-keys) below)
 - The game would work with input lag (no games that need a high response time)
@@ -73,6 +76,7 @@ Keep in mind that there is quite a bit of lag between a player typing a key and 
 ## Supported keys
 
 The `type.js` script only allows the following keys to be emulated:
+
 - a-z, A-Z, 0-9
 - `!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, `(`, `)`
 - `-`, `_`, `=`, `+`
@@ -128,6 +132,7 @@ There is a configuration file at `src/config.json` with the following settings:
 This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
 
 Here are a few we might want to add later (and are working on!):
+
 - Show players unassigned keys
 - Each player gets the same amount of keys assigned
 - Virtual keyboard support for mobile/tablet
