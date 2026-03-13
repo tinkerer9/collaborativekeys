@@ -120,7 +120,7 @@ const io = new Server(server);
 io.on("connection", (socket) => { // new client connected (non-admin)
     var player = new Client.Player(socket); // create player class
     var pid = player.id;
-    var mid = Manager.addPlayer(pid, player);
+    Manager.addPlayer(pid, player);
 
     log(`Player ${pid} connected.`);
 
@@ -141,7 +141,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
         log(player.noNameSet() ? `Player ${pid} disconnected.` : `${player.getName()} (player ${pid}) disconnected.`);
         player.destroy();
         Key.freeAssignment(pid);
-        Manager.removePlayer(mid);
+        Manager.removePlayer(pid);
     });
 });
 
