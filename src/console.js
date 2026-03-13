@@ -92,7 +92,7 @@ function waitingRoom(args) {
         case "dismiss":
             players.forEach(player => {
                 player.dismiss();
-                player.message("You have been dismissed from the waiting room.");
+                player.message("You have been dismissed to the waiting room.");
                 log("Dismissed " + player.getName());
             });
             break;
