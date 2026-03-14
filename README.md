@@ -98,12 +98,12 @@ See `keycodes.js` for more information on each key.
 Here are the following commands that can be run from the terminal. A `/` or other character is not needed to signal a command.
 
 - **`stop`/`exit`**: Terminates the process.
-- **`waitingroom`/`wr <admit/dismiss> <id/all>`**: Admits or dismisses someone from the waiting room.
-- **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
-- **`key`/`k <revoke/enable/disable> <key/all>`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
 - **`pause`**: Disables emulation.
 - **`resume`**: Enables emulation.
 - **`show <w/c>`**: Prints the warranty section of the license or the whole GNU GPLv3 license.
+- **`waitingroom`/`wr <admit/dismiss> <id/all>`**: Admits or dismisses someone from the waiting room.
+- **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
+- **`key`/`k <revoke/enable/disable> <key/all>`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
 
 ### To-do
 
