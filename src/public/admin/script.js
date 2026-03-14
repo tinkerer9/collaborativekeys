@@ -30,6 +30,7 @@ const logList = document.getElementById("logList");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
+const NO_ADMIN_HTML = "<p style='color:white;'>This program has disabled remote admins from connecting.</p>"
 const customCommandText = document.getElementById("customCommandText");
 const customCommand = document.getElementById("customCommand");
 const stopCommand = document.getElementById("stopCommand");
@@ -114,6 +115,10 @@ socket.on("actions", function(e) {
 
 socket.on("log", function(e) {
     prependToLogList(e);
+});
+
+socket.on("noAdmin", function(e) {
+    document.body.innerHTML = NO_ADMIN_HTML;
 });
 
 socket.on("response", function(e) {

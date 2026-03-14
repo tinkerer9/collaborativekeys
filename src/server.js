@@ -166,7 +166,8 @@ io.on("connection", (socket) => { // new client connected (non-admin)
 });
 
 const admin = io.of("/admin"); // creats a namespace for just /admin
-admin.on("connection", (socket) => { // new client connected (non-admin)
+
+function handleAdminConnection(socket) {
     var admin = new Client.Admin(socket); // create admin class
     var aid = admin.id;
 
@@ -191,11 +192,17 @@ admin.on("connection", (socket) => { // new client connected (non-admin)
         log(`Admin ${aid} disconnected.`);
         admin.destroy();
     });
-});
+}
+
+//Will disabke Admin connections
+
+if (!Config.allowRemoteConsole) handleAdminConnection = function(socket) {socket.emit("noAdmin")};
+
+admin.on("connection", handleAdminConnection);
 
 let serverPort = Config.serverPort;
 server.listen(serverPort, "0.0.0.0", () => {
-    let localIP = getLocalIP();
+    let localIP = getLocalIP(); // Computers each have multiple IPs/hostnames.
     let portString = serverPort == 80 ? "" : ":" + serverPort;
     let uri = localIP + portString;
 
