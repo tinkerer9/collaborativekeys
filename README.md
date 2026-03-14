@@ -1,6 +1,6 @@
 # CollaboKeys
 
-A collaborative keyboard game
+a collaborative keyboard game
 
 Made by [@tinkerer9](https://github.com/tinkerer9), [@LethalShadowFlame](https://github.com/LethalShadowFlame), and [@chickenlloyd](https://github.com/chickenlloyd) for a hackathon with theme "Connection".
 We got 2nd place out of 14 teams!
