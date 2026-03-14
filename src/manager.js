@@ -19,24 +19,30 @@
 /* Manages players globally. */
 
 const players = {};
+var thisModule = {
+    getPlayerCount: function() {
+        return Object.keys(players).length;
+    },
+    addPlayer: function(pid, player) {
+        players[pid] = player;
+    },
+    getPlayerByPid: function(pid) {
+        return players[pid];
+    },
+    removePlayer: function(pid) {
+        delete players[pid];
+    },
+    isPlayer: function(pid) {
+        return pid in players;
+    },
+    getAllPlayers: function() {
+        return Object.values(players);
+    },
+    getPlayerByPname: function(name) {
+        for (const [key, value] of Object.entries(players)) {
+            if (value.getName() == name) return value.getPlayerId;
+        }
+    }
+};
 
-function getPlayerCount() {
-    return Object.keys(players).length;
-}
-function addPlayer(pid, player) {
-    players[pid] = player;
-}
-function getPlayerByPid(pid) {
-    return players[pid];
-}
-function removePlayer(pid) {
-    delete players[pid];
-}
-function isPlayer(pid) {
-    return pid in players;
-}
-function getAllPlayers() {
-    return Object.values(players);
-}
-
-module.exports = { players, getPlayerCount, addPlayer, getPlayerByPid, removePlayer, isPlayer, getAllPlayers };
+module.exports = thisModule; //Easier to manage and add new functions

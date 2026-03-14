@@ -38,6 +38,9 @@ class Player {
         /* flags */
         this.waitingRoom = Config.waitRoomPlayersWhenJoined;
     }
+    getPlayerId() {
+        return this.id;
+    }
     getName() {
         return this.name || FALLBACK_NAME; // returns FALLBACK_NAME if no name is set
     }
