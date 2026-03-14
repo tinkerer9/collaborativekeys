@@ -30,6 +30,7 @@ const Console = require("./console");
 const Manager = require("./manager");
 const Router = require("./router");
 const Config = require("./config.json");
+const License = require("./license");
 
 /* Helper Functions */
 
@@ -132,6 +133,8 @@ function getLocalIP() {
 
     return localIP;
 }
+
+console.log(License.terminalNotice); // log GNU GPLv3 terminal notice
 
 const server = Router.createServer();
 const io = new Server(server);

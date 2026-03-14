@@ -22,6 +22,7 @@ const readline = require('readline');
 const Manager = require('./manager');
 const Type = require('./type');
 const Key = require('./key');
+const License = require("./license");
 
 const ALL_KEYWORD = "all"
 
@@ -34,6 +35,13 @@ let logList = []; // log that is sent out to console and admin page
 
 function log(a) {
     logList.push(a);
+}
+
+function escapeHTML(str) { // replace chars that mess up HTML syntax
+    return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
 }
 
 function spliceCommand(input) {
@@ -231,7 +239,28 @@ function keyHandle(args) {
             log("Invalid method, did you misspell the first argument?");
             return;
     }
-};
+}
+
+function licenseInfo(args) {
+    let type = args[0] || null;
+
+    if (type == null) {
+        log("You need to provide more arguments (type)! Usage: show <w/c>");
+        return;
+    }
+    
+    switch (type) {
+        case "w":
+            log(License.warrantyInfo);
+            break;
+        case "c":
+            log(License.licenseInfo);
+            break;
+        default:
+            log("Invalid method, did you misspell the first argument?");
+            return;
+    }
+}
 
 function commandCallbacks(cmd) {
     switch (cmd) { // No breaks needed, the return stops the function.
@@ -255,6 +284,8 @@ function commandCallbacks(cmd) {
             return pauseEmulation;
         case "resume":
             return resumeEmulation;
+        case "show":
+            return licenseInfo;
         default:
             return fallback;
     }
@@ -269,7 +300,7 @@ function handleCommand(input) { // for in console only
     let logText = logList.join('\n'); // join log lines together into one string
 
     console.log(`${input}: ${logText}`);
-    return logText; // for admin page
+    return escapeHTML(logText); // for admin page (cleaned up for HTML)
 }
 
 // Listeners
