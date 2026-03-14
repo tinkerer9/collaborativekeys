@@ -194,8 +194,7 @@ function handleAdminConnection(socket) {
     });
 }
 
-//Will disabke Admin connections
-
+//Will disable Admin connections
 if (!Config.allowRemoteConsole) handleAdminConnection = function(socket) {socket.emit("noAdmin")};
 
 admin.on("connection", handleAdminConnection);
