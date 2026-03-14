@@ -30,7 +30,6 @@ const logList = document.getElementById("logList");
 const responsesList = document.getElementById("responsesList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
-const NO_ADMIN_HTML = "<p style='color:white;'>This program has disabled remote admins from connecting.</p>"
 const customCommandText = document.getElementById("customCommandText");
 const customCommand = document.getElementById("customCommand");
 const stopCommand = document.getElementById("stopCommand");
@@ -46,6 +45,8 @@ const keyCommand = document.getElementById("keyCommand");
 const keyCommandArg0 = document.getElementById("keyCommandArg0");
 const keyCommandArg1 = document.getElementById("keyCommandArg1");
 const keyCommandArg2 = document.getElementById("keyCommandArg2");
+
+const NO_ADMIN_HTML = "<p style='color:white;'>This program has disabled remote admins from connecting.</p>"
 
 input.focus(); // immediately focus textbox
 

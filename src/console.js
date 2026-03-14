@@ -164,6 +164,7 @@ function listHandle(args) {
         log(`Client ID ${player.id}:`);
         log(`Name: ${player.getName()}`);
         log(`IP: ${player.socket.handshake.address}`);
+        log(`Assigned Keys: `)
         if (showWait) log(`Waiting room: ${player.waitingRoom ? "yes" : "no"}`);
         if (index !== numPlayers - 1) log("---");
     });

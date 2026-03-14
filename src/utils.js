@@ -16,4 +16,27 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-//Planned to add server/io based functions here
+//This script handles Game utilities.
+
+module.exports = {
+    sendError(content) { // send error stuff
+        return `<li class="bad">${content}</li>`
+    },
+    
+    inBold(content) { // wrap in bold
+        return `<b>${content}</b>`
+    },
+    
+    sendBoldError(content) { // simple pipeline/bundle
+        return `<li class="bad"><b>${content}</b></li>`; //Can't use sendError(inBold(content)) because functions aren't in scope
+    },
+    
+    sendInfo(content) {
+        return `<li>${content}</li>`
+    },
+
+    sendSucess(content) {
+        return `<li class="good">${content}</li>`
+    }
+}
+
