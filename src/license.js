@@ -21,6 +21,7 @@
 const fs = require("fs");
 const path = require("path");
 
+/* DO NOT CHANGE THIS as the GNU GPLv3 requires it to be word-for-word: */
 const terminalNotice = `
 CollaboKeys Copyright (C) 2026  @tinkerer9 and @LethalShadowFlame
 This program comes with ABSOLUTELY NO WARRANTY; for details type \`show w'.
@@ -28,6 +29,7 @@ This is free software, and you are welcome to redistribute it
 under certain conditions; type \`show c' for details.
 `;
 
+/* DO NOT CHANGE THIS as the GNU GPLv3 requires it to be word-for-word: */
 const warrantyInfo = `
   15. Disclaimer of Warranty.
 
@@ -53,12 +55,14 @@ EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
 `;
 
-const licenseInfo = (() => { // read from LICENSE file
-    try {
-        return "\n" + fs.readFileSync(path.join(__dirname, "..", "LICENSE"), "utf8");
-    } catch (err) {
-        return "Could not read LICENSE file: " + err.message;
-    }
-})();
+function readLicense() {
+  try {
+    return "\n" + fs.readFileSync(path.join(__dirname, "..", "LICENSE"), "utf8");
+  } catch (err) {
+    return "Could not read LICENSE file: " + err.message;
+  }
+}
+
+const licenseInfo = readLicense(); // this never changes
 
 module.exports = { terminalNotice, warrantyInfo, licenseInfo }

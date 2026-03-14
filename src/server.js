@@ -35,37 +35,50 @@ const GameIo = require("./io");
 const Utils = require("./utils");
 
 /* Helper Functions */
+function sendLog(client, content, format) {
+    switch (format) {
+        case "success":
+            content = `<li class="good"><b>${content}</b></li>`; // success logs are always bolded
+            break;
+        case "error":
+            content = `<li class="bad"><b>${content}</b></li>`; // error logs are always bolded
+            break;
+        case "bold":
+            content = `<li><b>${content}</b></li>`;
+            break;
+        default: // if format empty or invalid
+            content = `<li>${content}</li>`
+    }
 
-function sendLog(client, content) {
     client.socket.emit("log", content);
 }
 
 function broadcastLog(client, content) {
-    client.socket.broadcast.emit("log", content);
+    client.socket.broadcast.emit("log", `<li>${content}</li>`); // no need to format, as always normal formatting
 }
 
 function sendGlobalLog(content) { // to everyone
-    io.emit("log", content);
+    io.emit("log", `<li>${content}</li>`);  // no need to format, as always normal formatting
 }
 
 function log(content) {
     console.log(content);
 
-    admin.in("admin").emit("log", Utils.sendInfo(content));
+    admin.in("admin").emit("log", `<li>${content}</li>`);  // no need to format, as always normal formatting
 }
 
 function handleNameRes(player, ev) {
     switch (ev) {
         case 0: // valid name entered
             log(`Client ${player.id} name set to ${player.getName()}.`);
-            sendLog(player, Utils.sendSucess(Utils.inBold("Successfully set name to "  + player.getName() + ".")));
+            sendLog(player, "Successfully set name to "  + player.getName() + ".", "success");
             player.socket.emit("actions","hideusernamebox");
             break;
         case 1: // name too short
-            sendLog(player, Utils.sendBoldError("Could not set name: Your name must be more than 3 characters long."));
+            sendLog(player, "Could not set name: Your name must be more than 3 characters long.", "error");
             break;
         case 2: // name too long
-            sendLog(player, Utils.sendBoldError("Could not set name: Your name must be shorter than 20 characters long."));
+            sendLog(player, "Could not set name: Your name must be shorter than 20 characters long.", "error");
             break;
     }
 }
@@ -74,18 +87,18 @@ function handleAuthRes(admin, data, override) {
     if (data == Config.adminPassword || override) { // correct password entered
         admin.authenticate();
         log(`Admin ${admin.id} successfully authenticated.`);
-        sendLog(admin, Utils.sendSucess(Utils.inBold("Successfully authenticated.")));
+        sendLog(admin, "Successfully authenticated.", "success");
         admin.socket.emit("actions","hidepasswordbox");
         admin.socket.join("admin"); // add to admins room (only for authenticated admins)
     } else { // incorrect password entered
-        sendLog(admin, Utils.sendBoldError("Incorrect password entered."));
+        sendLog(admin, "Incorrect password entered.", "error");
     }
 }
 
 
 function handleKeyPress(socket, player, data) {
     if (!Type.allowEmulation) {
-        sendLog(player, Utils.sendBoldError(`Emulation is disabled by admin.`)); // send to player
+        sendLog(player, "Emulation is disabled by admin.", "error"); // send to player
         return;
     }
 
@@ -94,28 +107,28 @@ function handleKeyPress(socket, player, data) {
     let keyData = data.key;
 
     if (!Type.keyExists(keyData)) {
-        sendLog(player, Utils.sendBoldError(`${keyData} is not supported.`)); // send to player
+        sendLog(player, `${keyData} is not supported.`, "error"); // send to player
         return;
     }
 
     let keyName = Type.keyName(keyData);
 
     if (!Type.keyEnabled(keyData)) {
-        sendLog(player, Utils.sendBoldError(`${keyName} is disabled by admin.`)); // send to player
+        sendLog(player, `${keyName} is disabled by admin.`, "error"); // send to player
         return;
     }
 
     [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
 
     if (!keyAllowed) { // if key already assigned
-        sendLog(player, Utils.sendBoldError(`${keyName} is already reserved.`)); // send to player
+        sendLog(player, `${keyName} is already reserved.`, "error"); // send to player
         return;
     }
 
     if (keyNew) socket.emit("keyReserved", keyName);
 
-    sendLog(player, Utils.sendInfo(Utils.inBold(`You pressed ${keyName}.`))); // send to player
-    broadcastLog(player, Utils.sendInfo(`${player.getName()} pressed ${keyName}.`)); // send to other clients
+    sendLog(player, `You pressed ${keyName}.`, "bold"); // send to player
+    broadcastLog(player, `${player.getName()} pressed ${keyName}.`); // send to other clients
 
     Type.keypress(keyData); // emulate keypress
 
@@ -188,7 +201,7 @@ function handleAdminConnection(socket) {
         if (!admin.authenticated) return;
 
         response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
-        socket.emit("response", Utils.sendInfo(Utils.inBold(data) + `:<br>${response}`));
+        socket.emit("response", `<li><b>${data}:</b><br>${response}</li>`);
     });
 
     socket.on("disconnect", () => { // admin disconnected

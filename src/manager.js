@@ -19,7 +19,8 @@
 /* Manages players globally. */
 
 const players = {};
-var thisModule = {
+
+module.exports = {
     getPlayerCount: function() {
         return Object.keys(players).length;
     },
@@ -44,5 +45,3 @@ var thisModule = {
         }
     }
 };
-
-module.exports = thisModule; //Easier to manage and add new functions
