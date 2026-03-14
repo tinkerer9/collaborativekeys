@@ -23,9 +23,9 @@ const path = require("path");
 
 const terminalNotice = `
 CollaboKeys  Copyright (C) 2026  @tinkerer9 and @LethalShadowFlame
-This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
+This program comes with ABSOLUTELY NO WARRANTY; for details type \`show w'.
 This is free software, and you are welcome to redistribute it
-under certain conditions; type 'show c' for details.
+under certain conditions; type \`show c' for details.
 `;
 
 const warrantyInfo = `
