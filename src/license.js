@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* Manages lisencing information */
+/* Manages licensing information */
 
 const fs = require("fs");
 const path = require("path");
