@@ -72,7 +72,7 @@ In order for a game to be supported by CollaboKeys, the following must all be tr
 [**2048**](https://2048-online.io/) is a great game to play with multiple players.
 Each player can get one or two keys, and they have to work together (or alone!) to play.
 
-Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated, due to AppleScript delqay times.
+Keep in mind that there is quite a bit of lag between a player typing a key and it being emulated, due to AppleScript delay times.
 
 ## Supported keys
 
