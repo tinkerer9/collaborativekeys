@@ -105,11 +105,6 @@ Here are the following commands that can be run from the terminal. A `/` or othe
 - **`list <active/wr/waitingroom/all/nameless>`**: Lists player ids/names that are either currently active, in the waiting room, or both.
 - **`key`/`k <revoke/enable/disable> <key/all>`**: Modifies a specific/every key to revoke it from everyone, or enable/disable it.
 
-### To-do
-
-- Command to list key data (like `list`)
-- Disable/enable key reservation
-
 ## Admin page
 
 CollaboKeys supports an admin page that can be opened at any device, not just the host's computer.
@@ -129,11 +124,10 @@ There is a configuration file at `src/config.json` with the following settings:
 | `"allowEmulationAtStart"` | `true` | Enable key emulation by default for all players |
 | `"waitRoomPlayersWhenJoined"` | `false` | Add new players to the wait room when joined |
 
-## Possible updates
+## To-do
 
-This program was made very quickly for a hackathon, so we weren't able to add all the features we'd hoped.
-
-Here are a few we might want to add later (and are working on!):
+No project is ever 100% complete.
+Here is a list of things we need to do for CollaboKeys (no order):
 
 - Show players unassigned keys
 - Each player gets the same amount of keys assigned
@@ -147,3 +141,8 @@ Here are a few we might want to add later (and are working on!):
 - Allow keys to be held
 - Allow shift key to work
 - Publish current keycodes.js to admins
+- Command to disable/enable global key reservation
+- Admin page buttons for licensing info
+- Admin page button to clear responses/logs
+- Add license information to README
+- Sort this list by order!
