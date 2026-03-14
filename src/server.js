@@ -154,7 +154,6 @@ io.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("keyPress", (data) => {
-        log("ee");
         handleKeyPress(socket, player, data);
     });
 
