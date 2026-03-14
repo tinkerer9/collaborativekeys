@@ -9,7 +9,9 @@ html, body {
     background-color: black;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
     overflow: hidden;
+    overscroll-behavior: none;
 }
 
 .container {
