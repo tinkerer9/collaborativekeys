@@ -31,10 +31,9 @@ const Manager = require("./manager");
 const Router = require("./router");
 const Config = require("./config.json");
 const License = require("./license");
-const GameIo = require("./io");
 const Utils = require("./utils");
 
-/* Helper Functions */
+/* Helper Functions (many to be added to utils.js, see that file for more info) */
 function sendLog(client, content, format) {
     switch (format) {
         case "success":
@@ -47,13 +46,13 @@ function sendLog(client, content, format) {
             content = `<li><b>${content}</b></li>`;
             break;
         default: // if format empty or invalid
-            content = `<li>${content}</li>`
+            content = `<li>${content}</li>`;
     }
 
     client.socket.emit("log", content);
 }
 
-function broadcastLog(client, content) {
+function broadcastLog(client, content) { // to everyone except sender/client
     client.socket.broadcast.emit("log", `<li>${content}</li>`); // no need to format, as always normal formatting
 }
 
@@ -64,7 +63,7 @@ function sendGlobalLog(content) { // to everyone
 function log(content) {
     console.log(content);
 
-    admin.in("admin").emit("log", `<li>${content}</li>`);  // no need to format, as always normal formatting
+    admin.in("admin").emit("log", `<li>${content}</li>`); // no need to format, as always normal formatting
 }
 
 function handleNameRes(player, ev) {
@@ -84,7 +83,7 @@ function handleNameRes(player, ev) {
 }
 
 function handleAuthRes(admin, data, override) {
-    if (data == Config.adminPassword || override) { // correct password entered
+    if (data == Config.adminPassword || override) { // correct password entered OR no password needed
         admin.authenticate();
         log(`Admin ${admin.id} successfully authenticated.`);
         sendLog(admin, "Successfully authenticated.", "success");
@@ -94,7 +93,6 @@ function handleAuthRes(admin, data, override) {
         sendLog(admin, "Incorrect password entered.", "error");
     }
 }
-
 
 function handleKeyPress(socket, player, data) {
     if (!Type.allowEmulation) {

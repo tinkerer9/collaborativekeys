@@ -16,4 +16,20 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// This script handles Game utilities.
+/* Used for heavily used functions */
+
+/*
+To be added:
+    From server.js:
+        sendLog ?
+        broadcastLog ?
+        sendGlobalLog ?
+        log ?
+        handleNameRes ?
+        handleAuthRes ?
+        handleKeyPress (move to type.js?)
+        getLocalIP (move to router.js?)
+    From console.js:
+        escapeHTML
+! means heavily used
+*/
