@@ -22,6 +22,8 @@ const header = document.getElementsByClassName("header")[0];
 const controls = document.getElementsByClassName("controls")[0];
 const responses = document.getElementsByClassName("responses")[0];
 const logs = document.getElementsByClassName("logs")[0];
+const normalInfo = document.getElementById("normalInfo");
+const noAdminInfo = document.getElementById("noAdminInfo");
 const authentication = document.getElementsByClassName("authentication")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
@@ -45,8 +47,6 @@ const keyCommand = document.getElementById("keyCommand");
 const keyCommandArg0 = document.getElementById("keyCommandArg0");
 const keyCommandArg1 = document.getElementById("keyCommandArg1");
 const keyCommandArg2 = document.getElementById("keyCommandArg2");
-
-const NO_ADMIN_HTML = "<p style='color:white;'>This program has disabled remote admins from connecting.</p>"
 
 input.focus(); // immediately focus textbox
 
@@ -119,7 +119,15 @@ socket.on("log", function(e) {
 });
 
 socket.on("noAdmin", function(e) {
-    document.body.innerHTML = NO_ADMIN_HTML;
+    noAdminInfo.style.display = "block";
+    normalInfo.style.display = "none";
+
+    controls.style.filter = "brightness(0.5)";
+    responses.style.filter = "brightness(0.5)";
+    logs.style.filter = "brightness(0.5)";
+
+    input.disabled = true;
+    enter.disabled = true;
 });
 
 socket.on("response", function(e) {
