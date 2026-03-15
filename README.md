@@ -129,18 +129,17 @@ There is a configuration file at `src/config.json` with the following settings:
 No project is ever 100% complete.
 Here is a list of things we need to do for CollaboKeys (no order):
 
-- Show players unassigned keys
-- Each player gets the same amount of keys assigned
+- Show players unassigned keys?
+- Each player gets the same amount of keys assigned?
 - Virtual keyboard support for mobile/tablet
 - Responsive grid
-- Cleaner GUI
-- Add windows key emulation (or at least platform checker)
-- FIX: When player screen dims, they leave & rejoin but still are logged in
+- Add windows key emulation to `type.js`
+- **FIX:** When player screen dims, they leave & rejoin but still are logged in
 - Use key strokes for 1-letter keys on `keycodes.js` instead of keycodes
 - `type.js` faster alternative (or make AppleScript faster)
 - Allow keys to be held
 - Allow shift key to work
-- Publish current keycodes.js to admins
+- Publish current keycodes.js to admins (maybe `/keycodes` page?)
 - Command to disable/enable global key reservation
 - Admin page buttons for licensing info
 - Admin page button to clear responses/logs
