@@ -26,14 +26,20 @@ const Utils = require("./utils");
 
 const { sendLog, broadcastLog, log } = Utils; // make frequently used utils.js functions global
 
-let allowEmulation = Config.allowEmulationAtStart; // only referenced in server.js, changed in console.js
+let allowEmulation = Config.allowEmulationAtStart;
+
+if (process.platform !== 'darwin') {
+    console.warn("CollaboKeys won't emulate on operating systems other than MacOS. Disabling emulation...");
+}
 
 function keyExists(key) {
     return key in Keycodes;
 }
+
 function keyEnabled(key) {
     return Keycodes[key][3];
 }
+
 function enableKey(key) {
     Keycodes[key][3] = true;
 }
@@ -50,10 +56,14 @@ function disableAllKeys() {
         disableKey(key);
     });
 }
-function keyName(key) {
+
+function getKeyName(key) {
     return Keycodes[key][1];
 }
+
 function keypress(key) {
+    if (process.platform !== 'darwin') return; // disable emulation if not on MacOS
+
     let [keycode,, needsShift] = Keycodes[key]; // get key info
 
     exec(`osascript -e \'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}\'`); // run shell script to emulate keypress (SLOW)
@@ -74,7 +84,7 @@ function handleKeyPress(socket, player, data) {
         return;
     }
 
-    let keyName = keyName(keyData);
+    let keyName = getKeyName(keyData);
 
     if (!keyEnabled(keyData)) {
         sendLog(player, `${keyName} is disabled by admin.`, "error"); // send to player
@@ -98,4 +108,4 @@ function handleKeyPress(socket, player, data) {
     log(`Valid keypress from ${player.getName()} (${player.id}): ${keyName}.`);
 }
 
-module.exports = { keyExists, keyEnabled, enableKey, disableKey, enableAllKeys, disableAllKeys, keyName, keypress, allowEmulation };
+module.exports = { handleKeyPress, keyExists, enableKey, disableKey, enableAllKeys, disableAllKeys };

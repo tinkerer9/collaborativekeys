@@ -62,45 +62,6 @@ function handleAuthRes(admin, data, override) {
     }
 }
 
-function handleKeyPress(socket, player, data) {
-    if (!Type.allowEmulation) {
-        sendLog(player, "Emulation is disabled by admin.", "error"); // send to player
-        return;
-    }
-
-    if (player.processChecks()) return; // only allows players that are named and not waitroomed to press keys
-
-    let keyData = data.key;
-
-    if (!Type.keyExists(keyData)) {
-        sendLog(player, `${keyData} is not supported.`, "error"); // send to player
-        return;
-    }
-
-    let keyName = Type.keyName(keyData);
-
-    if (!Type.keyEnabled(keyData)) {
-        sendLog(player, `${keyName} is disabled by admin.`, "error"); // send to player
-        return;
-    }
-
-    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
-
-    if (!keyAllowed) { // if key already assigned
-        sendLog(player, `${keyName} is already reserved.`, "error"); // send to player
-        return;
-    }
-
-    if (keyNew) socket.emit("keyReserved", keyName);
-
-    sendLog(player, `You pressed ${keyName}.`, "bold"); // send to player
-    broadcastLog(player, `${player.getName()} pressed ${keyName}.`); // send to other clients
-
-    Type.keypress(keyData); // emulate keypress
-
-    log(`Valid keypress from ${player.getName()} (${player.id}): ${keyName}.`);
-}
-
 console.log(License.terminalNotice); // log GNU GPLv3 terminal notice
 
 const server = Router.createServer();
@@ -121,7 +82,7 @@ io.on("connection", (socket) => { // new client connected (non-admin)
     });
 
     socket.on("keyPress", (data) => {
-        handleKeyPress(socket, player, data);
+        Type.handleKeyPress(socket, player, data);
     });
 
     socket.on("disconnect", () => { // client disconnected
