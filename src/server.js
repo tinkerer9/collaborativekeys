@@ -20,7 +20,6 @@
 
 /* Import modules used directly by server.js */
 const { Server } = require("socket.io");
-const os = require('os');
 
 /* Import other scripts we made to organize functions and more: (have other modules as well) */
 const Client = require("./client");
@@ -33,38 +32,7 @@ const Config = require("./config.json");
 const License = require("./license");
 const Utils = require("./utils");
 
-/* Helper Functions (many to be added to utils.js, see that file for more info) */
-function sendLog(client, content, format) {
-    switch (format) {
-        case "success":
-            content = `<li class="good"><b>${content}</b></li>`; // success logs are always bolded
-            break;
-        case "error":
-            content = `<li class="bad"><b>${content}</b></li>`; // error logs are always bolded
-            break;
-        case "bold":
-            content = `<li><b>${content}</b></li>`;
-            break;
-        default: // if format empty or invalid
-            content = `<li>${content}</li>`;
-    }
-
-    client.socket.emit("log", content);
-}
-
-function broadcastLog(client, content) { // to everyone except sender/client
-    client.socket.broadcast.emit("log", `<li>${content}</li>`); // no need to format, as always normal formatting
-}
-
-function sendGlobalLog(content) { // to everyone
-    io.emit("log", `<li>${content}</li>`);  // no need to format, as always normal formatting
-}
-
-function log(content) {
-    console.log(content);
-
-    admin.in("admin").emit("log", `<li>${content}</li>`); // no need to format, as always normal formatting
-}
+const { sendLog, broadcastLog, log } = Utils;
 
 function handleNameRes(player, ev) {
     switch (ev) {
@@ -131,21 +99,6 @@ function handleKeyPress(socket, player, data) {
     Type.keypress(keyData); // emulate keypress
 
     log(`Valid keypress from ${player.getName()} (${player.id}): ${keyName}.`);
-}
-
-function getLocalIP() {
-    const networkInterfaces = os.networkInterfaces();
-    let localIP;
-    
-    // Iterate over network interfaces to find the non-internal IPv4 address
-    Object.keys(networkInterfaces).forEach((ifname) => {
-        networkInterfaces[ifname].forEach((iface) => {
-            if ('IPv4' !== iface.family || iface.internal !== false) return; // skip internal (i.e. 127.0.0.1) and non-IPv4 addresses
-            localIP = iface.address;
-        });
-    });
-
-    return localIP;
 }
 
 console.log(License.terminalNotice); // log GNU GPLv3 terminal notice
@@ -216,7 +169,7 @@ admin.on("connection", handleAdminConnection);
 
 let serverPort = Config.serverPort;
 server.listen(serverPort, "0.0.0.0", () => {
-    let localIP = getLocalIP(); // Computers each have multiple IPs/hostnames.
+    let localIP = Utils.getLocalIP();
     let portString = serverPort == 80 ? "" : ":" + serverPort;
     let uri = localIP + portString;
 

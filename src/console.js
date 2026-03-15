@@ -23,6 +23,7 @@ const Manager = require('./manager');
 const Type = require('./type');
 const Key = require('./key');
 const License = require("./license");
+const Utils = require("./utils");
 
 const ALL_KEYWORD = "all"
 
@@ -35,13 +36,6 @@ let logList = []; // log that is sent out to console and admin page
 
 function log(a) {
     logList.push(a);
-}
-
-function escapeHTML(str) { // replace chars that mess up HTML syntax
-    return str
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
 }
 
 function spliceCommand(input) {
@@ -301,7 +295,7 @@ function handleCommand(input) { // for in console only
     let logText = logList.join('\n'); // join log lines together into one string
 
     console.log(`${input}: ${logText}`);
-    return escapeHTML(logText); // for admin page (cleaned up for HTML)
+    return Utils.escapeHTML(logText); // for admin page (cleaned up for HTML)
 }
 
 // Listeners

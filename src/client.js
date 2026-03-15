@@ -19,6 +19,7 @@
 /* This script manages metadata about each player. */
 
 const Config = require("./config.json");
+const Utils = require("./utils");
 
 const FALLBACK_NAME = "No Name"; // Used if the player has not set a name yet
 
@@ -58,8 +59,8 @@ class Player {
     noNameSet() {
         return this.name == null; // if no name set
     }
-    message(txt) {
-        this.socket.emit("log", `<li><b>${txt}</b></li>`);
+    message(content) {
+        Utils.sendLog(this, content, "bold");
     }
     admit() {
         this.waitingRoom = false;
@@ -87,7 +88,7 @@ class Admin {
         this.authenticated = true;
     }
     message(txt) {
-        this.socket.emit("log", txt);
+        Utils.sendLog(this, content, "bold");
     }
 }
 

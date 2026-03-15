@@ -16,20 +16,63 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* Used for heavily used functions */
+/* Declare heavily used functions */
 
-/*
-To be added:
-    From server.js:
-        sendLog ?
-        broadcastLog ?
-        sendGlobalLog ?
-        log ?
-        handleNameRes ?
-        handleAuthRes ?
-        handleKeyPress (move to type.js?)
-        getLocalIP (move to router.js?)
-    From console.js:
-        escapeHTML
-! means heavily used
-*/
+/* Import modules used directly by utils.js */
+const os = require('os');
+
+function escapeHTML(str) { // replace chars that mess up HTML syntax
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function getLocalIP() {
+    const networkInterfaces = os.networkInterfaces();
+    let localIP;
+    
+    // Iterate over network interfaces to find the non-internal IPv4 address
+    Object.keys(networkInterfaces).forEach((ifname) => {
+        networkInterfaces[ifname].forEach((iface) => {
+            if ('IPv4' !== iface.family || iface.internal !== false) return; // skip internal (i.e. 127.0.0.1) and non-IPv4 addresses
+            localIP = iface.address;
+        });
+    });
+
+    return localIP;
+}
+
+function sendLog(client, content, format) {
+    content = escapeHTML(content);
+
+    switch (format) {
+        case "success":
+            content = `<li class="good"><b>${content}</b></li>`; // success logs are always bolded
+            break;
+        case "error":
+            content = `<li class="bad"><b>${content}</b></li>`; // error logs are always bolded
+            break;
+        case "bold":
+            content = `<li><b>${content}</b></li>`;
+            break;
+        default: // if format empty or invalid
+            content = `<li>${content}</li>`;
+    }
+
+    client.socket.emit("log", content);
+}
+
+function broadcastLog(client, content) { // to everyone except sender/client
+    client.socket.broadcast.emit("log", `<li>${escapeHTML(content)}</li>`); // no need to format, as always normal formatting
+}
+
+function log(content) {
+    console.log(content);
+
+    admin.in("admin").emit("log", `<li>${escapeHTML(content)}</li>`); // no need to format, as always normal formatting
+}
+
+module.exports = { escapeHTML, getLocalIP, sendLog, broadcastLog, log };
