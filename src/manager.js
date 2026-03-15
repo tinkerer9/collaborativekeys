@@ -38,10 +38,5 @@ module.exports = {
     },
     getAllPlayers: function() {
         return Object.values(players);
-    },
-    getPlayerByPname: function(name) {
-        for (const [key, value] of Object.entries(players)) {
-            if (value.getName() == name) return value.getPlayerId;
-        }
     }
 };
