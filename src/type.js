@@ -22,6 +22,9 @@ const { exec } = require("child_process");
 
 const Config = require("./config.json");
 const Keycodes = require("./keycodes"); // a list of keynames, their keycodes, human-readable names, and enabled/disabled
+const Utils = require("./utils");
+
+const { sendLog, broadcastLog, log } = Utils; // make frequently used utils.js functions global
 
 let allowEmulation = Config.allowEmulationAtStart; // only referenced in server.js, changed in console.js
 
@@ -54,6 +57,45 @@ function keypress(key) {
     let [keycode,, needsShift] = Keycodes[key]; // get key info
 
     exec(`osascript -e \'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}\'`); // run shell script to emulate keypress (SLOW)
+}
+
+function handleKeyPress(socket, player, data) {
+    if (!allowEmulation) {
+        sendLog(player, "Emulation is disabled by admin.", "error"); // send to player
+        return;
+    }
+
+    if (player.processChecks()) return; // only allows players that are named and not waitroomed to press keys
+
+    let keyData = data.key;
+
+    if (!keyExists(keyData)) {
+        broadcastLogsendLog(player, `${keyData} is not supported.`, "error"); // send to player
+        return;
+    }
+
+    let keyName = keyName(keyData);
+
+    if (!keyEnabled(keyData)) {
+        sendLog(player, `${keyName} is disabled by admin.`, "error"); // send to player
+        return;
+    }
+
+    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
+
+    if (!keyAllowed) { // if key already assigned
+        sendLog(player, `${keyName} is already reserved.`, "error"); // send to player
+        return;
+    }
+
+    if (keyNew) socket.emit("keyReserved", keyName);
+
+    sendLog(player, `You pressed ${keyName}.`, "bold"); // send to player
+    broadcastLog(player, `${player.getName()} pressed ${keyName}.`); // send to other clients
+
+    keypress(keyData); // emulate keypress
+
+    log(`Valid keypress from ${player.getName()} (${player.id}): ${keyName}.`);
 }
 
 module.exports = { keyExists, keyEnabled, enableKey, disableKey, enableAllKeys, disableAllKeys, keyName, keypress, allowEmulation };

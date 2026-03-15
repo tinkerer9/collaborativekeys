@@ -21,13 +21,16 @@
 /* Import modules used directly by utils.js */
 const os = require('os');
 
+const Config = require("./config.json");
+
 function escapeHTML(str) { // replace chars that mess up HTML syntax
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/'/g, "&#039;")
+        .replace(/\n/g, "<br>"); // replace newlines
 }
 
 function getLocalIP() {
@@ -69,10 +72,18 @@ function broadcastLog(client, content) { // to everyone except sender/client
     client.socket.broadcast.emit("log", `<li>${escapeHTML(content)}</li>`); // no need to format, as always normal formatting
 }
 
+let adminNamespace = null;
+
+function setAdminNamespace(ns) {
+    adminNamespace = ns;
+}
+
 function log(content) {
     console.log(content);
 
-    admin.in("admin").emit("log", `<li>${escapeHTML(content)}</li>`); // no need to format, as always normal formatting
+    if (adminNamespace && Config.allowAdminPage) {
+        adminNamespace.in("admin").emit("log", `<li>${escapeHTML(content)}</li>`);
+    }
 }
 
-module.exports = { escapeHTML, getLocalIP, sendLog, broadcastLog, log };
+module.exports = { escapeHTML, getLocalIP, sendLog, broadcastLog, log, setAdminNamespace };

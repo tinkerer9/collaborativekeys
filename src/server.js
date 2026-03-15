@@ -32,7 +32,7 @@ const Config = require("./config.json");
 const License = require("./license");
 const Utils = require("./utils");
 
-const { sendLog, broadcastLog, log } = Utils;
+const { sendLog, broadcastLog, log } = Utils; // make frequently used utils.js functions global
 
 function handleNameRes(player, ev) {
     switch (ev) {
@@ -51,7 +51,7 @@ function handleNameRes(player, ev) {
 }
 
 function handleAuthRes(admin, data, override) {
-    if (data == Config.adminPassword || override) { // correct password entered OR no password needed
+    if (data == Config.adminPassword || override) { // correct password entered OR no password needed (override)
         admin.authenticate();
         log(`Admin ${admin.id} successfully authenticated.`);
         sendLog(admin, "Successfully authenticated.", "success");
@@ -132,9 +132,16 @@ io.on("connection", (socket) => { // new client connected (non-admin)
     });
 });
 
-const admin = io.of("/admin"); // creats a namespace for just /admin
+const admin = io.of("/admin"); // creates a namespace for just /admin
+Utils.setAdminNamespace(admin);
 
-function handleAdminConnection(socket) {
+admin.on("connection", (socket) => {
+    if (!Config.allowAdminPage) { // reject connections if admin page disabled
+        socket.emit("noAdmin");
+        socket.disconnect(); // disconnect the admin
+        return;
+    }
+
     var admin = new Client.Admin(socket); // create admin class
     var aid = admin.id;
 
@@ -151,7 +158,7 @@ function handleAdminConnection(socket) {
     socket.on("command", (data) => {
         if (!admin.authenticated) return;
 
-        response = Console.handleCommand(data).replaceAll("\n", "<br>"); // handle command as if typed into console
+        response = Console.handleCommand(data) // handle command as if typed into console
         socket.emit("response", `<li><b>${data}:</b><br>${response}</li>`);
     });
 
@@ -159,13 +166,7 @@ function handleAdminConnection(socket) {
         log(`Admin ${aid} disconnected.`);
         admin.destroy();
     });
-}
-
-//Will disable Admin connections
-
-if (!Config.allowRemoteConsole) handleAdminConnection = function(socket) {socket.emit("noAdmin")};
-
-admin.on("connection", handleAdminConnection);
+});
 
 let serverPort = Config.serverPort;
 server.listen(serverPort, "0.0.0.0", () => {
@@ -174,5 +175,5 @@ server.listen(serverPort, "0.0.0.0", () => {
     let uri = localIP + portString;
 
     log(`Server running at ${uri}.`);
-    log(`Admin controls at ${uri}/admin.`);
+    if (Config.allowAdminPage) log(`Admin controls at ${uri}/admin.`);
 });
