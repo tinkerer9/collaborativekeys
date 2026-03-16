@@ -57,7 +57,7 @@ class Player {
         // doesn't do anything yet
     }
     noNameSet() {
-        return this.name == null; // if no name set
+        return this.name === null; // if no name set
     }
     message(content) {
         Utils.sendLog(this, content, "bold");

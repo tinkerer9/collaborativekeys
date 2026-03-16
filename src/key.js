@@ -24,7 +24,7 @@ function assignKey(key, id) {
     Keycodes[key][4] = id;
 }
 function isAssignedKey(key, id) {
-    return Keycodes[key][4] == id;
+    return Keycodes[key][4] === id;
 }
 function keyIsAssigned(key) {
     return Keycodes[key][4] !== null;
@@ -45,7 +45,7 @@ function keyAllowed(key, id) { // returns if key is allowed to be pressed and if
 
 function freeAssignment(id) {
     Object.keys(Keycodes).forEach(key => {
-        if (Keycodes[key][4] == id) {
+        if (Keycodes[key][4] === id) {
             revokeKey(key);
         }
     });
@@ -67,7 +67,7 @@ function getAssignedKeys(id) {
     Object.keys(Keycodes).forEach(key => {
         let keyInfo = Keycodes[key]
 
-        if (keyInfo[4] == id) {
+        if (keyInfo[4] === id) {
             list.push(keyInfo[0]);
         }
     });

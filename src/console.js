@@ -56,7 +56,7 @@ function fallback(args) {
 
 function processToLog(player, filter) {
     // Returns true if should print, false if should filter.
-    if (player == null) return false;
+    if (player === null) return false;
     switch (filter) {
         case "all":
             return true;
@@ -85,10 +85,10 @@ function waitingRoom(args) {
 
     let action = args[0] || null;
     let pid = args[1] || null;
-    if (pid == "all") pid = -1;
+    if (pid === "all") pid = -1;
 
     // Check if allowed (easier to read as one line)
-    if (action == null) {
+    if (action === null) {
         log("You need to provide more arguments (action)! Usage: waitingroom <admit/dismiss> <id>");
         return;
     }
@@ -98,7 +98,7 @@ function waitingRoom(args) {
     };
 
     // Setup more vars now that check has passed
-    let players = pid == -1 ? Manager.getAllPlayers() : [Manager.getPlayerByPid(pid)];
+    let players = pid === -1 ? Manager.getAllPlayers() : [Manager.getPlayerByPid(pid)];
 
     // Use switch statement so if more options added later they'll be easier to implement
     switch (action) {
@@ -142,13 +142,13 @@ function listHandle(args) {
 
     // Setup vars
     let filterBy = args[0] || "all";
-    if (filterBy == "waitingroom") filterBy = "wr";
+    if (filterBy === "waitingroom") filterBy = "wr";
     
     let showWait = filterBy !== "wr";
 
     numPlayers = Manager.getPlayerCount();
 
-    if (numPlayers == 0) {
+    if (numPlayers === 0) {
         log("No players connected");
         return;
     }
@@ -165,7 +165,7 @@ function listHandle(args) {
 };
 
 function actionCallback(key, oneF, oneM, twoF, twoM) {
-    if (key == ALL_KEYWORD) {
+    if (key === ALL_KEYWORD) {
         oneF();
         log(oneM);
     } else {
@@ -180,11 +180,11 @@ function keyHandle(args) {
     let action = args[0] || null;
     let key = args[1] || null;
 
-    if (action == null) {
+    if (action === null) {
         log("You need to provide more arguments (action)! Usage: key <assign/revoke/enable/disable> <name/all>");
         return;
     }
-    if (key !== ALL_KEYWORD && (key == null || !Type.keyExists(key))) {
+    if (key !== ALL_KEYWORD && (key === null || !Type.keyExists(key))) {
         log("Invalid key, did you mistype the key name?");
         return;
     };
@@ -239,7 +239,7 @@ function keyHandle(args) {
 function licenseInfo(args) {
     let type = args[0] || null;
 
-    if (type == null) {
+    if (type === null) {
         log("You need to provide more arguments (type)! Usage: show <w/c>");
         return;
     }

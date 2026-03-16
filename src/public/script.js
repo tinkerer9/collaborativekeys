@@ -43,14 +43,14 @@ enter.onclick = function() {
 }
 
 input.addEventListener("keypress", function(event) {
-  if (event.key == "Enter") {
+  if (event.key === "Enter") {
     event.preventDefault();
     enter.click(); // simulate click on enter button
   }
 });
 
 socket.on("actions", function(e) {
-    if (e == "hideusernamebox") { // when name entered successfully
+    if (e === "hideusernamebox") { // when name entered successfully
         naming.style.display = 'none';
         for (let contentHeader of contentHeaders) {
             contentHeader.style.display = 'block';

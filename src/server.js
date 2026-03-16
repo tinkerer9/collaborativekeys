@@ -51,7 +51,7 @@ function handleNameRes(player, ev) {
 }
 
 function handleAuthRes(admin, data, override) {
-    if (data == Config.adminPassword || override) { // correct password entered OR no password needed (override)
+    if (data === Config.adminPassword || override) { // correct password entered OR no password needed (override)
         admin.authenticate();
         log(`Admin ${admin.id} successfully authenticated.`);
         sendLog(admin, "Successfully authenticated.", "success");
@@ -109,7 +109,7 @@ admin.on("connection", (socket) => {
 
     log(`Admin ${aid} connected.`);
 
-    if (Config.adminPassword == "") handleAuthRes(admin, null, true); // auto auth if password is blank
+    if (Config.adminPassword === "") handleAuthRes(admin, null, true); // auto auth if password is blank
 
     socket.on("authenticate", (data) => {
         if (admin.authenticated) return;
@@ -133,7 +133,7 @@ admin.on("connection", (socket) => {
 let serverPort = Config.serverPort;
 server.listen(serverPort, "0.0.0.0", () => {
     let localIP = Utils.getLocalIP();
-    let portString = serverPort == 80 ? "" : ":" + serverPort;
+    let portString = serverPort === 80 ? "" : ":" + serverPort;
     let uri = "http://" + localIP + portString;
 
     let logText = "";

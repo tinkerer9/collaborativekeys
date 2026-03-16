@@ -57,7 +57,7 @@ enter.onclick = function() {
 };
 
 input.addEventListener("keypress", function(event) {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
         event.preventDefault();
         enter.click(); // simulate click on enter button
     }
@@ -70,7 +70,7 @@ customCommand.onclick = function() {
     customCommandText.value = "";
 };
 customCommandText.addEventListener("keypress", function(event) {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
         event.preventDefault();
         customCommand.click(); // simulate click on enter button
     }
@@ -85,27 +85,27 @@ resumeCommand.onclick = function() {
     command("resume");
 };
 wrCommand.onclick = function() {
-    command("waitingroom", wrCommandArg0.value, wrCommandArg1.value == "all" ? "all" : wrCommandArg2.value);
+    command("waitingroom", wrCommandArg0.value, wrCommandArg1.value === "all" ? "all" : wrCommandArg2.value);
     wrCommandArg2.value = "";
 };
 function wrCommandArg1Changed() {
-    wrCommandArg2.style.display = wrCommandArg1.value == "all" ? "none" : "block";
+    wrCommandArg2.style.display = wrCommandArg1.value === "all" ? "none" : "block";
 }
 lsCommand.onclick = function() {
     command("list", lsCommandArg0.value);
 }
 keyCommand.onclick = function() {
-    command("key", keyCommandArg0.value, keyCommandArg1.value == "all" ? "all" : keyCommandArg2.value);
+    command("key", keyCommandArg0.value, keyCommandArg1.value === "all" ? "all" : keyCommandArg2.value);
     keyCommandArg2.value = "";
 };
 function keyCommandArg1Changed() {
-    keyCommandArg2.style.display = keyCommandArg1.value == "all" ? "none" : "block";
+    keyCommandArg2.style.display = keyCommandArg1.value === "all" ? "none" : "block";
 }
 
 /* END COMMAND FUNCTIONS */
 
 socket.on("actions", function(e) {
-    if (e == "hidepasswordbox") { // when password entered successfully
+    if (e === "hidepasswordbox") { // when password entered successfully
         authentication.style.display = 'none';
         controlButtons.style.display = 'block';
         for (let contentHeader of contentHeaders) {
@@ -146,11 +146,11 @@ socket.on("connect_error", (error) => {
 });
 
 function command(command, ...args) {
-    commandString = args.length == 0 ? command : command + " " + args.join(" ");
+    commandString = args.length === 0 ? command : command + " " + args.join(" ");
 
     rootCommand = commandString.split(" ")[0];
 
-    if (rootCommand == "stop" || rootCommand == "exit") { // give response if stopping server
+    if (rootCommand === "stop" || rootCommand === "exit") { // give response if stopping server
         prependToResponseList(`<li><b>${commandString}</b>:<br>Terminating the process...<li></li>`);
     }
 

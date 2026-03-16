@@ -43,7 +43,7 @@ function createServer() {
         let requestPath = decodeURIComponent(req.url.split("?")[0]);
 
         // Default to root
-        if (requestPath == "/") requestPath = "/index.html";
+        if (requestPath === "/") requestPath = "/index.html";
 
         let filePath = path.join(publicDir, requestPath);
 
