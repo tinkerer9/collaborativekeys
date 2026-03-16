@@ -57,7 +57,7 @@ SUCH DAMAGES.
 
 function readLicense() {
   try {
-    return "\n" + fs.readFileSync(path.join(__dirname, "..", "LICENSE"), "utf8");
+    return "\n" + fs.readFile(path.join(__dirname, "..", "LICENSE"), "utf8");
   } catch (err) {
     return "Could not read LICENSE file: " + err.message;
   }
