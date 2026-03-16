@@ -32,7 +32,7 @@ const Config = require("./config.json");
 const License = require("./license");
 const Utils = require("./utils");
 
-const { sendLog, broadcastLog, log } = Utils; // make frequently used utils.js functions global
+const { sendLog, log } = Utils; // make frequently used utils.js functions global
 
 function handleNameRes(player, ev) {
     switch (ev) {
@@ -66,6 +66,7 @@ console.log(License.terminalNotice); // log GNU GPLv3 terminal notice
 
 const server = Router.createServer();
 const io = new Server(server);
+
 io.on("connection", (socket) => { // new client connected (non-admin)
     var player = new Client.Player(socket); // create player class
     var pid = player.id;
@@ -133,8 +134,8 @@ let serverPort = Config.serverPort;
 server.listen(serverPort, "0.0.0.0", () => {
     let localIP = Utils.getLocalIP();
     let portString = serverPort == 80 ? "" : ":" + serverPort;
-    let uri = localIP + portString;
+    let uri = "http://" + localIP + portString;
 
-    log(`Server running at ${uri}.`);
-    if (Config.allowAdminPage) log(`Admin controls at ${uri}/admin.`);
+    log(`Server running at \t${uri}`);
+    if (Config.allowAdminPage) log(`Admin controls at \t${uri}/admin`);
 });

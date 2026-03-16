@@ -1,5 +1,38 @@
 {
   "dependencies": {
     "socket.io": "^4.8.3"
-  }
+  },
+  "os": ["darwin"],
+  "name": "collaborativekeys",
+  "description": "a collaborative keyboard game",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinkerer9/collaborativekeys.git"
+  },
+  "keywords": [
+    "collabokeys",
+    "keyboard",
+    "server",
+    "game",
+    "socketio",
+    "nodejs",
+    "emulate",
+    "collaborate"
+  ],
+  "author": "Max Parisi <makermax101@gmail.com> (https://github.com/tinkerer9)",
+  "contributors": [
+    "@LethalShadowFlame (https://github.com/LethalShadowFlame)"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/tinkerer9/collaborativekeys/issues",
+    "email": "makermax101@gmail.com"
+  },
+  "homepage": "https://github.com/tinkerer9/collaborativekeys#readme"
 }

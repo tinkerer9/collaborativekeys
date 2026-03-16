@@ -24,9 +24,9 @@ const path = require("path");
 /* DO NOT CHANGE THIS as the GNU GPLv3 requires it to be word-for-word: */
 const terminalNotice = `
 CollaboKeys Copyright (C) 2026  @tinkerer9 and @LethalShadowFlame
-This program comes with ABSOLUTELY NO WARRANTY; for details type \`show w'.
+This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
 This is free software, and you are welcome to redistribute it
-under certain conditions; type \`show c' for details.
+under certain conditions; type 'show c' for details.
 `;
 
 /* DO NOT CHANGE THIS as the GNU GPLv3 requires it to be word-for-word: */

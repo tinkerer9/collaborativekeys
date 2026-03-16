@@ -24,12 +24,12 @@ const Config = require("./config.json");
 const Keycodes = require("./keycodes"); // a list of keynames, their keycodes, human-readable names, and enabled/disabled
 const Utils = require("./utils");
 
-const { sendLog, broadcastLog, log } = Utils; // make frequently used utils.js functions global
+const { sendLog, log } = Utils; // make frequently used utils.js functions global
 
 let allowEmulation = Config.allowEmulationAtStart;
 
 if (process.platform !== 'darwin') {
-    console.warn("CollaboKeys won't emulate on operating systems other than MacOS. Disabling emulation...");
+    console.warn("WARNING: CollaboKeys won't emulate on operating systems other than MacOS. Disabling emulation...");
 }
 
 function keyExists(key) {

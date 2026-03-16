@@ -68,12 +68,7 @@ function sendLog(client, content, format) {
     client.socket.emit("log", content);
 }
 
-function broadcastLog(client, content) { // to everyone except sender/client
-    client.socket.broadcast.emit("log", `<li>${escapeHTML(content)}</li>`); // no need to format, as always normal formatting
-}
-
 let adminNamespace = null;
-
 function setAdminNamespace(ns) {
     adminNamespace = ns;
 }
@@ -86,4 +81,4 @@ function log(content) {
     }
 }
 
-module.exports = { escapeHTML, getLocalIP, sendLog, broadcastLog, log, setAdminNamespace };
+module.exports = { escapeHTML, getLocalIP, sendLog, log, setAdminNamespace };
