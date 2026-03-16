@@ -24,6 +24,7 @@ const os = require('os');
 const Config = require("./config.json");
 
 function escapeHTML(str) { // replace chars that mess up HTML syntax
+    if (str === undefined) return "";
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -74,6 +75,8 @@ function setAdminNamespace(ns) {
 }
 
 function log(content) {
+    if (content === undefined) content = "";
+    
     console.log(content);
 
     if (adminNamespace && Config.allowAdminPage) {

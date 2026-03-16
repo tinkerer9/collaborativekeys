@@ -55,14 +55,17 @@ EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
 `;
 
-function readLicense() {
-  try {
-    return "\n" + fs.readFile(path.join(__dirname, "..", "LICENSE"), "utf8");
-  } catch (err) {
-    return "Could not read LICENSE file: " + err.message;
-  }
+function readLicense() { // Only runs once at startup
+    let filePath = path.join(__dirname, "..", "LICENSE");
+
+    try {
+        return "\n" + fs.readFileSync(filePath, "utf8");
+    } catch (err) {
+        console.error(`Unable to read LICENSE file: ${err}`);
+        return `\nUnable to read LICENSE file: ${err}`;
+    }
 }
 
 const licenseInfo = readLicense(); // this never changes
 
-module.exports = { terminalNotice, warrantyInfo, licenseInfo }
+module.exports = { terminalNotice, warrantyInfo, licenseInfo };

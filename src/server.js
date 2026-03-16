@@ -136,6 +136,9 @@ server.listen(serverPort, "0.0.0.0", () => {
     let portString = serverPort == 80 ? "" : ":" + serverPort;
     let uri = "http://" + localIP + portString;
 
-    log(`Server running at \t${uri}`);
-    if (Config.allowAdminPage) log(`Admin controls at \t${uri}/admin`);
+    let logText = "";
+
+    logText += `Server running at ${uri}\n`;
+    if (Config.allowAdminPage) logText += `Admin controls at ${uri}/admin\n`;
+    log(logText);
 });
