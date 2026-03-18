@@ -22,8 +22,6 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const publicDir = path.join(__dirname, "public");
-
 /* If other filetypes/extensions used, add here: */
 const mimeTypes = {
   ".html": "text/html",
