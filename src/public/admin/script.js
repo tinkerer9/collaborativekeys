@@ -146,9 +146,9 @@ socket.on("connect_error", (error) => {
 });
 
 function command(command, ...args) {
-    commandString = args.length === 0 ? command : command + " " + args.join(" ");
+    let commandString = args.length === 0 ? command : command + " " + args.join(" ");
 
-    rootCommand = commandString.split(" ")[0];
+    let rootCommand = commandString.split(" ")[0];
 
     if (rootCommand === "stop" || rootCommand === "exit") { // give response if stopping server
         prependToResponseList(`<li><b>${commandString}</b>:<br>Terminating the process...<li></li>`);

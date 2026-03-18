@@ -25,10 +25,11 @@ const naming = document.getElementsByClassName("naming")[0];
 const input = document.getElementById("input");
 const enter = document.getElementById("enter");
 const logList = document.getElementById("logList");
+const keysList = document.getElementById("keysList");
 const contentHeaders = document.getElementsByClassName("contentHeaders");
 
 document.addEventListener("keydown", (e) => {
-    if (allowKeyPresses && e !== "Shift") socket.emit("keyPress", { key: e.key });
+    if (e !== "Shift") socket.emit("keyPress", { key: e.key });
 });
 
 input.focus(); // immediately focus textbox

@@ -23,8 +23,9 @@ const { exec } = require("child_process");
 const Config = require("./config.json");
 const Keycodes = require("./keycodes"); // a list of keynames, their keycodes, human-readable names, and enabled/disabled
 const Utils = require("./utils");
+const Key = require("./key");
 
-const { sendLog, log } = Utils; // make frequently used utils.js functions global
+const { sendLog, broadcastLog, sendGlobalLog, log } = Utils; // make frequently used utils.js functions global
 
 let allowEmulation = Config.allowEmulationAtStart;
 
@@ -66,7 +67,7 @@ function keypress(key) {
 
     let [keycode,, needsShift] = Keycodes[key]; // get key info
 
-    exec(`osascript -e \'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}\'`); // run shell script to emulate keypress (SLOW)
+    exec(`osascript -e 'tell application "System Events" to key code ${keycode}${needsShift ? " using shift down" : ""}'`); // run shell script to emulate keypress (SLOW)
 }
 
 function handleKeyPress(socket, player, data) {
@@ -80,7 +81,7 @@ function handleKeyPress(socket, player, data) {
     let keyData = data.key;
 
     if (!keyExists(keyData)) {
-        broadcastLogsendLog(player, `${keyData} is not supported.`, "error"); // send to player
+        sendLog(player, `${keyData} is not supported.`, "error"); // send to player
         return;
     }
 
@@ -91,7 +92,7 @@ function handleKeyPress(socket, player, data) {
         return;
     }
 
-    [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
+    let [keyAllowed, keyNew] = Key.keyAllowed(keyData, player.id); 
 
     if (!keyAllowed) { // if key already assigned
         sendLog(player, `${keyName} is already reserved.`, "error"); // send to player

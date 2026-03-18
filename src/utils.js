@@ -23,6 +23,15 @@ const os = require('os');
 
 const Config = require("./config.json");
 
+let ioApp = null;
+let adminNamespace = null;
+function setAdminNamespace(ns) {
+    adminNamespace = ns;
+}
+function setIoApp(io) {
+    ioApp = io;
+}
+
 function escapeHTML(str) { // replace chars that mess up HTML syntax
     if (str === undefined) return "";
     return str
@@ -49,7 +58,7 @@ function getLocalIP() {
     return localIP;
 }
 
-function sendLog(client, content, format) {
+function formatLog(content, format) {
     content = escapeHTML(content);
 
     switch (format) {
@@ -66,12 +75,25 @@ function sendLog(client, content, format) {
             content = `<li>${content}</li>`;
     }
 
+    return content;
+}
+
+function sendLog(client, content, format) {
+    content = escapeHTML(content);
+    content = formatLog(content, format);
     client.socket.emit("log", content);
 }
 
-let adminNamespace = null;
-function setAdminNamespace(ns) {
-    adminNamespace = ns;
+function broadcastLog(client, content, format) {
+    content = escapeHTML(content);
+    content = formatLog(content, format);
+    client.socket.broadcast.emit("log", content);
+}
+
+function sendGlobalLog(content, format) { // to everyone
+    content = escapeHTML(content);
+    content = formatLog(content, format);
+    ioApp.emit("log", content);
 }
 
 function log(content) {
@@ -84,4 +106,4 @@ function log(content) {
     }
 }
 
-module.exports = { escapeHTML, getLocalIP, sendLog, log, setAdminNamespace };
+module.exports = { escapeHTML, getLocalIP, sendLog, broadcastLog, sendGlobalLog, log, setAdminNamespace, setIoApp };

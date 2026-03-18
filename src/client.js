@@ -84,10 +84,10 @@ class Admin {
     destroy() {
         // doesn't do anything yet
     }
-    authenticate(correctPassword) {
+    authenticate() {
         this.authenticated = true;
     }
-    message(txt) {
+    message(content) {
         Utils.sendLog(this, content, "bold");
     }
 }

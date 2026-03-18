@@ -146,7 +146,7 @@ function listHandle(args) {
     
     let showWait = filterBy !== "wr";
 
-    numPlayers = Manager.getPlayerCount();
+    let numPlayers = Manager.getPlayerCount();
 
     if (numPlayers === 0) {
         log("No players connected");

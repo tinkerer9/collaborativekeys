@@ -32,7 +32,7 @@ const Config = require("./config.json");
 const License = require("./license");
 const Utils = require("./utils");
 
-const { sendLog, log } = Utils; // make frequently used utils.js functions global
+const { sendLog, broadcastLog, sendGlobalLog, log } = Utils; // make frequently used utils.js functions global
 
 function handleNameRes(player, ev) {
     switch (ev) {
@@ -120,7 +120,7 @@ admin.on("connection", (socket) => {
     socket.on("command", (data) => {
         if (!admin.authenticated) return;
 
-        response = Console.handleCommand(data) // handle command as if typed into console
+        let response = Console.handleCommand(data) // handle command as if typed into console
         socket.emit("response", `<li><b>${data}:</b><br>${response}</li>`);
     });
 
