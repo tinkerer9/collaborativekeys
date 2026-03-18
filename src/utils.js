@@ -79,19 +79,16 @@ function formatLog(content, format) {
 }
 
 function sendLog(client, content, format) {
-    content = escapeHTML(content);
     content = formatLog(content, format);
     client.socket.emit("log", content);
 }
 
 function broadcastLog(client, content, format) {
-    content = escapeHTML(content);
     content = formatLog(content, format);
     client.socket.broadcast.emit("log", content);
 }
 
 function sendGlobalLog(content, format) { // to everyone
-    content = escapeHTML(content);
     content = formatLog(content, format);
     ioApp.emit("log", content);
 }
