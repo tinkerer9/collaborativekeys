@@ -66,6 +66,7 @@ console.log(License.terminalNotice); // log GNU GPLv3 terminal notice
 
 const server = Router.createServer();
 const io = new Server(server);
+Utils.setIoApp(io);
 
 io.on("connection", (socket) => { // new client connected (non-admin)
     var player = new Client.Player(socket); // create player class
